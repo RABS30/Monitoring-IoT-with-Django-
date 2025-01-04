@@ -3,20 +3,19 @@
 {% block content %}
 {% include 'navbar.html' %}
     <br>
-    
 <!-- Sensor 1 -->
-    <div class="shadow-lg bg-white mx-0 w-auto  lg:mx-5 border sm:rounded-lg">
+    <div class="shadow-lg bg-white mx-0 w-auto border sm:rounded-lg">
         <div class="border-4 border-blue-600">
             <!-- Judul -->
-                <div class="text-2xl mx-5 font-bold my-2 border-4 border-green-600">
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 border-4 border-green-600">
                     Tanaman 1
                 </div>
             <!-- Chart -->
-                <div class="w-auto flex flex-row justify-around overflow-x-auto border-4 border-rose-600">
-                    <div class="border-4 border-red-500 chartDimension mx-5" ><canvas id="sensorKelembapan"></canvas></div>      
-                    <div class="border-4 border-red-500 chartDimension mx-5" ><canvas id="sensorSuhuTanah"></canvas></div>      
-                    <div class="border-4 border-red-500 chartDimension mx-5" ><canvas id="sensorPh"></canvas></div>          
-                    <div class="border-4 border-red-500 chartDimension mx-5" ><canvas id="sensorNutrisiTanah"></canvas></div>          
+                <div class="w-auto flex flex-row justify-between md:mx-5 overflow-x-auto border-4 border-black">
+                    <div class="border-4 border-red-500 mr-5 md:mx-0" ><canvas id="sensorKelembapan"></canvas></div>      
+                    <div class="border-4 border-red-500 mx-5 md:mx-0" ><canvas id="sensorSuhuTanah"></canvas></div>      
+                    <div class="border-4 border-red-500 mx-5 md:mx-0" ><canvas id="sensorPh"></canvas></div>          
+                    <div class="border-4 border-red-500 ml-5 md:mx-0" ><canvas id="sensorNutrisiTanah"></canvas></div>          
                 </div>
             <!-- Informasi -->
                 <div class="font-bold text-xl mx-5 mt-5 border rounded">Informasi<hr></div>
