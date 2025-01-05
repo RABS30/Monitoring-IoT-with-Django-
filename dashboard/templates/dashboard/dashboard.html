@@ -1,6 +1,20 @@
 {% extends "_base.html" %}
 {% load static %}
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/mqtt@4.2.8/dist/mqtt.min.js"></script>
+
+<h1>MQTT Real-Time Data</h1>
+
+  <div>
+    <label for="message">Message to Publish:</label>
+    <input type="text" id="message" placeholder="Enter message">
+    <button onclick="publishMessage()">Send Message</button>
+  </div>
+
+  <h2>Received Messages:</h2>
+  <div id="messages"></div>
+
+  
 {% include 'navbar.html' %}
     <br>
 <!-- Sensor 1 -->
@@ -154,8 +168,10 @@
         </div>
     </div>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    
+
 <!-- Akhir Sensor 1 -->
 <script src="{% static 'js/chart.umd.js' %}"></script>
 <script src="{% static 'js/chartSensor.js' %}"></script>
+<script src="{% static 'js/mqttConnect.js' %}"></script>
+
 {% endblock content %}

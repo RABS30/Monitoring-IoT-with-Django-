@@ -161,10 +161,6 @@ function updateChart3(randomValue){
 }
 
 
-
-
-
-
 setInterval(() => {
     const randomValue = Math.floor(Math.random() * 20);
     const randomPh = Math.floor(Math.random() * 14);
