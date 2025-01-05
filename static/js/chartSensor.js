@@ -1,4 +1,3 @@
-
 const dataValue = 0;
 // Sensor Kelembapan Tanah
 const ctx = document.getElementById('sensorKelembapan');

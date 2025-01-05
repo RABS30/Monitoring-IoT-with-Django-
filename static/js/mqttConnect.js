@@ -5,21 +5,20 @@ const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
 client.on('connect', () => {
     console.log('Terhubung ke Broker MQTT');
     // Subscribe ke topik 'sensor/tanaman'
-    client.subscribe('sensor/tanaman2', function (err) {
+    client.subscribe('sensor/tanaman', function (err) {
         if (!err) {
             console.log('Berhasil subscribe ke topik sensor/tanaman');
         };
     });
 });
 
+// Menerima pesan dari topic yang disubscribe
 client.on('message', (topic, message) => {
-    // Menampilkan pesan di HTML
-    const msg = document.createElement('p');
-    msg.textContent = `Topic: ${topic}, Message: ${message.toString()}`;
-    document.getElementById('messages').appendChild(msg);
-  });
+    console.log(`Topic: ${topic}, Message: ${message.toString()}`);
+});
 
 
+// Mengirim data ke topic sensor/tanaman2
 function publishMessage() {
 const message = document.getElementById('message').value;
 if (message) {
