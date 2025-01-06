@@ -8,7 +8,7 @@ def on_connect(client, userdata, flags, rc):
 
 # callback saat menerima pesan
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    # print(msg.topic+" "+str(msg.payload))
     pass
     
 

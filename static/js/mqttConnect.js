@@ -14,7 +14,11 @@ client.on('connect', () => {
 
 // Menerima pesan dari topic yang disubscribe
 client.on('message', (topic, message) => {
-    console.log(`Topic: ${topic}, Message: ${message.toString()}`);
+    console.log(`Topic: ${topic} \nMessages: ${message} \nTipe : ${typeof(message)}`);
+    message = JSON.parse(message);
+
+    console.log(message['SuhuPh']);
+  
 });
 
 
