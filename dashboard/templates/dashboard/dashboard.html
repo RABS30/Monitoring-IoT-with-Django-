@@ -25,6 +25,8 @@
                 <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 border-4 border-green-600">
                     Tanaman 1
                 </div>
+            <!-- Judul -->
+
             <!-- Chart -->
                 <div class="w-auto flex flex-row justify-between md:mx-5 overflow-x-auto border-4 border-black">
                     <div class="border-4 border-red-500 mr-5 md:mx-0" ><canvas id="sensorKelembapan"></canvas></div>      
@@ -32,12 +34,14 @@
                     <div class="border-4 border-red-500 mx-5 md:mx-0" ><canvas id="sensorPh"></canvas></div>          
                     <div class="border-4 border-red-500 ml-5 md:mx-0" ><canvas id="sensorNutrisiTanah"></canvas></div>          
                 </div>
+            <!-- Chart -->
+
             <!-- Informasi -->
-                <div class="font-bold text-xl mx-5 mt-5 border rounded">Informasi<hr></div>
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Informasi<hr></div>
                 <div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
                     <table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
+                            <tr class='border-b rounded'>
                                 <th scope="col" class="px-6 py-3">
                                     Penyiraman terakhir
                                 </th>
@@ -50,10 +54,13 @@
                                 <th scope="col" class="px-6 py-3">
                                     Usia Tanaman
                                 </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Tanggal Penanaman
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
                                 <td class="px-6 py-4">
                                     12:00 WIB Kamis, 12 Desember 2024 
                                 </td>
@@ -65,6 +72,9 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     32 Hari
+                                </td>   
+                                <td class="px-6 py-4">
+                                    12 Desember 2024
                                 </td>     
                             </tr>
                         </tbody>
@@ -73,97 +83,93 @@
             <!-- Informasi -->
             
             <!-- Opsi -->
-             <div class="border-2 border-yellow-800 mx-5 mt-5 flex flex-col">
-                <div class="font-bold text-xl border mb-2">Opsi<hr></div>
-                <!-- Memilih Opsi -->
-                <div class="justify-around md:h-80 w-auto border-2 border-green-500 rounded flex flex-col md:flex-row">
-                    <!-- Form Memilih Jenis Penyiraman -->
-                    <div class="w-full text-center bg-red-600 border rounded  md:mx-5 pb-5">
-                            <form class="max-w-sm mx-auto">
-                                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white p-1">Jenis penyiraman</label>
-                                <div class="w-11/12 m-auto">
-                                    <select id="jenisPenyiraman" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="manual">Manual</option>
-                                        <option value="aturWaktu">Atur Waktu</option>
-                                        <option value="otomatis">Berdasarkan Sensor</option>
-                                    </select>
-                                </div>
-                                <!-- Form tambahan untuk manual-->
-                                <div id="manualSection" class="hidden"> 
-                                    <h3>Manual</h3> 
-                                    <label for="manualInput">Input:</label> 
-                                    <input type="text" id="manualInput" name="manualInput"> 
-                                    <div>
-                                        Siram tanaman
-                                    </div>
-                                </div>
-                                <div id="aturWaktuSection" class="hidden"> 
-                                    <h3>Atur Waktu</h3> 
-                                    <label for="waktuInput">Waktu:</label> 
-                                    <input type="datetime-local" id="waktuInput" name="waktuInput"> 
-                                </div> 
-                                <div id="otomatisSection" class="hidden"> 
-                                    <form class="max-w-sm mx-auto pb-5">
-                                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Sensor</label>
-                                        <div class="mx-5">
-                                            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <option>sensor Kelembapan</option>
-                                                <option>Suhu</option>
-                                                <option>Sensor Ph</option>
+                <div class="border-2 border-yellow-800 mx-5 mt-5 flex flex-col">
+                    <div class="text-xl md:text-2xl font-bold my-2 shadow-md rounded">Opsi<hr></div>
+                    <!-- Memilih Opsi -->
+                    <div class="justify-between md:h-80 w-auto border-2 border-green-500 rounded flex flex-col md:flex-row">
+                        <!-- Form Memilih Jenis Penyiraman -->
+                            <div class="w-full text-center bg-red-600 border rounded pb-5">
+                                    <form class="max-w-sm mx-auto">
+                                        <label for="countries" class="block mb-2 md:text-2xl text-white p-1">Jenis penyiraman</label>
+                                        <div class="w-11/12 m-auto">
+                                            <select id="jenisPenyiraman" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option value="manual">Manual</option>
+                                                <option value="aturWaktu">Atur Waktu</option>
+                                                <option value="otomatis">Berdasarkan Sensor</option>
                                             </select>
                                         </div>
-                                        <div class="mx-5">
-                                            <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Masukkan Nilai Suhu</label>
-                                            <input type="text" id="small-input" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Penyiraman akan aktif saat melewati nilai yang ditentukan">
+                                        <!-- Form tambahan untuk manual-->
+                                        <div id="manualSection" class="hidden"> 
+                                            <h3>Manual</h3> 
+                                            <label for="manualInput">Input:</label> 
+                                            <input type="text" id="manualInput" name="manualInput"> 
+                                            <div>
+                                                Siram tanaman
+                                            </div>
                                         </div>
+                                        <div id="aturWaktuSection" class="hidden"> 
+                                            <h3>Atur Waktu</h3> 
+                                            <label for="waktuInput">Waktu:</label> 
+                                            <input type="datetime-local" id="waktuInput" name="waktuInput"> 
+                                        </div> 
+                                        <div id="otomatisSection" class="hidden"> 
+                                            <form class="max-w-sm mx-auto pb-5">
+                                                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Sensor</label>
+                                                <div class="mx-5">
+                                                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                        <option>sensor Kelembapan</option>
+                                                        <option>Suhu</option>
+                                                        <option>Sensor Ph</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mx-5">
+                                                    <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Masukkan Nilai Suhu</label>
+                                                    <input type="text" id="small-input" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Penyiraman akan aktif saat melewati nilai yang ditentukan">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- Form tambahan untuk manual-->
                                     </form>
-                                </div>
-                                <!-- Form tambahan untuk manual-->
-                            </form>
-                    </div>
-                    <!-- Form Memilih Jenis Penyiraman -->
+                            </div>
+                        <!-- Form Memilih Jenis Penyiraman -->
 
-                    <!-- Form Memilih Jenis Pengisian Tangki -->
-                        <div class="w-full md:h-full text-center bg-yellow-600 border rounded h-44 md:mx-5">
-                            <form class="max-w-sm mx-auto">
-                                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white p-1">Jenis Pengisian Tangki Air</label>
-                                <div class="w-11/12 m-auto">
-                                    <select id="jenisPengisianTangki" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="manualIsiTangki">Manual</option>
-                                        <option value="berhentiIsi">Berhenti isi otomatis</option>
-                                        <option value="berdasarkanVolume">Berdasarkan volume</option>
-                                    </select>
-                                </div>
-                                <!-- Form tambahan untuk manual-->
-                                <div id="manualIsiTangki" class="hidden"> 
-                                    <h3>Manual</h3> 
-                                    <label for="manualInput">Input:</label> 
-                                    <input type="text" id="manualInput" name="manualInput"> 
-                                    <div>
-                                        Siram tanaman
+                        <!-- Form Memilih Jenis Pengisian Tangki -->
+                            <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
+                                <form class="max-w-sm mx-auto">
+                                    <label for="countries" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
+                                    <div class="w-11/12 m-auto">
+                                        <select id="jenisPengisianTangki" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <option value="manualIsiTangki">Manual</option>
+                                            <option value="berdasarkanVolume">Berdasarkan volume</option>
+                                        </select>
                                     </div>
-                                </div>
-                                <div id="berhentiIsi" class="hidden"> 
-                                    <h3>Atur Waktu</h3> 
-                                    <label for="waktuInput">Waktu:</label> 
-                                    <input type="datetime-local" id="waktuInput" name="waktuInput"> 
-                                </div> 
-                                <div id="berdasarkanVolume" class="hidden"> 
-                                    <h3>Otomatis</h3> 
-                                    <p>Pengaturan otomatis akan diaktifkan.</p> 
-                                </div>
-                                <!-- Form tambahan untuk manual-->
-                                </form>
+                                    <!-- Form tambahan untuk manual-->
+                                    <div id="manualIsiTangki" class="hidden"> 
+                                        <h3>Manual</h3> 
+                                        <label for="manualInput">Input:</label> 
+                                        <input type="text" id="manualInput" name="manualInput"> 
+                                        <div>
+                                            Siram tanaman
+                                        </div>
+                                    </div>
+                                    <div id="berdasarkanVolume" class="hidden"> 
+                                        <h3>Otomatis</h3> 
+                                        <p>Pengaturan otomatis akan diaktifkan.</p> 
+                                    </div>
+                                    <!-- Form tambahan untuk manual-->
+                                    </form>
+                            </div>
+                        <!-- Form Memilih Jenis Pengisian Tangki -->
+                         
+                        <div class="w-full text-center bg-green-600 border rounded md:h-full">
+                            <div class="block mb-2 md:text-2xl text-white p-1">a</div>
                         </div>
-                    <!-- Form Memilih Jenis Pengisian Tangki -->
-                    <div class="w-full text-center bg-green-600 border rounded md:h-full md:mx-5">a</div>
+                    </div>
+                    <!-- Memilih Opsi -->
+                    <div class="text-right">
+                        <button type="submit" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
+                    </div>
                 </div>
-                <!-- Memilih Opsi -->
-
-                <div class="text-right">
-                    <button type="submit" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
-                </div>
-            </div>
             <!-- Opsi -->
 
         </div>
@@ -175,6 +181,5 @@ m
 
 <!-- Script-->
 <script type='module' src="{% static 'js/chartSensor.js' %}"></script>
-<script src={% static "js/chart.umd.js" %}></script>
-{% comment %} <script src={% static 'js/mqttConnect.js' %}></script> {% endcomment %}
+<script src="{% static 'js/chart.umd.js' %}"></script>
 {% endblock content %}

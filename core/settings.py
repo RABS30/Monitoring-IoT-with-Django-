@@ -1,5 +1,4 @@
 from pathlib import Path
-import os.path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     'compressor',
     'dashboard',
 ]
@@ -108,7 +108,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'static/',
+    BASE_DIR / 'dashboard/static/dashboard/'
 ]
 
 # Default primary key field type

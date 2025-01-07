@@ -43,8 +43,8 @@ class createChart{
     update = (value) => {
         if(this.typeChart === 'bar'){
             this.createdChart.data.datasets[0].data             = [value];
-            this.createdChart.data.datasets[0].backgroundColor  = [value >= 7 ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)'], 
-            this.createdChart.data.datasets[0].borderColor      = [value >= 7 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'],
+            this.createdChart.data.datasets[0].backgroundColor  = [value >= 60 ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)'], 
+            this.createdChart.data.datasets[0].borderColor      = [value >= 60 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'],
             this.createdChart.data.labels  = [`${this.labels[0]} = ${value}`];
             this.createdChart.update();
         }else if(this.typeChart === 'doughnut'){
@@ -66,8 +66,8 @@ var scales;
 const kelembapanTanah = new createChart(elementId = 'sensorKelembapan', 'bar', ['Kelembapan'], [{
     label: 'Kelembapan Tanah',
     data: [0],
-    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-    borderColor: 'rgba(54, 162, 235, 1)',
+    backgroundColor: [14 >= 7 ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)'], 
+    borderColor: [14 >= 7 ? 'rgba(255, 99, 132, 1)'  : 'rgba(75, 192, 192, 1)'], 
     borderWidth: 1}], {
     y: {
         beginAtZero: true,
@@ -81,9 +81,7 @@ const kelembapanTanah = new createChart(elementId = 'sensorKelembapan', 'bar', [
 const suhuTanah = new createChart(elementId = 'sensorSuhuTanah', 'bar', ['Suhu Tanah'], [{
     label: 'Sensor Suhu Tanah',
     data: [0],
-    // Ubah warna background berdasarkan kondisi
     backgroundColor: [14 >= 7 ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)'], 
-    // Border sesuai warna background
     borderColor: [14 >= 7 ? 'rgba(255, 99, 132, 1)'  : 'rgba(75, 192, 192, 1)'], 
     borderWidth: 1
     }], 
@@ -93,23 +91,23 @@ const suhuTanah = new createChart(elementId = 'sensorSuhuTanah', 'bar', ['Suhu T
             min: 0,
             max: 100
         }
-});
+}); 
 
 // Sensor Ph
-    const sensorPh = new createChart(elementId='sensorPh', 'doughnut', ['Ph'], [{
-        label: 'Sensor Ph',
-        data: [0, 14-0],
-        backgroundColor: [ 'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)',], 
-        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)',], 
-        borderWidth: 1
-        }],
-        {
-        y: {
-                beginAtZero: true,
-                min: 0,
-                max: 14,
-            }}
-    );
+const sensorPh = new createChart(elementId='sensorPh', 'doughnut', ['Ph'], [{
+    label: 'Sensor Ph',
+    data: [0, 14-0],
+    backgroundColor: [ 'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)',], 
+    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)',], 
+    borderWidth: 1
+    }],
+    {
+    y: {
+            beginAtZero: true,
+            min: 0,
+            max: 14,
+        }}
+);
 
 
 // Sensor Nutrisi Tanah
