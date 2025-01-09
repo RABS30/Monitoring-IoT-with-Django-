@@ -15,7 +15,8 @@ def startMqtt():
     def on_message(client, userdata, msg):
         message = json.loads(msg.payload)
         for data in message:
-            sensorTanaman.objects.create(nama=data, nilai=message[data])
+            # sensorTanaman.objects.create(nama=data, nilai=message[data])
+            pass
             
 
 

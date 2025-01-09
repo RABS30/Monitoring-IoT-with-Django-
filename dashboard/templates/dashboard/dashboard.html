@@ -3,6 +3,7 @@
 
 {% block content %}
     <script src="https://cdn.jsdelivr.net/npm/mqtt@4.2.8/dist/mqtt.min.js"></script>
+
     
     <h1>MQTT Real-Time Data</h1>
 
@@ -28,11 +29,12 @@
             <!-- Judul -->
 
             <!-- Chart -->
-                <div class="w-auto flex flex-row justify-between md:mx-5 overflow-x-auto border-4 border-black">
-                    <div class="border-4 border-red-500 mr-5 md:mx-0" ><canvas id="sensorKelembapan"></canvas></div>      
-                    <div class="border-4 border-red-500 mx-5 md:mx-0" ><canvas id="sensorSuhuTanah"></canvas></div>      
-                    <div class="border-4 border-red-500 mx-5 md:mx-0" ><canvas id="sensorPh"></canvas></div>          
-                    <div class="border-4 border-red-500 ml-5 md:mx-0" ><canvas id="sensorNutrisiTanah"></canvas></div>          
+                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto border-4 border-black">
+                    <div class="border-4 border-red-500 mr-5 md:mx-0 w-64" ><canvas id="sensorKelembapan"></canvas></div>      
+                    <div class="border-4 border-red-500 mx-5 md:mx-0 w-64" ><canvas id="sensorSuhuTanah"></canvas></div>      
+                    <div class="border-4 border-red-500 mx-5 md:mx-0 w-64" ><canvas id="sensorPh"></canvas></div>          
+                    <div class="border-4 border-red-500 ml-5 md:mx-0 w-64" ><canvas id="sensorNutrisiTanah"></canvas></div>          
+                    <div class="border-4 border-red-500 ml-5 md:mx-0 w-64" ><canvas id="sensorCahaya"></canvas></div>          
                 </div>
             <!-- Chart -->
 
@@ -84,102 +86,130 @@
             
             <!-- Opsi -->
                 <div class="border-2 border-yellow-800 mx-5 mt-5 flex flex-col">
-                    <div class="text-xl md:text-2xl font-bold my-2 shadow-md rounded">Opsi<hr></div>
+                    <div class="text-xl md:text-2xl font-bold mt-2 shadow-md rounded">Opsi<hr></div>
                     <!-- Memilih Opsi -->
-                    <div class="justify-between md:h-80 w-auto border-2 border-green-500 rounded flex flex-col md:flex-row">
-                        <!-- Form Memilih Jenis Penyiraman -->
-                            <div class="w-full text-center bg-red-600 border rounded pb-5">
-                                    <form class="max-w-sm mx-auto">
-                                        <label for="countries" class="block mb-2 md:text-2xl text-white p-1">Jenis penyiraman</label>
-                                        <div class="w-11/12 m-auto">
-                                            <select id="jenisPenyiraman" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                <option value="manual">Manual</option>
-                                                <option value="aturWaktu">Atur Waktu</option>
-                                                <option value="otomatis">Berdasarkan Sensor</option>
-                                            </select>
-                                        </div>
-                                        <!-- Form tambahan untuk manual-->
-                                        <div id="manualSection" class="hidden"> 
-                                            <h3>Manual</h3> 
-                                            <label for="manualInput">Input:</label> 
-                                            <input type="text" id="manualInput" name="manualInput"> 
-                                            <div>
-                                                Siram tanaman
-                                            </div>
-                                        </div>
-                                        <div id="aturWaktuSection" class="hidden"> 
-                                            <h3>Atur Waktu</h3> 
-                                            <label for="waktuInput">Waktu:</label> 
-                                            <input type="datetime-local" id="waktuInput" name="waktuInput"> 
-                                        </div> 
-                                        <div id="otomatisSection" class="hidden"> 
-                                            <form class="max-w-sm mx-auto pb-5">
-                                                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Sensor</label>
-                                                <div class="mx-5">
-                                                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                        <option>sensor Kelembapan</option>
-                                                        <option>Suhu</option>
-                                                        <option>Sensor Ph</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mx-5">
-                                                    <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Masukkan Nilai Suhu</label>
-                                                    <input type="text" id="small-input" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Penyiraman akan aktif saat melewati nilai yang ditentukan">
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- Form tambahan untuk manual-->
-                                    </form>
-                            </div>
-                        <!-- Form Memilih Jenis Penyiraman -->
-
-                        <!-- Form Memilih Jenis Pengisian Tangki -->
-                            <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
-                                <form class="max-w-sm mx-auto">
-                                    <label for="countries" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="justify-between md:h-80 w-auto border-2 border-green-500 rounded flex flex-col md:flex-row">
+                                <!-- Form Memilih Jenis Penyiraman -->
+                                <div class="w-full text-center bg-red-600 border rounded pb-5">
+                                    <label for="jenisPenyiraman" class="block mb-2 md:text-2xl text-white p-1">Jenis Penyiraman</label>
                                     <div class="w-11/12 m-auto">
-                                        <select id="jenisPengisianTangki" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option value="manualIsiTangki">Manual</option>
-                                            <option value="berdasarkanVolume">Berdasarkan volume</option>
-                                        </select>
+                                        {{ opsiPerangkat.jenisPenyiraman }}
+                                        <!-- Manual -->
+                                            <div class="hidden" id="manual">
+                                                <br>
+                                                <p class="text-white text-md">Atur Secara Manual pada bagian Informasi > Penyiraman Terakhir</p>
+                                            </div>                                        
+                                        <!-- aturWaktu -->
+                                            <div class="hidden mt-2" id="aturWaktu">
+                                                <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select time:</label>
+
+                                                <div class="grid grid-cols-3 gap-1 border-2 border-yellow-300">
+                                                    <div class="flex w-fit">
+                                                        <input type="time" id="time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="00:00" max="24:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 hover:bg-red-500 hover:border-red-500 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
+                                                                <path d="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="flex w-fit">
+                                                        <input type="time" id="time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
+                                                                <path d="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>         
+
+                                                    <div class="flex w-fit">
+                                                        <input type="time" id="time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
+                                                                <path d="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>      
+                                                                                                  
+                                                    <div class="flex w-fit">
+                                                        <input type="time" id="time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
+                                                                <path d="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>                                                                                                  
+                                                    <div class="flex w-fit">
+                                                        <input type="time" id="time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
+                                                                <path d="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>                                                                                                  
+                                                    <div class="flex w-fit">
+                                                        <input type="time" id="time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
+                                                                <path d="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                    <div>
+                                                        <br>
+                                                        <button class="flex items-center w-12 h-12 justify-center bg-blue-500 text-white rounded shadow-lg hover:bg-blue-600 transition duration-300">
+                                                            <span class="text-3xl font-bold">+</span>
+                                                        </button>
+                                                    </div>
+
+                                                
+                                            </div> 
+                                            
+                                        <!-- Berdasarkan Sensor -->
+                                            <div class="hidden" id="pilihSensorPenyiraman">
+                                                <label for="duration">Berapa Lama Tinggal di Indonesia:</label> 
+                                                <input type="text" name="duration"> 
+                                            </div>
                                     </div>
-                                    <!-- Form tambahan untuk manual-->
-                                    <div id="manualIsiTangki" class="hidden"> 
-                                        <h3>Manual</h3> 
-                                        <label for="manualInput">Input:</label> 
-                                        <input type="text" id="manualInput" name="manualInput"> 
-                                        <div>
-                                            Siram tanaman
-                                        </div>
+                                </div>
+
+                                <!-- Form Memilih Jenis Penyiraman -->
+                        
+                                <!-- Form Memilih Jenis Pengisian Tangki -->
+                                <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
+                                    <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
+                                    <div class="w-11/12 m-auto">
+                                        {{ opsiPerangkat.jenisPengisianTangkiAir }}
+                                        <!-- Django akan menghasilkan elemen <select> untuk ChoiceField -->
                                     </div>
-                                    <div id="berdasarkanVolume" class="hidden"> 
-                                        <h3>Otomatis</h3> 
-                                        <p>Pengaturan otomatis akan diaktifkan.</p> 
-                                    </div>
-                                    <!-- Form tambahan untuk manual-->
-                                    </form>
+                                </div>
+                                <!-- Form Memilih Jenis Pengisian Tangki -->
+                        
+                                <div class="w-full text-center bg-green-600 border rounded md:h-full">
+                                    <div class="block mb-2 md:text-2xl text-white p-1">a</div>
+                                </div>
                             </div>
-                        <!-- Form Memilih Jenis Pengisian Tangki -->
-                         
-                        <div class="w-full text-center bg-green-600 border rounded md:h-full">
-                            <div class="block mb-2 md:text-2xl text-white p-1">a</div>
-                        </div>
-                    </div>
+                        
+                            <div class="text-right">
+                                <button type="submit" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
+                            </div>
+                        </form>
                     <!-- Memilih Opsi -->
-                    <div class="text-right">
-                        <button type="submit" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
-                    </div>
                 </div>
             <!-- Opsi -->
 
         </div>
     </div>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-m
-<!-- Akhir Sensor 1 -->
 
-
-<!-- Script-->
+    <!-- Akhir Sensor 1 -->
+    
+    <!-- Script-->
+<script type='module' src="{% static 'js/formTambahan.js' %}"> </script>
 <script type='module' src="{% static 'js/chartSensor.js' %}"></script>
 <script src="{% static 'js/chart.umd.js' %}"></script>
 {% endblock content %}

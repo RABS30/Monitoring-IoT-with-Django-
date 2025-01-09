@@ -127,6 +127,23 @@ const sensorNutrisiTanah = new createChart(elementId='sensorNutrisiTanah', 'doug
     },
 );
 
+// Sensor Nutrisi Tanah
+const sensorCahaya = new createChart(elementId='sensorCahaya', 'bar', ['Intensitas Cahaya'], [{
+    label: 'Instensitas Cahaya',
+    data: [0],
+    backgroundColor: [ 'rgba(75, 192, 192, 0.2)'], 
+    borderColor: ['rgba(255, 99, 132, 1)'], 
+    borderWidth: 1
+    }],
+    {
+        y:{
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+        }
+    },
+);
+
 // MQTT Connect
 const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
 
@@ -143,7 +160,7 @@ client.on('connect', () => {
 // Function saat menerima data
 client.on('message', (topic, message) => {
     message = JSON.parse(message);
-    console.log(message);
+    // console.log(message);
 
     if(message['kelembapanTanah']){
         kelembapanTanah.update(message['kelembapanTanah']);
@@ -156,6 +173,9 @@ client.on('message', (topic, message) => {
     }
     if(message['nutrisiTanah']){
         sensorNutrisiTanah.update(message['nutrisiTanah']);
+    }
+    if(message['kelembapanTanah']){
+        sensorCahaya.update(message['kelembapanTanah']);
     }
   
 });

@@ -17,7 +17,7 @@ client.on('message', (topic, message) => {
     console.log(`Topic: ${topic} \nMessages: ${message} \nTipe : ${typeof(message)}`);
     message = JSON.parse(message);
 
-    console.log(message['SuhuPh']);
+    // console.log(message['SuhuPh']);
   
 });
 
