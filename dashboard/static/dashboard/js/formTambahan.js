@@ -28,6 +28,3 @@ jenisPenyiraman.addEventListener('change', () =>{
         sensorPenyiraman.classList.remove('hidden');
     }   
 })
-
-
-

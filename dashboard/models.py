@@ -1,56 +1,102 @@
-from random import choice
-from typing import Any, Iterable
 from django.db import models
 
-
-# Create your models here.
-class sensorTanaman(models.Model):
-    tanggal = models.DateTimeField(("Tanggal"), auto_now_add=False)
+# Sensor 
+class sensor(models.Model):
     nama    = models.CharField(("Nama Sensor"), max_length=50)
-    nilai   = models.IntegerField(("Sensor"))
     
     class Meta:
-        verbose_name = "Sensor Tanaman"
-        verbose_name_plural = "Sensor Tanaman"
+        verbose_name = "Sensor"
+        verbose_name_plural = "Sensor"
     
     def __str__(self):
-        return f'{self.nama}, {self.nilai}, {self.tanggal.strftime("%d-%m-%Y, %H:%M")}'
+        return f'{self.pk} : {self.nama}'
+# Sensor > Nilai Sensor
+class nilaiSensor(models.Model):
+    sensor  = models.ForeignKey("dashboard.sensor", 
+                                on_delete=models.CASCADE, 
+                                related_name='sensor')
+    nilai   = models.IntegerField(("Nilai"))
     
-class opsiPerangkat(models.Model):
-    jenisPenyiraman = models.CharField(("Penyiraman"), 
-                                       max_length=50, 
-                                       choices=(('manual', 'Manual'), 
-                                                ('aturWaktu' , 'Atur Waktu'), 
-                                                ('berdasarkanSensor' , 'Berdasarkan Sensor')),)
+    class Meta :
+        verbose_name = 'Sensor > Nilai Sensor'
+        verbose_name_plural = "Sensor > Nilai Sensor"
+    def __str__(self):
+        return f'{self.pk} : {self.sensor.nama} : {self.nilai}'
     
     
-    jenisPengisianTangkiAir = models.CharField(("Pengisian Tangki Air"), 
-                                               max_length=50, 
-                                               choices=(('manual', 'Manual'), 
-                                                        ('berdasarkanVolume' , 'Berdasarkan Volume')),
-                                                        )
     
-    def __str__(self) :
-        return f'id: {self.pk} penyiraman : {self.jenisPenyiraman}, pengisian tangki : {self.jenisPengisianTangkiAir}'
+# jenis Penyiraman
+class jenisPenyiraman(models.Model):
+    nama = models.CharField(("Jenis Penyiraman"), 
+                            max_length=50, 
+                            choices=(('manual', 'Manual'),
+                                     ('berdasarkanWaktu', 'Berdasarkan Waktu'),
+                                     ('berdasarkanSensor', 'Berdasarkan Sensor'))
+                            )
+
+    class Meta:
+        verbose_name = "Jenis Penyiraman"
+        verbose_name_plural = "Jenis Penyiraman"
         
-class waktuPenyiraman(models.Model):
-    opsiPerangkat = models.ForeignKey('opsiPerangkat', on_delete = models.CASCADE, related_name='waktuPenyiraman', editable=False, blank=True)
-    waktu         = models.TimeField(("Waktu"))
+    def __str__(self) :
+        return f'id: {self.pk} penyiraman : {self.nama}'
+
+# Jenis Penyiraman > berdasarkan waktu
+class berdasarkanWaktu(models.Model):
+    opsiPerangkat = models.ForeignKey('dashboard.jenisPenyiraman', 
+                                      on_delete = models.CASCADE, 
+                                      related_name='berdasarkanWaktu', 
+                                      editable=False, 
+                                      blank=True)
+    
+    waktu         = models.TimeField(("Waktu"), 
+                                     null=True, 
+                                     blank=True)
+    
+    class Meta:
+        verbose_name = "Jenis Penyiraman > Berdasarkan Waktu"
+        verbose_name_plural = "Jenis Penyiraman > Berdasarkan Waktu"
     
     
     def save(self):
-        self.opsiPerangkat = opsiPerangkat.objects.get(id=1)
+        self.opsiPerangkat = jenisPenyiraman.objects.get(nama='berdasarkanWaktu')
         return super().save()
     
     def __str__(self):
-        return f'waktu : {self.waktu}, {self.opsiPerangkat.jenisPenyiraman}'
-    
-    
+        return f'{self.pk}. waktu : {self.waktu}'
+ 
+# Jenis Penyiraman > berdasarkan Sensor
 class berdasarkanSensor(models.Model):
-    opsiPerangkat = models.OneToOneField("dashboard.opsiPerangkat", verbose_name=("Opsi"), on_delete=models.CASCADE)
-    sensor        = models.CharField(("Sensor"), max_length=50)
+    opsiPerangkat   = models.OneToOneField("dashboard.jenisPenyiraman", 
+                                      verbose_name=("Opsi"), 
+                                      on_delete=models.CASCADE, 
+                                      editable=False, 
+                                      )
+    
+    sensor          = models.OneToOneField("dashboard.sensor", 
+                                           verbose_name=("Nama Sensor"), 
+                                           on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name = "Jenis Penyiraman > Berdasarkan Sensor"
+        verbose_name_plural = "Jenis Penyiraman > Berdasarkan Sensor"
     
     
+    def save(self):
+        self.opsiPerangkat = jenisPenyiraman.objects.get(nama='berdasarkanSensor')
+        return super().save()
+     
+    # def __init__(self):
+    #     sets = set(sensorTanaman.objects.values_list('nama', flat=True))
+    #     choices = []
+    #     for data in sets :
+    #         choices.append((data, data))
+            
+    #     self._meta.get_field('sensor').choices = tuple(choices)
+    #     super().__init__()
+        
     def __str__(self):
-        return f'sensor : {self.sensor}, opsi: {self.opsiPerangkat.jenisPenyiraman}'
+        return f'ID : {self.pk}, sensor : {self.sensor}'
     
+
+

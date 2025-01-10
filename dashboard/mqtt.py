@@ -1,7 +1,6 @@
 
 import paho.mqtt.client as mqtt
 import json
-from .models import sensorTanaman
  
 def startMqtt():
     # callback saat berhasil terhubung ke server
