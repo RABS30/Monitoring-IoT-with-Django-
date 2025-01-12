@@ -95,36 +95,39 @@
                                 <div class="w-full text-center bg-red-600 border rounded pb-5">
                                     <label for="jenisPenyiraman" class="block mb-2 md:text-2xl text-white p-1">Jenis Penyiraman</label>
                                     <div class="w-11/12 m-auto">
-                                        {{ opsiPerangkat.jenisPenyiraman }}
+                                        {{form.jenisPenyiraman}}
+                                        
                                         <!-- Manual -->
-                                            <div class="hidden" id="manual">
+                                            <div class="hidden" id="Manual">
                                                 <br>
-                                                <p class="text-white text-md">Atur Secara Manual pada bagian Informasi > Penyiraman Terakhir</p>
+                                                <p class="text-white text-md">Atur Secara Manual pada bagian </p> <p class='font-bold text-white'> Informasi > Penyiraman Terakhir</p>
                                             </div>        
-                                                                            
+
                                         <!-- aturWaktu -->
-                                            <div class="hidden mt-2" id="aturWaktu">
+                                            <div class="hidden" id="Berdasarkan Waktu">
                                                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select time:</label>
+                                                {{formBerdasarkanWaktu.waktu}}
                                             </div> 
                                             
                                         <!-- Berdasarkan Sensor -->
-                                            <div class="hidden" id="pilihSensorPenyiraman">
-                                                <label for="duration">Berapa Lama Tinggal di Indonesia:</label> 
-                                                <input type="text" name="duration"> 
+                                            <div class="hidden" id="Berdasarkan Sensor">
+                                                <label for="duration">Pilih Sensor</label>
+                                                <br> 
+                                                {{formBerdasarkanSensor.sensor}} 
                                             </div>
                                     </div>
                                 </div>
-
                                 <!-- Form Memilih Jenis Penyiraman -->
                         
+                                
                                 <!-- Form Memilih Jenis Pengisian Tangki -->
-                                <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
-                                    <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
-                                    <div class="w-11/12 m-auto">
-                                        {{ opsiPerangkat.jenisPengisianTangkiAir }}
-                                        <!-- Django akan menghasilkan elemen <select> untuk ChoiceField -->
+                                    <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
+                                        <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
+                                        <div class="w-11/12 m-auto">
+                                            {{ opsiPerangkat.jenisPengisianTangkiAir }}
+                                            <!-- Django akan menghasilkan elemen <select> untuk ChoiceField -->
+                                        </div>
                                     </div>
-                                </div>
                                 <!-- Form Memilih Jenis Pengisian Tangki -->
                         
                                 <div class="w-full text-center bg-green-600 border rounded md:h-full">
