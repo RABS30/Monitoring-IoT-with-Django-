@@ -24,14 +24,15 @@ client.on('message', (topic, message) => {
 
 // Mengirim data ke topic sensor/tanaman2
 function publishMessage() {
-const message = document.getElementById('message').value;
-if (message) {
-    client.publish('sensor/tanaman2', message, (err) => {
-    if (err) {
-        console.log('Error publishing message:', err);
-    } else {
-        console.log('Message published:', message);
+    var siram   = document.getElementById()
+    const message = document.getElementById('message').value;
+    if (message) {
+        client.publish('sensor/tanaman2', message, (err) => {
+        if (err) {
+            console.log('Error publishing message:', err);
+        } else {
+            console.log('Message published:', message);
+        }
+        });
     }
-    });
-}
 }

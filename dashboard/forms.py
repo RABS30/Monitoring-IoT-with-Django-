@@ -9,7 +9,7 @@ class formOpsiPerangkat(forms.ModelForm):
         model  = opsiPerangkat 
         fields = ["jenisPenyiraman"]
         widgets= {
-            'jenisPenyiraman' : forms.Select(attrs={'id' : 'jenisPenyiraman'})
+            'jenisPenyiraman' : forms.Select(attrs={'id' : 'jenisPenyiraman', 'class' : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'})
         }
           
 # Opsi Perangkat > Jenis Penyiraman
@@ -24,6 +24,7 @@ class formJenisPenyiraman(ModelForm):
                                           ('Berdasarkan Sensor', 'Berdasarkan Sensor'),
                                           ))
         }    
+        
 
 # Opsi Perangkat >  Jenis Penyiraman > Berdasarkan Waktu
 class formBerdasarkanWaktu(ModelForm):
@@ -31,10 +32,13 @@ class formBerdasarkanWaktu(ModelForm):
         model   = berdasarkanWaktu
         fields  = ["waktu"]
         widgets = {
-            'waktu': forms.TimeInput(attrs={'class'     : 'form-control', 
-                                            'id'        : 'waktu', 
-                                            'format'    : '%H:%M',
-                                            'type'      : 'time'})
+            'waktu': forms.TimeInput(attrs={
+                'class' : 'rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500', 
+                'min': '00:00',
+                'max': '24:00', 
+                'id' : 'waktu', 
+                'format' : '%H:%M',
+                'type' : 'time'})
         }
     
         
@@ -42,7 +46,10 @@ class formBerdasarkanWaktu(ModelForm):
 class formBerdasarkanSensor(ModelForm):
     class Meta:
         model   = berdasarkanSensor
-        fields  = ["sensor"]        
+        fields  = ["sensor"]      
+        widgets = {
+            'sensor': forms.Select(attrs={'class' : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500', 'id': 'sensor'},)
+        }  
         
         
         

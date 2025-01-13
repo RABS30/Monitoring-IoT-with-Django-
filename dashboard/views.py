@@ -4,6 +4,16 @@ from .forms import formBerdasarkanWaktu, formBerdasarkanSensor, formOpsiPerangka
 from .models import jenisPenyiraman, opsiPerangkat, berdasarkanSensor, berdasarkanWaktu
 
 def dashboard(request):
+    # Method GET
+
+    # opsi jenis penyiraman saat ini
+    opsi = opsiPerangkat.objects.first()    
+    # Daftar Waktu saat ini
+    daftarWaktu  = berdasarkanWaktu.objects.values_list('waktu', flat=True)
+    # Daftar Sensor saat ini
+    daftarSensor = berdasarkanSensor.objects.first()
+
+
     # Method POST
     if request.method == 'POST' :
         print(request.POST)
@@ -14,44 +24,57 @@ def dashboard(request):
         jenisPenyiramanUpdate   = jenisPenyiraman.objects.get(id=idJenisPenyiraman)
         
   
-        # Bandingkan dengan jenis penyiraman yang ada di opsi perangkat
-        if opsiPerangkatSaatIni.jenisPenyiraman.pk != jenisPenyiramanUpdate.pk : 
-            print('berbeda : ',jenisPenyiramanUpdate)
+        # jenis Penyiraman == Manual
+        if (jenisPenyiramanUpdate.nama == 'Manual') :
+            formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
+            if formUpdate.is_valid():
+                formUpdate.save()
 
-            # jenis Penyiraman == Manual
-            if (jenisPenyiramanUpdate.nama == 'Manual') :
-                opsiPerangkatSaatIni.jenisPenyiraman = jenisPenyiramanUpdate
-                opsiPerangkatSaatIni.save()
+        # jenis Penyiraman == Berdasarkan Waktu
+        elif (jenisPenyiramanUpdate.nama == 'Berdasarkan Waktu'):
+            jumlahWaktu = berdasarkanWaktu.objects.all().__len__()
+            formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
+            if formUpdate.is_valid():
+                formUpdate.save() 
                 
-            elif (jenisPenyiramanUpdate.nama == 'Berdasarkan Waktu'):
-                daftarWaktu = berdasarkanWaktu.objects.all()
-                opsiPerangkatSaatIni.jenisPenyiraman = jenisPenyiramanUpdate
-                opsiPerangkatSaatIni.save()
-                
-            elif (jenisPenyiramanUpdate.nama == 'Berdasarkan Sensor'):
-                daftarWaktu = berdasarkanSensor.objects.all()
-                opsiPerangkatSaatIni.jenisPenyiraman = jenisPenyiramanUpdate
-                opsiPerangkatSaatIni.save()
+            formBerdasarkanWaktuUpdate = formBerdasarkanWaktu(request.POST)
+            if formBerdasarkanWaktuUpdate.is_valid() and request.POST.get('waktu') != '' and jumlahWaktu < 4:
+                print('Ini waktu : ', request.POST.get('waktu'))
+                print(f'Ini juga waktu : {"waktu" in request.POST}')
+                formBerdasarkanWaktuUpdate.save()
+            else :
+                print('Ini waktu : ', request.POST.get('waktu'))
+                print(f'Ini juga waktu : {"waktu" in request.POST}')
+                print(formBerdasarkanWaktuUpdate.errors)
+            
+        # jenis Penyiraman == Berdasarkan Sensor
+        elif (jenisPenyiramanUpdate.nama == 'Berdasarkan Sensor'):
+            formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
+            if formUpdate.is_valid():
+                formUpdate.save()
+            
+            formBerdasarkanSensorUpdate = formBerdasarkanSensor(request.POST or None, instance=daftarSensor)
+            if formBerdasarkanSensorUpdate.is_valid():
+                print('Data Valid Sensor Valid')
+                formBerdasarkanSensorUpdate.save()
+            else :
+                print(formBerdasarkanSensorUpdate.errors)
                                  
         return redirect('dashboard:dashboard')
         
-    # Method GET
-
-    # opsi jenis penyiraman saat ini
-    idOpsiPerangkat = opsiPerangkat.objects.values_list('id', flat=True)[0]
-    opsi = opsiPerangkat.objects.get(id=idOpsiPerangkat)
-    
-    # Daftar Waktu saat ini
-    daftarWaktu = berdasarkanWaktu.objects.values_list('waktu', flat=True)
-    # Daftar Sensor saat ini
-    daftarWaktu = berdasarkanSensor.objects.first()
 
     
     context = {
         'title': 'Dashboard',
         'form': formOpsiPerangkat(request.POST or None, instance=opsi),
         'formBerdasarkanWaktu': formBerdasarkanWaktu,
-        'formBerdasarkanSensor' : formBerdasarkanSensor(request.POST or None, instance=daftarWaktu),
+        'formBerdasarkanSensor' : formBerdasarkanSensor(request.POST or None, instance=daftarSensor),
         'daftarWaktu': daftarWaktu,
     }
     return render(request, 'dashboard/dashboard.html', context)
+
+
+
+
+
+
