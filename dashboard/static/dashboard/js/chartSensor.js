@@ -160,7 +160,6 @@ client.on('connect', () => {
 // Function saat menerima data
 client.on('message', (topic, message) => {
     message = JSON.parse(message);
-    // console.log(message);
 
     if(message['kelembapanTanah']){
         kelembapanTanah.update(message['kelembapanTanah']);
@@ -179,3 +178,39 @@ client.on('message', (topic, message) => {
     }
   
 });
+
+
+// Function untuk mengirim data 
+var siram   = document.getElementById('siram')
+var child   = siram.cloneNode(true)
+
+var loading = `                                    
+<div class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">Sedang menyiram...</div>`
+
+
+siram.addEventListener('click', () => {
+    // Data yang akan dikirim
+    const message = {
+        'message' : 'siram'
+    }
+
+    const jsonMessage = JSON.stringify(message)
+
+    // Mengirim data 
+    client.publish('sensor/tanaman2', jsonMessage, (err) => {
+        if (err) {
+            console.log('Gagal mengirim data');
+        }else{
+            siram.replaceChildren()
+            siram.innerHTML = loading
+            console.log('Berhasil mengirim data');
+
+            setInterval(() => {
+                siram.replaceChildren(child)
+                siram.querySelector('button').textContent = 'Berhasil Menyiram'
+                
+            }, 3000)
+        }
+    })
+
+})

@@ -4,18 +4,6 @@
 {% block content %}
     <script src="https://cdn.jsdelivr.net/npm/mqtt@4.2.8/dist/mqtt.min.js"></script>
 
-    
-    <h1>MQTT Real-Time Data</h1>
-
-    <div>
-        <label for="message">Message to Publish:</label>
-        <input type="text" id="message" placeholder="Enter message">
-        <button onclick="publishMessage()">Send Message</button>
-    </div>
-    <h2>Received Messages:</h2>
-    <div id="messages"></div>
-
-
     {% include 'navbar.html' %}
     <br>
 
@@ -65,10 +53,6 @@
                             <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
                                 <td class="px-6 py-4">
                                     Kamis, 12 Desember 2024 12:00 WIB 
-                                    <br>
-                                    <div class="hidden" id="siram">
-                                        <button type="button" class="text-white mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Siram</button>
-                                    </div>
                                     </td>
                                 <td class="px-6 py-4">
                                     Kamis, 12 Desember 2024 12:00 WIB 
@@ -82,6 +66,14 @@
                                 <td class="px-6 py-4">
                                     12 Desember 2024
                                 </td>     
+                            </tr>                            
+                            
+                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
+                                <td class="px-6 py-4">
+                                    <div class="hidden" id="siram">
+                                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Siram</button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -112,13 +104,16 @@
                                             <div class="hidden grid-cols-2 gap-4 mt-5" id='daftarWaktu'>
                                                 {% for waktu in daftarWaktu %}
                                                     <div class="flex">
-                                                        <div class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{waktu}}</div>
+                                                        <div class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{waktu.waktu}}</div>
+                                                        <div>
+                                                            
+                                                        </div>
                                                         <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                                                            <button class="hover:text-red-600">
+                                                            <a name="hapusWaktu" href="{% url 'dashboard:hapusWaktu' waktu.id %}" class="hover:text-red-600">
                                                                 <svg class="w-4 h-4 text-gray-500 hover:text-red-600 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                                                     <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
                                                                 </svg>
-                                                            </button>
+                                                            </a>
                                                         </span> 
                                                     </div>     
                                                 {% endfor %}

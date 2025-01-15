@@ -9,7 +9,7 @@ def dashboard(request):
     # opsi jenis penyiraman saat ini
     opsi = opsiPerangkat.objects.first()    
     # Daftar Waktu saat ini
-    daftarWaktu  = berdasarkanWaktu.objects.values_list('waktu', flat=True)
+    daftarWaktu  = berdasarkanWaktu.objects.all()
     # Daftar Sensor saat ini
     daftarSensor = berdasarkanSensor.objects.first()
 
@@ -74,6 +74,15 @@ def dashboard(request):
     return render(request, 'dashboard/dashboard.html', context)
 
 
+def hapusDataWaktu(request, id):
+    print('Hallo')
+    try :
+        waktu = berdasarkanWaktu.objects.get(id=id)
+        waktu.delete()
+        print('Berhasil hapus')
+    except Exception as message:
+        print(f'error : {message}')
+    return redirect(('dashboard:dashboard'))
 
 
 

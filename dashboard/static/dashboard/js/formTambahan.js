@@ -4,6 +4,7 @@ var aturWaktu           = document.getElementById('Berdasarkan Waktu');
 var sensorPenyiraman    = document.getElementById('Berdasarkan Sensor');
 var daftarWaktu         = document.getElementById('daftarWaktu');
 var siramAir            = document.getElementById('siram')
+var hapusWaktu          = document.getElementsByName('hapusWaktu')
 
 
 // Aktif saat HTML dipanggil pertama kali
@@ -52,11 +53,19 @@ jenisPenyiraman.addEventListener('change', () =>{
 })
 
 
+// Menonaktifkan fitur Hapus Waktu
+if (jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text != 'Berdasarkan Waktu'){
+    hapusWaktu.forEach((a, index) => {
+        a.href = "javascript:void(0);"
+    })
+}
 
-var opsiPerangkat = document.getElementById('opsiPerangkat');
 
-opsiPerangkat.addEventListener('submit', (event) => {
-    if(!confirm("Konfirmasi untuk mengirim")){
+// Konfirmasi perubahan 
+var submitOpsi = document.getElementById('submitOpsi');
+
+submitOpsi.addEventListener('click', (event) => {
+    if(!confirm("Apakah anda yakin ingin mengubah Opsi ? ")){
         event.preventDefault();
         console.log('Hello');
     };
