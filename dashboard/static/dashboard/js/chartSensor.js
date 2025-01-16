@@ -159,58 +159,71 @@ client.on('connect', () => {
 
 // Function saat menerima data
 client.on('message', (topic, message) => {
-    message = JSON.parse(message);
+    try {
 
-    if(message['kelembapanTanah']){
-        kelembapanTanah.update(message['kelembapanTanah']);
+        message = JSON.parse(message);
+
+        if(message['kelembapanTanah']){
+            kelembapanTanah.update(message['kelembapanTanah']);
+        }
+        if(message['suhuTanah']){
+            suhuTanah.update(message['suhuTanah']);
+        }    
+        if(message['Ph']){
+            sensorPh.update(message['Ph']);
+        }
+        if(message['nutrisiTanah']){
+            sensorNutrisiTanah.update(message['nutrisiTanah']);
+        }
+        if(message['kelembapanTanah']){
+            sensorCahaya.update(message['kelembapanTanah']);
+        }
+    }catch(err){
+        console.log(message)
     }
-    if(message['suhuTanah']){
-        suhuTanah.update(message['suhuTanah']);
-    }    
-    if(message['Ph']){
-        sensorPh.update(message['Ph']);
-    }
-    if(message['nutrisiTanah']){
-        sensorNutrisiTanah.update(message['nutrisiTanah']);
-    }
-    if(message['kelembapanTanah']){
-        sensorCahaya.update(message['kelembapanTanah']);
-    }
-  
 });
 
 
 // Function untuk mengirim data 
-var siram   = document.getElementById('siram')
-var child   = siram.cloneNode(true)
+    var siram   = document.getElementById('siram')
+    var child   = siram.cloneNode(true)
 
-var loading = `                                    
-<div class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">Sedang menyiram...</div>`
+    var loading = `                                    
+    <div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+        <div class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
+    </div>
 
 
-siram.addEventListener('click', () => {
-    // Data yang akan dikirim
-    const message = {
-        'message' : 'siram'
-    }
+    `
 
-    const jsonMessage = JSON.stringify(message)
+    var disabled = false;
+    siram.addEventListener('click', (event) => {
+        if(!disabled){
+            disabled = true;
 
-    // Mengirim data 
-    client.publish('sensor/tanaman2', jsonMessage, (err) => {
-        if (err) {
-            console.log('Gagal mengirim data');
-        }else{
-            siram.replaceChildren()
-            siram.innerHTML = loading
-            console.log('Berhasil mengirim data');
+            // Data yang akan dikirim
+            const message = {
+                'message' : 'Siram'
+            }
 
-            setInterval(() => {
-                siram.replaceChildren(child)
-                siram.querySelector('button').textContent = 'Berhasil Menyiram'
-                
-            }, 3000)
+            const jsonMessage = JSON.stringify(message)
+
+            // Mengirim data 
+            client.publish('sensor/tanaman2', jsonMessage, (err) => {
+                if (err) {
+                    console.log('Gagal mengirim data');
+                    disabled = false;
+                }else{
+                    siram.replaceChildren()
+                    siram.innerHTML = loading
+                    console.log('Berhasil mengirim data');
+
+                    setTimeout(() => {
+                        siram.replaceChildren(child);
+                        disabled = false;    
+                    }, 4000);                    
+                }
+            })
         }
-    })
 
-})
+    })
