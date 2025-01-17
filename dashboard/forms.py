@@ -7,9 +7,11 @@ from .models import berdasarkanSensor, jenisPenyiraman, berdasarkanWaktu, opsiPe
 class formOpsiPerangkat(forms.ModelForm): 
     class Meta: 
         model  = opsiPerangkat 
-        fields = ["jenisPenyiraman"]
+        fields = ["jenisPenyiraman", "jenisPengisianAir"]
         widgets= {
-            'jenisPenyiraman' : forms.Select(attrs={'id' : 'jenisPenyiraman', 'class' : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'})
+            'jenisPenyiraman' : forms.Select(attrs={'id' : 'jenisPenyiraman', 'class' : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}),
+            
+            'jenisPengisianAir' : forms.Select(attrs={'id' : 'jenisPengisianAir', 'class' : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'}),
         }
           
 # Opsi Perangkat > Jenis Penyiraman

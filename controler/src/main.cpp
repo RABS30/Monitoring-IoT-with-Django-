@@ -41,7 +41,7 @@ void onMqttConnect(bool sessionPresent) {
   mqttClient.subscribe("sensor/tanaman2", 1);
 
   // Publish initial message
-  mqttClient.publish("sensor/tanaman", 1, true, "ESP32 Connected!");
+  mqttClient.publish("sensor/tanaman", 0, false, "ESP32 Connected!");
 }
 
 // Saat MQTT terputus 
@@ -56,14 +56,14 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
   Serial.print("Subscribed to topic. : ");
   Serial.println(packetId);
-  xTimerStart(myTimer, 0);
+  
 }
 
 // Saat pesan masuk
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
   unsigned long currentTime;
   unsigned long previousTime;
-  const long delayTime        = 3000;
+  const long delayTime = 3000;
   JsonDocument doc;
 
   Serial.print("Received message on topic: ");
@@ -77,7 +77,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
   // message == siram
   deserializeJson(doc, message);
-  if (doc["message"] == "Siram"){
+  if (doc["message"] == "Siram" || doc["message"] == "Isi Air"){
     currentTime = millis();
     previousTime= millis(); 
     while(true){
@@ -152,7 +152,11 @@ void setup() {
   mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
 
   wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWiFi));
+  
   myTimer = xTimerCreate("MyTimer", pdMS_TO_TICKS(1000), pdTRUE, (void*)0, sendSensorData);
+  if (myTimer != NULL){
+    xTimerStart(myTimer, 0);
+  }
 
 }
 

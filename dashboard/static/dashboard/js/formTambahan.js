@@ -1,13 +1,18 @@
+// Jenis Penyiraman
 var jenisPenyiraman     = document.getElementById('jenisPenyiraman')
 var manual              = document.getElementById('Manual');
 var aturWaktu           = document.getElementById('Berdasarkan Waktu');
 var sensorPenyiraman    = document.getElementById('Berdasarkan Sensor');
 var daftarWaktu         = document.getElementById('daftarWaktu');
+// Siram Air
 var siramAir            = document.getElementById('siram')
+
+// Tag untuk hapus waktu
 var hapusWaktu          = document.getElementsByName('hapusWaktu')
 
 
-// Aktif saat HTML dipanggil pertama kali
+/* ``` ===== Menampilkan Daftar Jenis Penyiraman ===== ``` */
+    // Aktif saat pertama kali menampilkan Template
 if (jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Manual'){
     manual.classList.remove('hidden');
     siramAir.classList.remove('hidden');
@@ -26,12 +31,8 @@ if (jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Manual'){
     daftarWaktu.classList.add('grid');
 }else if(jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Berdasarkan Sensor'){
     sensorPenyiraman.classList.remove('hidden');
-
-
-
 }
-
-// Aktif saat ada perubahan di bagian jenis penyiraman
+    // Aktif saat ada perubahan di bagian jenis penyiraman
 jenisPenyiraman.addEventListener('change', () =>{
     manual.classList.add('hidden');
     aturWaktu.classList.add('hidden');
@@ -53,7 +54,8 @@ jenisPenyiraman.addEventListener('change', () =>{
 })
 
 
-// Menonaktifkan fitur Hapus Waktu
+
+/* ``` ===== Menonaktifkan fitur Hapus Waktu saat tidak memilih berdasarkan waktu ===== ``` */
 if (jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text != 'Berdasarkan Waktu'){
     hapusWaktu.forEach((a, index) => {
         a.href = "javascript:void(0);"
@@ -61,7 +63,8 @@ if (jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text != 'Berdasarkan 
 }
 
 
-// Konfirmasi perubahan 
+/* ``` ===== Konfirmasi perubahan Opsi perangkat ===== ``` */
+    // Konfirmasi perubahan 
 var submitOpsi = document.getElementById('submitOpsi');
 
 submitOpsi.addEventListener('click', (event) => {
@@ -70,3 +73,12 @@ submitOpsi.addEventListener('click', (event) => {
         console.log('Hello');
     };
 });
+
+
+/* ``` ===== Menampilkan tombol untuk mengisi Air =====```*/
+var jenisPengisianAir = document.getElementById('jenisPengisianAir')
+var isiAir = document.getElementById('isiAir')
+
+if(jenisPengisianAir.options[jenisPengisianAir.selectedIndex].text === "Manual"){
+    isiAir.classList.remove("hidden")
+}

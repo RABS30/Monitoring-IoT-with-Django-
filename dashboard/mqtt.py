@@ -12,11 +12,10 @@ def startMqtt():
 
     # callback saat menerima pesan 
     def on_message(client, userdata, msg):
-        message = json.loads(msg.payload)
-        for data in message:
-            # sensorTanaman.objects.create(nama=data, nilai=message[data])
-            pass
-            
+        try :
+            message = json.loads(msg.payload)
+        except Exception as message :
+            print('error : ', message)
 
 
     # Konfigurasi MQTT

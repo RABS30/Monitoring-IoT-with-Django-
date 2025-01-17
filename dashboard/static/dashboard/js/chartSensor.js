@@ -185,21 +185,21 @@ client.on('message', (topic, message) => {
 
 
 // Function untuk mengirim data 
-    var siram   = document.getElementById('siram')
-    var child   = siram.cloneNode(true)
 
-    var loading = `                                    
-    <div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-        <div class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
-    </div>
+var loading = `                                    
+<div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+<div class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
+</div>
+`
 
+    // Jika Siram di click
+    var siram           = document.getElementById('siram')
+    var childSiram      = siram.cloneNode(true)
+    var disabledSiram   = false;
 
-    `
-
-    var disabled = false;
     siram.addEventListener('click', (event) => {
-        if(!disabled){
-            disabled = true;
+        if(!disabledSiram){
+            disabledSiram = true;
 
             // Data yang akan dikirim
             const message = {
@@ -212,15 +212,53 @@ client.on('message', (topic, message) => {
             client.publish('sensor/tanaman2', jsonMessage, (err) => {
                 if (err) {
                     console.log('Gagal mengirim data');
-                    disabled = false;
+                    disabledSiram = false;
                 }else{
                     siram.replaceChildren()
                     siram.innerHTML = loading
                     console.log('Berhasil mengirim data');
 
                     setTimeout(() => {
-                        siram.replaceChildren(child);
-                        disabled = false;    
+                        siram.replaceChildren(childSiram);
+                        disabledSiram = false;    
+                    }, 4000);                    
+                }
+            })
+        }
+
+    })
+
+
+
+    // Jika Isi Air di click
+    var isiAir          = document.getElementById('isiAir')
+    var childIsiAir     = isiAir.cloneNode(true)
+    var disabledIsiAir  = false;
+
+    isiAir.addEventListener('click', (event) => {
+        if(!disabledIsiAir){
+            disabledIsiAir = true;
+
+            // Data yang akan dikirim
+            const message = {
+                'message' : 'Isi Air'
+            }
+
+            const jsonMessage = JSON.stringify(message)
+
+            // Mengirim data 
+            client.publish('sensor/tanaman2', jsonMessage, (err) => {
+                if (err) {
+                    console.log('Gagal mengirim data');
+                    disabledIsiAir = false;
+                }else{
+                    isiAir.replaceChildren()
+                    isiAir.innerHTML = loading
+                    console.log('Berhasil mengirim data');
+
+                    setTimeout(() => {
+                        isiAir.replaceChildren(childIsiAir);
+                        disabledIsiAir = false;    
                     }, 4000);                    
                 }
             })

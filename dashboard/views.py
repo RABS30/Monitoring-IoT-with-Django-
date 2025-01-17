@@ -5,61 +5,56 @@ from .models import jenisPenyiraman, opsiPerangkat, berdasarkanSensor, berdasark
 
 def dashboard(request):
     # Method GET
-
-    # opsi jenis penyiraman saat ini
+    ''' ====== SIAPKAN FORM UNTUK TEMPLATE ====== '''
+    # Form Opsi Perangkat 
     opsi = opsiPerangkat.objects.first()    
-    # Daftar Waktu saat ini
+    # Daftar Waktu yang tersedia
     daftarWaktu  = berdasarkanWaktu.objects.all()
-    # Daftar Sensor saat ini
+    # Daftar Sensor yang tersedia
     daftarSensor = berdasarkanSensor.objects.first()
 
 
     # Method POST
     if request.method == 'POST' :
         print(request.POST)
-
-        # Ambil data Jenis Penyiraman dari request
+        ''' ===== UPDATE DATA OPSI PERANGKAT ===== '''
+        # Update Opsi Perangkat 
+        formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
+        if formUpdate.is_valid():
+            formUpdate.save()
+            
+        # Update Jenis Penyiraman
         idJenisPenyiraman       = request.POST['jenisPenyiraman']
-        opsiPerangkatSaatIni    = opsiPerangkat.objects.get(id=opsiPerangkat.objects.values_list('id', flat=True)[0])
+        opsiPerangkatSaatIni    = opsiPerangkat.objects.first()
         jenisPenyiramanUpdate   = jenisPenyiraman.objects.get(id=idJenisPenyiraman)
         
-  
-        # jenis Penyiraman == Manual
-        if (jenisPenyiramanUpdate.nama == 'Manual') :
-            formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
-            if formUpdate.is_valid():
-                formUpdate.save()
-
-        # jenis Penyiraman == Berdasarkan Waktu
-        elif (jenisPenyiramanUpdate.nama == 'Berdasarkan Waktu'):
-            jumlahWaktu = berdasarkanWaktu.objects.all().__len__()
-            formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
-            if formUpdate.is_valid():
-                formUpdate.save() 
-                
+        # Update jenis Penyiraman => Berdasarkan Waktu
+        if (jenisPenyiramanUpdate.nama == 'Berdasarkan Waktu'):
+            # Jumlah waktu yang ada di database
+            jumlahWaktu = berdasarkanWaktu.objects.all().__len__() 
+            
+            # Masukkan data input waktu ke form dari request.POST
             formBerdasarkanWaktuUpdate = formBerdasarkanWaktu(request.POST)
+            
+            # Validasi, jika data valid dan jumlah kurang dari 4 maka simpan data tersebut
             if formBerdasarkanWaktuUpdate.is_valid() and request.POST.get('waktu') != '' and jumlahWaktu < 4:
-                print('Ini waktu : ', request.POST.get('waktu'))
-                print(f'Ini juga waktu : {"waktu" in request.POST}')
                 formBerdasarkanWaktuUpdate.save()
             else :
-                print('Ini waktu : ', request.POST.get('waktu'))
-                print(f'Ini juga waktu : {"waktu" in request.POST}')
                 print(formBerdasarkanWaktuUpdate.errors)
-            
-        # jenis Penyiraman == Berdasarkan Sensor
+                
+        # Update jenis Penyiraman => Berdasarkan Sensor
         elif (jenisPenyiramanUpdate.nama == 'Berdasarkan Sensor'):
-            formUpdate = formOpsiPerangkat(request.POST or None, instance=opsi)
-            if formUpdate.is_valid():
-                formUpdate.save()
-            
+            # Masukkan data input sensor dari request.POST 
             formBerdasarkanSensorUpdate = formBerdasarkanSensor(request.POST or None, instance=daftarSensor)
+            # Validasi, jika data valid maka simpan data tersebut
             if formBerdasarkanSensorUpdate.is_valid():
                 print('Data Valid Sensor Valid')
                 formBerdasarkanSensorUpdate.save()
             else :
                 print(formBerdasarkanSensorUpdate.errors)
-                                 
+                
+                
+        # redirect ke dashboard
         return redirect('dashboard:dashboard')
         
 

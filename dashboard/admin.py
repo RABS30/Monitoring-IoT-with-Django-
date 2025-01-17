@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import sensor,nilaiSensor,jenisPenyiraman, berdasarkanWaktu,berdasarkanSensor, opsiPerangkat
+from .models import sensor,nilaiSensor,jenisPenyiraman, berdasarkanWaktu,berdasarkanSensor, opsiPerangkat, jenisPengisianAir
 
 # Register your models here.
 admin.site.register(sensor)
@@ -8,3 +8,4 @@ admin.site.register(jenisPenyiraman)
 admin.site.register(berdasarkanWaktu)
 admin.site.register(berdasarkanSensor)
 admin.site.register(opsiPerangkat)
+admin.site.register(jenisPengisianAir)

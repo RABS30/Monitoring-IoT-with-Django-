@@ -24,7 +24,7 @@ class nilaiSensor(models.Model):
         verbose_name_plural = "Sensor > Nilai Sensor"
         
     def __str__(self):
-        return f'{self.pk} : {self.sensor.nama} : {self.nilai}'
+        return f'ID : {self.pk} : {self.sensor.nama} : {self.nilai}'
     
     
     
@@ -67,7 +67,7 @@ class berdasarkanWaktu(models.Model):
         return super().save()
     
     def __str__(self):
-        return f'{self.pk}. waktu : {self.waktu}, {self.opsiPerangkat.nama}'
+        return f'ID : {self.pk}. waktu : {self.waktu}, {self.opsiPerangkat.nama}'
  
 # Jenis Penyiraman > berdasarkan Sensor
 class berdasarkanSensor(models.Model):
@@ -104,12 +104,34 @@ class berdasarkanSensor(models.Model):
     #     super().__init__()
         
 
+# Jenis Pengisian Air
+class jenisPengisianAir(models.Model):
+    nama = models.CharField(("Jenis Pengisian Air"), 
+                            max_length=50,
+                            choices=(
+                                ('Otomatis', 'Otomatis'),
+                                ('Manual', 'Manual'),
+                                ),
+                            unique=True
+                            )
+    
+    class Meta :
+        verbose_name = "Opsi Perangkat > Jenis Pengisian Air"
+        verbose_name_plural = "Opsi Perangkat > Jenis Pengisian Air"
+    
+    def __str__(self):
+        return f"{self.nama}"
+    
 
 # Opsi 
 class opsiPerangkat(models.Model):
-    jenisPenyiraman = models.OneToOneField("dashboard.jenisPenyiraman", 
+    jenisPenyiraman     = models.OneToOneField("dashboard.jenisPenyiraman", 
                                            verbose_name=("Jenis Penyiraman"), 
                                            on_delete=models.CASCADE)
+    
+    jenisPengisianAir   = models.OneToOneField("dashboard.jenisPengisianAir", 
+                                               verbose_name=("Jenis Pengisian Tangki Air"), 
+                                               on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = "Opsi Perangkat"
