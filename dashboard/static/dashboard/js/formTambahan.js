@@ -78,7 +78,23 @@ submitOpsi.addEventListener('click', (event) => {
 /* ``` ===== Menampilkan tombol untuk mengisi Air =====```*/
 var jenisPengisianAir = document.getElementById('jenisPengisianAir')
 var isiAir = document.getElementById('isiAir')
+var manualPengisianAir = document.getElementById('ManualPengisianAir')
 
 if(jenisPengisianAir.options[jenisPengisianAir.selectedIndex].text === "Manual"){
-    isiAir.classList.remove("hidden")
+    isiAir.classList.remove("hidden");
+}else{
+    manualPengisianAir.querySelectorAll('p')[0].textContent = "Pengisian Air dilakukan secara otomatis berdasarkan sensor Air"
+    manualPengisianAir.querySelectorAll('p')[1].textContent = ""
+}
+
+/* ``` ===== Menampilkan tombol untuk pemberian pupuk ===== */
+var jenisPemberianPupuk = document.getElementById('jenisPemberianPupuk')
+var beriPupuk           = document.getElementById('beriPupuk')
+var manualPemberianPupuk= document.getElementById('ManualPemberianPupuk')
+
+if(jenisPemberianPupuk.options[jenisPemberianPupuk.selectedIndex].text == "Manual"){
+    beriPupuk.classList.remove("hidden");
+}else{
+    manualPemberianPupuk.querySelectorAll('p')[0].textContent = "Pemberian Pupuk dilakukan secara otomatis"
+    manualPemberianPupuk.querySelectorAll('p')[1].textContent = ""
 }

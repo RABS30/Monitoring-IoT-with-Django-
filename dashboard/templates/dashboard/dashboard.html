@@ -7,7 +7,7 @@
     {% include 'navbar.html' %}
     <br>
 
-<!-- Sensor 1 -->
+<!-- Sensor 1 --> 
     <div class="shadow-lg bg-white mx-0 w-auto border sm:rounded-lg">
         <div class="border-4 border-blue-600">
             <!-- Judul -->
@@ -30,57 +30,69 @@
                 <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Informasi<hr></div>
                 <div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
                     <table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
-                            <tr class='border-b rounded'>
-                                <th scope="col" class="px-6 py-3">
-                                    Penyiraman terakhir
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Pemberian pupuk Terakhir
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Air dalam tangki (L)
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Usia Tanaman
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Tanggal Penanaman
-                                </th>
-                            </tr>
-                        </thead>
+                        <!-- Heading Table -->
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
+                                <tr class='border-b rounded'>
+                                    <th scope="col" class="px-6 py-3">
+                                        Penyiraman terakhir
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Pemberian pupuk Terakhir
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Air dalam tangki (L)
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Usia Tanaman
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Tanggal Penanaman
+                                    </th>
+                                </tr>
+                            </thead>
+                        <!-- Heading Table -->
                         <tbody>
-                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
-                                <td class="px-6 py-4">
-                                    Kamis, 12 Desember 2024 12:00 WIB 
+                            <!-- Baris Pertama -->
+                                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
+                                    <td class="px-6 py-4">
+                                        Kamis, 12 Desember 2024 12:00 WIB 
+                                        </td>
+                                    <td class="px-6 py-4">
+                                        Kamis, 12 Desember 2024 12:00 WIB 
                                     </td>
-                                <td class="px-6 py-4">
-                                    Kamis, 12 Desember 2024 12:00 WIB 
-                                </td>
-                                <td class="px-6 py-4">
-                                    12
-                                </td>
-                                <td class="px-6 py-4">
-                                    32 Hari
-                                </td>   
-                                <td class="px-6 py-4">
-                                    12 Desember 2024
-                                </td>     
-                            </tr>                            
+                                    <td class="px-6 py-4" id="volumeTangki">
+                                        12
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        32 Hari
+                                    </td>   
+                                    <td class="px-6 py-4">
+                                        12 Desember 2024
+                                    </td>     
+                                </tr>                            
+                            <!-- Baris Pertama -->
                             
-                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
-                                <td class="px-6 py-4">
-                                    <div class="hidden" id="siram">
-                                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Siram Tanaman</button>
-                                    </div>
-                                </td> 
+                            <!-- Baris kedua -->
+                                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
+                                    <td class="px-6 py-4">
+                                        <div class="hidden" id="siram">
+                                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Siram Tanaman</button>
+                                        </div>
+                                    </td> 
 
-                                <td class="px-6 py-4">
-                                    <div class="hidden"  id="isiAir">
-                                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Isi Air</button>
-                                    </div>
-                                </td> 
-                            </tr>
+                                    <td class="px-6 py-4">
+                                        <div class="hidden"  id="beriPupuk">
+                                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Beri Pupuk</button>
+                                        </div>
+                                    </td>                                 
+                                    
+                                    <td class="px-6 py-4">
+                                        <div class="hidden"  id="isiAir">
+                                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Isi Tangki Air</button>
+                                        </div>
+                                    </td> 
+                                </tr>
+                            <!-- Baris kedua -->
                         </tbody>
                     </table>
                 </div>
@@ -100,44 +112,48 @@
                                             {{form.jenisPenyiraman}}
                                             
                                             <!-- Manual -->
-                                                <div class="hidden" id="Manual">
+                                                <div class="hidden"  id="Manual">
                                                     <br>
                                                     <p class="text-white text-md">Atur Secara Manual pada bagian </p> <p class='font-bold text-white'> Informasi > Penyiraman Terakhir</p>
                                                 </div>        
+                                            <!-- Manual -->
 
                                             <!-- aturWaktu -->
                                                 <!-- Daftar Waktu -->
-                                                <div class="hidden grid-cols-2 gap-4 mt-5" id='daftarWaktu'>
-                                                    {% for waktu in daftarWaktu %}
-                                                        <div class="flex">
-                                                            <div class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{waktu.waktu}}</div>
-                                                            <div>
-                                                                
-                                                            </div>
-                                                            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                                                                <a name="hapusWaktu" href="{% url 'dashboard:hapusWaktu' waktu.id %}" class="hover:text-red-600">
-                                                                    <svg class="w-4 h-4 text-gray-500 hover:text-red-600 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                                                        <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
-                                                                    </svg>
-                                                                </a>
-                                                            </span> 
-                                                        </div>     
-                                                    {% endfor %}
+                                                    <div class="hidden grid-cols-2 gap-4 mt-5" id='daftarWaktu'>
+                                                        {% for waktu in daftarWaktu %}
+                                                            <div class="flex">
+                                                                <div class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{waktu.waktu}}</div>
+                                                                <div>
+                                                                    
+                                                                </div>
+                                                                <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                                    <a name="hapusWaktu" href="{% url 'dashboard:hapusWaktu' waktu.id %}" class="hover:text-red-600">
+                                                                        <svg class="w-4 h-4 text-gray-500 hover:text-red-600 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                            <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
+                                                                        </svg>
+                                                                    </a>
+                                                                </span> 
+                                                            </div>     
+                                                        {% endfor %}
 
-                                                </div>
+                                                    </div>
+                                                <!-- Daftar Waktu -->
                                             
                                                 <!-- Tambah waktu baru -->
-                                                <div class="hidden w-2/5 m-auto" id="Berdasarkan Waktu">
-                                                    <label for="waktu" class="mt-2 block mb-2 text-sm font-medium text-white dark:text-white">Select time:</label>
-                                                    <div class="flex">
-                                                        {{formBerdasarkanWaktu.waktu}}
-                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
-                                                            </svg>
-                                                        </span>
+                                                    <div class="hidden w-2/5 m-auto" id="Berdasarkan Waktu">
+                                                        <label for="waktu" class="mt-2 block mb-2 text-sm font-medium text-white dark:text-white">Select time:</label>
+                                                        <div class="flex">
+                                                            {{formBerdasarkanWaktu.waktu}}
+                                                            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                                </svg>
+                                                            </span>
+                                                        </div> 
                                                     </div> 
-                                                </div> 
+                                                <!-- Tambah waktu baru -->
+                                            <!-- aturWaktu -->
                                                 
                                             <!-- Berdasarkan Sensor -->
                                                 <div class="hidden" id="Berdasarkan Sensor">
@@ -145,40 +161,56 @@
                                                     <br> 
                                                     {{formBerdasarkanSensor.sensor}} 
                                                 </div>
+                                            <!-- Berdasarkan Sensor -->
                                         </div>
                                     </div>
                                 <!-- Form Memilih Jenis Penyiraman -->
                         
                                 
+                                <!-- Form Memilih Jenis Pemberian Pupuk -->
+                                    <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
+                                        <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pemberian Pupuk</label>
+                                        <div class="w-11/12 m-auto">
+                                            {{ form.jenisPemberianPupuk }}
+
+                                            <div id="ManualPemberianPupuk">
+                                                <br>
+                                                <p class="text-white text-md">Atur Secara Manual pada bagian </p> <p class="font-bold text-white">Informasi > Pemberian Pupuk</p> 
+                                            </div>       
+                                        </div>
+                                    </div>
+                                <!-- Form Memilih Jenis Pemberian Pupuk -->
+
                                 <!-- Form Memilih Jenis Pengisian Tangki -->
                                     <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
                                         <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
                                         <div class="w-11/12 m-auto">
                                             {{ form.jenisPengisianAir }}
+
+                                            <div id="ManualPengisianAir">
+                                                <br>
+                                                <p class="text-white text-md">Atur Secara Manual pada bagian </p><p class="font-bold text-white">Informasi > Air Dalam Tangki</p>  
+                                            </div>       
                                         </div>
                                     </div>
                                 <!-- Form Memilih Jenis Pengisian Tangki -->
-                        
-                                <div class="w-full text-center bg-green-600 border rounded md:h-full">
-                                    <div class="block mb-2 md:text-2xl text-white p-1">a</div>
+                            </div>
+                            <!-- Submit Opsi -->
+                                <div class="text-right">
+                                    <button type="submit" id="submitOpsi" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
                                 </div>
-                            </div>
-                        
-                            <div class="text-right">
-                                <button type="submit" id="submitOpsi" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
-                            </div>
+                            <!-- Submit Opsi -->
                         </form>
                     <!-- Memilih Opsi -->
                 </div>
             <!-- Opsi -->
-
         </div>
     </div>
+<!-- Sensor 1 --> 
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-    <!-- Akhir Sensor 1 -->
     
-    <!-- Script-->
+<!-- Script-->
 <script type='module' src="{% static 'js/formTambahan.js' %}"> </script>
 <script type='module' src="{% static 'js/chartSensor.js' %}"></script>
 <script src="{% static 'js/chart.umd.js' %}"></script>

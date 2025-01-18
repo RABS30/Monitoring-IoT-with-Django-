@@ -15,7 +15,9 @@ const uint16_t mqttPort = 1883;
 AsyncMqttClient mqttClient;
 TimerHandle_t mqttReconnectTimer;
 TimerHandle_t wifiReconnectTimer;
-TimerHandle_t myTimer;
+TimerHandle_t dataSensorRealTime;
+TimerHandle_t siramTanaman;
+TimerHandle_t pengisianAir;
 
 
 
@@ -61,13 +63,12 @@ void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
 
 // Saat pesan masuk
 void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
-  unsigned long currentTime;
-  unsigned long previousTime;
-  const long delayTime = 3000;
-  JsonDocument doc;
-
   Serial.print("Received message on topic: ");
   Serial.println(topic);
+
+
+  // Siapkan variable untuk ArduinoJSON
+  JsonDocument doc;
 
   // Convert payload ke string
   String message = String(payload).substring(0, len);
@@ -77,20 +78,17 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 
   // message == siram
   deserializeJson(doc, message);
-  if (doc["message"] == "Siram" || doc["message"] == "Isi Air"){
-    currentTime = millis();
-    previousTime= millis(); 
-    while(true){
+  if (doc["message"] == "Siram"){
+      // Nyalakan Penyiraman 
       digitalWrite(18, HIGH);
-      
-      if(currentTime-previousTime >= delayTime){
-        digitalWrite(18, LOW);
-        previousTime = currentTime;
-        break;
-      }
-      currentTime = millis();
-      
-    }
+      // Matikan penyiraman setelah 5 detik
+      xTimerStart(siramTanaman, 0);
+  }
+  if(doc["message"] == "Isi Air"){
+    // Nyalakan Pengisian Air
+    digitalWrite(4, HIGH);
+    // Matikan Pengisian Air
+    xTimerStart(pengisianAir, 0);
   }
 
 }
@@ -101,6 +99,7 @@ void sendSensorData(TimerHandle_t xTimer){
   int suhuTanah         = random(40, 100);    // Random humidity between 40-60%
   int Ph                = random(1, 20);      // Menghasilkan angka acak dari 1 hingga 100
   int nutrisiTanah      = random(40, 100);    // Random humidity between 40-60%
+  int volumeTangki      = random(7, 15);    // Random humidity between 40-60%
 
   // JSON objects
   JsonDocument doc; 
@@ -109,6 +108,7 @@ void sendSensorData(TimerHandle_t xTimer){
   doc["suhuTanah"]        = suhuTanah;
   doc["Ph"]               = Ph;
   doc["nutrisiTanah"]     = nutrisiTanah;
+  doc["volumeTangki"]     = volumeTangki;
   
 
   // Ubah JSON ke String
@@ -119,6 +119,36 @@ void sendSensorData(TimerHandle_t xTimer){
 
 }
 
+void siramTanamanCallback(TimerHandle_t xTimer){
+  // Kirim JSON sebagai callback
+  JsonDocument doc;
+  doc["penyiramanBerhasil"] = 1;
+  char data[50];
+  serializeJson(doc, data);
+  
+  Serial.println("Penyiraman berhasil");
+  // LED Off
+  digitalWrite(18, LOW);
+  // Kirim data konfirmasi ke MQTT
+  mqttClient.publish("sensor/tanaman", 1, true, data);
+  
+}
+
+void pengisianAirCallback(TimerHandle_t xTimer){
+  // Kirim JSON sebagai callback
+  JsonDocument doc;
+  doc["pengisianAirBerhasil"] = 1;
+  char data[50];
+  serializeJson(doc, data);
+  Serial.println("Pengisian berhasil");
+  
+  // LED Off
+  digitalWrite(4, LOW);
+  // Kirim data konfirmasi ke MQTT
+  mqttClient.publish("sensor/tanaman", 1, true, data);
+  
+}
+
   
 
 
@@ -126,6 +156,7 @@ void setup() {
   // Aktifkan serial dan pin ESP32
   Serial.begin(115200);
   pinMode(18, OUTPUT);
+  pinMode(4, OUTPUT);
 
   // Set up WiFi connection
   WiFi.onEvent([](WiFiEvent_t event, arduino_event_info_t info) {
@@ -153,9 +184,15 @@ void setup() {
 
   wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWiFi));
   
-  myTimer = xTimerCreate("MyTimer", pdMS_TO_TICKS(1000), pdTRUE, (void*)0, sendSensorData);
-  if (myTimer != NULL){
-    xTimerStart(myTimer, 0);
+  dataSensorRealTime = xTimerCreate("dataSensorRealTime", pdMS_TO_TICKS(1000), pdTRUE, (void*)0, sendSensorData);
+
+  siramTanaman = xTimerCreate("Siram Tanaman", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, siramTanamanCallback);
+
+  pengisianAir = xTimerCreate("Isi Air", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, pengisianAirCallback);
+
+  // Jalankan Timers
+  if (dataSensorRealTime != NULL){
+    xTimerStart(dataSensorRealTime, 0);
   }
 
 }

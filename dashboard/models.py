@@ -1,3 +1,5 @@
+from random import choice
+from tkinter.tix import Tree
 from django.db import models
 
 # Sensor 
@@ -123,6 +125,26 @@ class jenisPengisianAir(models.Model):
         return f"{self.nama}"
     
 
+# Jenis Pemberian Pupuk
+class jenisPemberianPupuk(models.Model):
+    nama = models.CharField(("Jenis Pemberian Pupuk"),
+                            max_length=50,
+                            choices=(
+                                ('Otomatis', 'Otomatis'),
+                                ('Manual', 'Manual'),
+                                ),
+                            unique=True,
+                            
+                            )
+    
+    class Meta:
+        verbose_name = "Opsi Perangkat > Jenis Pemberian Pupuk"
+        verbose_name_plural = "Opsi Perangkat > Jenis Pemberian Pupuk"
+        
+    def __str__(self):
+        return f'{self.nama}'
+    
+
 # Opsi 
 class opsiPerangkat(models.Model):
     jenisPenyiraman     = models.OneToOneField("dashboard.jenisPenyiraman", 
@@ -131,6 +153,10 @@ class opsiPerangkat(models.Model):
     
     jenisPengisianAir   = models.OneToOneField("dashboard.jenisPengisianAir", 
                                                verbose_name=("Jenis Pengisian Tangki Air"), 
+                                               on_delete=models.CASCADE)
+    
+    jenisPemberianPupuk = models.OneToOneField("dashboard.jenisPemberianPupuk", 
+                                               verbose_name=("Jenis Pemberian Pupuk"), 
                                                on_delete=models.CASCADE)
     
     class Meta:

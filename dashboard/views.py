@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from .forms import formBerdasarkanWaktu, formBerdasarkanSensor, formOpsiPerangkat
 from .models import jenisPenyiraman, opsiPerangkat, berdasarkanSensor, berdasarkanWaktu
 
-def dashboard(request):
+def dashboard(request):  
     # Method GET
     ''' ====== SIAPKAN FORM UNTUK TEMPLATE ====== '''
     # Form Opsi Perangkat 

@@ -157,12 +157,12 @@ client.on('connect', () => {
     })
 })
 
+
+
 // Function saat menerima data
 client.on('message', (topic, message) => {
     try {
-
         message = JSON.parse(message);
-
         if(message['kelembapanTanah']){
             kelembapanTanah.update(message['kelembapanTanah']);
         }
@@ -177,6 +177,13 @@ client.on('message', (topic, message) => {
         }
         if(message['kelembapanTanah']){
             sensorCahaya.update(message['kelembapanTanah']);
+        if(message['volumeTangki']){
+            document.getElementById('volumeTangki').textContent = message['volumeTangki'];
+        }
+        }if(message['penyiramanBerhasil']){   
+            clearClickButton(batasWaktuPenyiraman, 'siram', 'click', 'Siram', 10000, 'sensor/tanaman2', "Siram Tanaman")
+        }if(message['pengisianAirBerhasil']){
+            clearClickButton(batasWaktuPenyiraman, 'isiAir', 'click', 'Isi Air', 10000, 'sensor/tanaman2', "Isi Tangki Air")
         }
     }catch(err){
         console.log(message)
@@ -184,84 +191,73 @@ client.on('message', (topic, message) => {
 });
 
 
-// Function untuk mengirim data 
 
-var loading = `                                    
-<div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-<div class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
-</div>
-`
 
-    // Jika Siram di click
-    var siram           = document.getElementById('siram')
-    var childSiram      = siram.cloneNode(true)
-    var disabledSiram   = false;
 
-    siram.addEventListener('click', (event) => {
-        if(!disabledSiram){
-            disabledSiram = true;
+// ===== Mengaktifkan fungsi button ===== //
+function clickButton(id, type, message, time, topic){
+    var button           = document.getElementById(id)   // Tag Button
+    var childButton      = button.cloneNode(true)        // Clone Child Element dari Button
+    var disabledButton   = false;                        // Button tidak dapat diaktifkan
 
-            // Data yang akan dikirim
-            const message = {
-                'message' : 'Siram'
+    // Ubah ChildButton menjadi loading saat proses berjalan
+    var loading = `
+        <div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+        <div class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
+        </div>
+    `   
+    
+    // Saat button di click
+    button.addEventListener(type, ()=> {
+        // Jika disabledButton False, maka jalankan function
+        if(!disabledButton){
+            // Button tidak dapat diaktifkan 
+            disabledButton = true; 
+
+            // Data yang ingin di kirim
+            var jsonMessage = {
+                "message" : message
             }
+            jsonMessage = JSON.stringify(jsonMessage)
 
-            const jsonMessage = JSON.stringify(message)
-
-            // Mengirim data 
-            client.publish('sensor/tanaman2', jsonMessage, (err) => {
-                if (err) {
-                    console.log('Gagal mengirim data');
-                    disabledSiram = false;
+            // Kirim data ke MQTT
+            client.publish(topic, jsonMessage, (err) => {
+                if(err){
+                    disabledButton = false; // Button dapat di click
                 }else{
-                    siram.replaceChildren()
-                    siram.innerHTML = loading
-                    console.log('Berhasil mengirim data');
+                    // Ganti ChildButton menjadi loading
+                    button.replaceChildren();
+                    button.innerHTML = loading;
 
-                    setTimeout(() => {
-                        siram.replaceChildren(childSiram);
-                        disabledSiram = false;    
-                    }, 4000);                    
+                    // Menunggu konfirmasi dari MQTT selama waktu yang ditentukan
+                    batasWaktuPenyiraman = setTimeout(()=> {
+                        // Ubah child Button dari loading kesebelumnya
+                        button.replaceChildren(childButton);    
+                        // Button dapat di click
+                        disabledButton = false; 
+                    }, time)
                 }
             })
         }
-
     })
 
+}
 
+function clearClickButton(batasWaktu, id, type, message, time, topic, textContent){
+    var button = document.getElementById(id);
+    var buttonTag = `<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">${textContent}</button>`
 
-    // Jika Isi Air di click
-    var isiAir          = document.getElementById('isiAir')
-    var childIsiAir     = isiAir.cloneNode(true)
-    var disabledIsiAir  = false;
+    if(batasWaktu){
+        clearTimeout(batasWaktu);
+        button.innerHTML = buttonTag;
+    }
+    clickButton(id, type, message, time, topic)
+}
 
-    isiAir.addEventListener('click', (event) => {
-        if(!disabledIsiAir){
-            disabledIsiAir = true;
+var batasWaktuPenyiraman;
+var batasWaktuPengisianAir;
+var batasWaktuBeriPupuk ;
 
-            // Data yang akan dikirim
-            const message = {
-                'message' : 'Isi Air'
-            }
-
-            const jsonMessage = JSON.stringify(message)
-
-            // Mengirim data 
-            client.publish('sensor/tanaman2', jsonMessage, (err) => {
-                if (err) {
-                    console.log('Gagal mengirim data');
-                    disabledIsiAir = false;
-                }else{
-                    isiAir.replaceChildren()
-                    isiAir.innerHTML = loading
-                    console.log('Berhasil mengirim data');
-
-                    setTimeout(() => {
-                        isiAir.replaceChildren(childIsiAir);
-                        disabledIsiAir = false;    
-                    }, 4000);                    
-                }
-            })
-        }
-
-    })
+clickButton('siram', 'click', 'Siram', 10000, 'sensor/tanaman2')
+clickButton('isiAir', 'click', 'Isi Air', 10000, 'sensor/tanaman2')
+clickButton('beriPupuk', 'click', 'beriPupuk', 10000, 'sensor/tanaman2')
