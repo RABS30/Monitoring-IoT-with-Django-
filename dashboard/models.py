@@ -106,6 +106,7 @@ class berdasarkanSensor(models.Model):
     #     super().__init__()
         
 
+
 # Jenis Pengisian Air
 class jenisPengisianAir(models.Model):
     nama = models.CharField(("Jenis Pengisian Air"), 
@@ -125,6 +126,7 @@ class jenisPengisianAir(models.Model):
         return f"{self.nama}"
     
 
+
 # Jenis Pemberian Pupuk
 class jenisPemberianPupuk(models.Model):
     nama = models.CharField(("Jenis Pemberian Pupuk"),
@@ -143,6 +145,7 @@ class jenisPemberianPupuk(models.Model):
         
     def __str__(self):
         return f'{self.nama}'
+    
     
 
 # Opsi 
@@ -168,7 +171,40 @@ class opsiPerangkat(models.Model):
         return f'{self.pk}. Jenis Penyiraman : {self.jenisPenyiraman}'
     
     
+# Informasi > Penyiraman Terkahir
+class penyiramanTerakhir(models.Model):
+    waktu  = models.DateTimeField(("Waktu"), auto_now=True)
     
+    class Meta :
+        verbose_name = "Informasi > Penyiraman Terakhir"
+        verbose_name_plural = "Informasi > Penyiraman Terakhir"
+        
+    def __str__(self):
+        return f'Penyiraman Terakhir : {self.waktu.strftime("%A, %d %B %Y, %H:%M")}'
+    
+    
+# Informasi > Penyiraman Terkahir
+class pemberianPupukTerakhir(models.Model):
+    waktu  = models.DateTimeField(("Waktu"), auto_now=True)
+    
+    class Meta :
+        verbose_name = "Informasai > Pemberian Pupuk Terkahir"
+        verbose_name_plural = "Informasai > Pemberian Pupuk Terkahir"
+        
+    def __str__(self):
+        return f'Pemberian Pupuk Terakhir : {self.waktu.strftime("%A, %d %B %Y, %H:%M")}'
+    
+# Informasi > Penanaman Tanaman
+class tanggalTanaman(models.Model):
+    nama    = models.CharField(("Nama Tanaman"), max_length=50)
+    tanggal = models.DateTimeField(("Tanggal Penanaman"))
+    
+    class meta :
+        verbose_name = "Informasi > Penanaman Tanaman"
+        verbose_name_plural = "Informasi > Penanaman Tanaman"
+    
+    def __str__(self) :
+        return f'{self.nama} - {self.tanggal.strftime("%A, %d %B %Y %H:%M WIB")}'
     
     
     

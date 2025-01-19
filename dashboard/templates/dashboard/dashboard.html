@@ -54,39 +54,40 @@
                         <tbody>
                             <!-- Baris Pertama -->
                                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
-                                    <td class="px-6 py-4">
-                                        Kamis, 12 Desember 2024 12:00 WIB 
+                                    <td class="px-6 py-4" id="penyiramanTerakhir">
+                                        {{ penyiramanTerakhir.waktu|date:"l, j F Y, H:i" }} WIB
                                         </td>
-                                    <td class="px-6 py-4">
-                                        Kamis, 12 Desember 2024 12:00 WIB 
+                                    <td class="px-6 py-4" id="pemberianPupukTerakhir">
+                                        {{ pemberianPupukTerakhir.waktu|date:"l, j F Y, H:i" }} WIB
+
                                     </td>
                                     <td class="px-6 py-4" id="volumeTangki">
                                         12
                                     </td>
-                                    <td class="px-6 py-4">
-                                        32 Hari
+                                    <td class="px-6 py-4" id="usiaTanaman">
+                                        {{usiaTanaman}} Hari
                                     </td>   
                                     <td class="px-6 py-4">
-                                        12 Desember 2024
+                                        {{ tanggalPenanaman.tanggal|date:"l, j F Y"}}
                                     </td>     
                                 </tr>                            
                             <!-- Baris Pertama -->
                             
                             <!-- Baris kedua -->
                                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 h-24">
                                         <div class="hidden" id="siram">
                                             <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Siram Tanaman</button>
                                         </div>
                                     </td> 
 
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 h-24">
                                         <div class="hidden"  id="beriPupuk">
                                             <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Beri Pupuk</button>
                                         </div>
                                     </td>                                 
                                     
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 h-24">
                                         <div class="hidden"  id="isiAir">
                                             <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Isi Tangki Air</button>
                                         </div>
@@ -211,6 +212,36 @@
 
     
 <!-- Script-->
+<script>
+    const tanggalPenanaman = new Date("{{usiaTanaman}}");  // Ambil tanggal penanaman dari Django
+
+    const usiaHariElement = document.getElementById("usiaTanaman");
+        // Tangani jika tanggalPenanaman tidak valid
+        if (isNaN(tanggalPenanaman)) {
+            console.error("Tanggal tidak valid:", "{{usiaTanaman}}");
+        } else {
+            const usiaHariElement = document.getElementById("usiaTanaman");
+            function updateUsiaHari() {
+                const hariIni = new Date(); // Tanggal hari ini
+                const diffTime = hariIni - tanggalPenanaman; // Selisih dalam milidetik
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // Konversi ke hari
+                usiaHariElement.textContent = `${diffDays} Hari`; // Masukkan ke dalam elemen HTML
+            }
+    
+            // Perbarui langsung
+            updateUsiaHari();
+        }
+        // Atur interval untuk memeriksa setiap detik
+        setInterval(() => {
+            const sekarang = new Date(); // Tanggal sekarang
+            if (sekarang.getHours() === 0 && sekarang.getMinutes() === 0 && sekarang.getSeconds() === 0) {
+                // Jika tepat tengah malam, perbarui usia
+                updateUsiaHari();
+            }
+        }, 1000); // Periksa setiap detik
+
+</script>
+
 <script type='module' src="{% static 'js/formTambahan.js' %}"> </script>
 <script type='module' src="{% static 'js/chartSensor.js' %}"></script>
 <script src="{% static 'js/chart.umd.js' %}"></script>

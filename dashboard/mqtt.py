@@ -1,6 +1,8 @@
 
 import paho.mqtt.client as mqtt
 import json
+from datetime import datetime
+from . import models
  
 def startMqtt():
     # callback saat berhasil terhubung ke server
@@ -14,8 +16,24 @@ def startMqtt():
     def on_message(client, userdata, msg):
         try :
             message = json.loads(msg.payload)
+            
         except Exception as message :
             print('error : ', message)
+            
+        # Menerima pesan callback
+        if("message" in message):
+            if(message["message"] == "Siram"):
+                data = models.penyiramanTerakhir.objects.first()
+                if data :
+                    data.waktu = datetime.now().replace(second=0, microsecond=0)
+                    data.save()
+                
+            if(message["message"] == "Beri Pupuk"):
+                data = models.pemberianPupukTerakhir.objects.first()
+                if data :
+                    data.waktu = datetime.now().replace(second=0, microsecond=0)
+                    data.save()
+
 
 
     # Konfigurasi MQTT

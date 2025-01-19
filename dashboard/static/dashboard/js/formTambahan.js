@@ -98,3 +98,4 @@ if(jenisPemberianPupuk.options[jenisPemberianPupuk.selectedIndex].text == "Manua
     manualPemberianPupuk.querySelectorAll('p')[0].textContent = "Pemberian Pupuk dilakukan secara otomatis"
     manualPemberianPupuk.querySelectorAll('p')[1].textContent = ""
 }
+

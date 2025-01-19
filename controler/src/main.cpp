@@ -18,6 +18,7 @@ TimerHandle_t wifiReconnectTimer;
 TimerHandle_t dataSensorRealTime;
 TimerHandle_t siramTanaman;
 TimerHandle_t pengisianAir;
+TimerHandle_t pemberianPupuk;
 
 
 
@@ -79,16 +80,22 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   // message == siram
   deserializeJson(doc, message);
   if (doc["message"] == "Siram"){
-      // Nyalakan Penyiraman 
-      digitalWrite(18, HIGH);
-      // Matikan penyiraman setelah 5 detik
-      xTimerStart(siramTanaman, 0);
+    // Nyalakan Penyiraman 
+    digitalWrite(18, HIGH);
+    // Matikan penyiraman setelah 5 detik
+    xTimerStart(siramTanaman, 0);
   }
   if(doc["message"] == "Isi Air"){
     // Nyalakan Pengisian Air
     digitalWrite(4, HIGH);
     // Matikan Pengisian Air
     xTimerStart(pengisianAir, 0);
+  }
+  if(doc["message"] == "Beri Pupuk"){
+    // Nyalakan Pengisian Air
+    digitalWrite(16, HIGH);
+    // Matikan Pengisian Air
+    xTimerStart(pemberianPupuk, 0);
   }
 
 }
@@ -149,7 +156,19 @@ void pengisianAirCallback(TimerHandle_t xTimer){
   
 }
 
+void pemberianPupukCallback(TimerHandle_t xTimer){
+  // Kirim JSON sebagai callback
+  JsonDocument doc;
+  doc["pemberianPupukBerhasil"] = 1;
+  char data[50];
+  serializeJson(doc, data);
+  Serial.println("Bermberian Pupuk berhasil");
   
+  // LED Off
+  digitalWrite(16, LOW);
+  // Kirim data konfirmasi ke MQTT
+  mqttClient.publish("sensor/tanaman", 1, true, data);
+}
 
 
 void setup() {
@@ -157,6 +176,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(18, OUTPUT);
   pinMode(4, OUTPUT);
+  pinMode(16, OUTPUT);
 
   // Set up WiFi connection
   WiFi.onEvent([](WiFiEvent_t event, arduino_event_info_t info) {
@@ -186,9 +206,11 @@ void setup() {
   
   dataSensorRealTime = xTimerCreate("dataSensorRealTime", pdMS_TO_TICKS(1000), pdTRUE, (void*)0, sendSensorData);
 
-  siramTanaman = xTimerCreate("Siram Tanaman", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, siramTanamanCallback);
+  siramTanaman    = xTimerCreate("Siram Tanaman", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, siramTanamanCallback);
 
-  pengisianAir = xTimerCreate("Isi Air", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, pengisianAirCallback);
+  pengisianAir    = xTimerCreate("Isi Air", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, pengisianAirCallback);
+
+  pemberianPupuk  = xTimerCreate("Beri Pupuk", pdMS_TO_TICKS(3000), pdFALSE, (void*)0, pemberianPupukCallback);
 
   // Jalankan Timers
   if (dataSensorRealTime != NULL){

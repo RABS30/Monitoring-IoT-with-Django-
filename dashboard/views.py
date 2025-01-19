@@ -1,17 +1,23 @@
 from django.shortcuts import redirect, render
-
+from datetime import date
 from .forms import formBerdasarkanWaktu, formBerdasarkanSensor, formOpsiPerangkat
-from .models import jenisPenyiraman, opsiPerangkat, berdasarkanSensor, berdasarkanWaktu
+from .models import jenisPenyiraman, opsiPerangkat, berdasarkanSensor, berdasarkanWaktu, penyiramanTerakhir, pemberianPupukTerakhir, tanggalTanaman
 
 def dashboard(request):  
     # Method GET
     ''' ====== SIAPKAN FORM UNTUK TEMPLATE ====== '''
     # Form Opsi Perangkat 
-    opsi = opsiPerangkat.objects.first()    
+    opsi            = opsiPerangkat.objects.first()    
     # Daftar Waktu yang tersedia
-    daftarWaktu  = berdasarkanWaktu.objects.all()
+    daftarWaktu     = berdasarkanWaktu.objects.all()
     # Daftar Sensor yang tersedia
-    daftarSensor = berdasarkanSensor.objects.first()
+    daftarSensor    = berdasarkanSensor.objects.first()
+    # Penyiraman Terakhir
+    penyiraman      = penyiramanTerakhir.objects.first()
+    # Pemberian Pupuk Terakhir
+    pemberianPupuk  = pemberianPupukTerakhir.objects.first()
+    # Tanggal Penanaman
+    tanggalPenanaman = tanggalTanaman.objects.first()
 
 
     # Method POST
@@ -57,14 +63,16 @@ def dashboard(request):
         # redirect ke dashboard
         return redirect('dashboard:dashboard')
         
-
-    
     context = {
         'title': 'Dashboard',
         'form': formOpsiPerangkat(request.POST or None, instance=opsi),
         'formBerdasarkanWaktu': formBerdasarkanWaktu,
         'formBerdasarkanSensor' : formBerdasarkanSensor(request.POST or None, instance=daftarSensor),
         'daftarWaktu': daftarWaktu,
+        'penyiramanTerakhir': penyiraman,
+        'pemberianPupukTerakhir': pemberianPupuk,
+        'tanggalPenanaman': tanggalPenanaman,
+        'usiaTanaman' : tanggalPenanaman.tanggal.strftime("%Y-%m-%d") #type:ignore
     }
     return render(request, 'dashboard/dashboard.html', context)
 
