@@ -6,7 +6,11 @@ module.exports = {
     './node_modules/flowbite/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        '49/100' : '49%',
+      }
+    },
   },
   plugins: [
     require('flowbite/plugin')

@@ -11,23 +11,21 @@
     <div class="shadow-lg bg-white mx-0 w-auto border sm:rounded-lg">
         <div class="border-4 border-blue-600">
             <!-- Judul -->
-                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 border-4 border-green-600">
-                    Tanaman 1
-                </div>
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Tanaman 1</div>
             <!-- Judul -->
 
             <!-- Chart -->
-                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto border-4 border-black">
-                    <div class="border-4 border-red-500 mr-5 md:mx-0 w-64" ><canvas id="sensorKelembapan"></canvas></div>      
-                    <div class="border-4 border-red-500 mx-5 md:mx-0 w-64" ><canvas id="sensorSuhuTanah"></canvas></div>      
-                    <div class="border-4 border-red-500 mx-5 md:mx-0 w-64" ><canvas id="sensorPh"></canvas></div>          
-                    <div class="border-4 border-red-500 ml-5 md:mx-0 w-64" ><canvas id="sensorNutrisiTanah"></canvas></div>          
-                    <div class="border-4 border-red-500 ml-5 md:mx-0 w-64" ><canvas id="sensorCahaya"></canvas></div>          
+                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto shadow-md ">
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none mr-5 md:mx-0 w-64" ><canvas id="sensorKelembapan"></canvas></div>      
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none mx-5 md:mx-0 w-64" ><canvas id="sensorSuhuTanah"></canvas></div>      
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none mx-5 md:mx-0 w-64" ><canvas id="sensorPh"></canvas></div>          
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none ml-5 md:mx-0 w-64" ><canvas id="sensorNutrisiTanah"></canvas></div>          
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none ml-5 md:mx-0 w-64" ><canvas id="sensorCahaya"></canvas></div>          
                 </div>
             <!-- Chart -->
-
+            <br>
             <!-- Informasi -->
-                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Informasi<hr></div>
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Informasi</div>
                 <div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
                     <table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <!-- Heading Table -->
@@ -98,24 +96,39 @@
                     </table>
                 </div>
             <!-- Informasi -->
-            
+            <br>
+
+            <!-- Graph -->
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Graph</div>
+                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
+                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphKelembapanTanah"></canvas></div>      
+                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphSuhuTanah"></canvas></div>       
+                </div>       
+                <br>     
+                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
+                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphIntensitasCahaya"></canvas></div>      
+                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphNutrisiTanah"></canvas></div>       
+                </div>
+            <!-- Graph -->
+            <br>
+
             <!-- Opsi -->
-                <div class="border-2 border-yellow-800 mx-5 mt-5 flex flex-col">
-                    <div class="text-xl md:text-2xl font-bold mt-2 shadow-md rounded">Opsi<hr></div>
+                <div class="mx-5 mt-5 flex flex-col">
+                    <div class="text-xl md:text-2xl font-bold pb-2 shadow-md">Opsi</div>
                     <!-- Memilih Opsi -->
                         <form method="POST" id="opsiPerangkat">
                             {% csrf_token %}
-                            <div class="justify-between md:h-80 w-auto border-2 border-green-500 rounded flex flex-col md:flex-row">
+                            <div class="justify-between border bg-gray-50 mt-2 shadow-md md:h-80 w-auto rounded flex flex-col md:flex-row">
                                 <!-- Form Memilih Jenis Penyiraman -->
-                                    <div class="w-full text-center bg-red-600 border rounded pb-5">
-                                        <label for="jenisPenyiraman" class="block mb-2 md:text-2xl text-white p-1">Jenis Penyiraman</label>
+                                    <div class="w-full text-center rounded pb-5">
+                                        <label for="jenisPenyiraman" class="block mb-2 md:text-2xl text-black p-1">Jenis Penyiraman</label>
                                         <div class="w-11/12 m-auto">
                                             {{form.jenisPenyiraman}}
                                             
                                             <!-- Manual -->
                                                 <div class="hidden"  id="Manual">
                                                     <br>
-                                                    <p class="text-white text-md">Atur Secara Manual pada bagian </p> <p class='font-bold text-white'> Informasi > Penyiraman Terakhir</p>
+                                                    <p class="text-black text-md">Atur Secara Manual pada bagian </p> <p class='font-bold text-black'> Informasi > Penyiraman Terakhir</p>
                                                 </div>        
                                             <!-- Manual -->
 
@@ -124,7 +137,7 @@
                                                     <div class="hidden grid-cols-2 gap-4 mt-5" id='daftarWaktu'>
                                                         {% for waktu in daftarWaktu %}
                                                             <div class="flex">
-                                                                <div class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{waktu.waktu}}</div>
+                                                                <div class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">{{waktu.waktu}}</div>
                                                                 <div>
                                                                     
                                                                 </div>
@@ -143,7 +156,7 @@
                                             
                                                 <!-- Tambah waktu baru -->
                                                     <div class="hidden w-2/5 m-auto" id="Berdasarkan Waktu">
-                                                        <label for="waktu" class="mt-2 block mb-2 text-sm font-medium text-white dark:text-white">Select time:</label>
+                                                        <label for="waktu" class="mt-2 block mb-2 text-sm font-medium text-black dark:text-black">Select time:</label>
                                                         <div class="flex">
                                                             {{formBerdasarkanWaktu.waktu}}
                                                             <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -158,7 +171,7 @@
                                                 
                                             <!-- Berdasarkan Sensor -->
                                                 <div class="hidden" id="Berdasarkan Sensor">
-                                                    <label for="duration">Pilih Sensor</label>
+                                                    <label for="sensor">Pilih Sensor</label>
                                                     <br> 
                                                     {{formBerdasarkanSensor.sensor}} 
                                                 </div>
@@ -169,42 +182,45 @@
                         
                                 
                                 <!-- Form Memilih Jenis Pemberian Pupuk -->
-                                    <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
-                                        <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pemberian Pupuk</label>
+                                    <div class="w-full text-center rounded pb-5 mx-5">
+                                        <label for="jenisPengisianAir" class="block mb-2 md:text-2xl text-black p-1">Jenis Pemberian Pupuk</label>
                                         <div class="w-11/12 m-auto">
                                             {{ form.jenisPemberianPupuk }}
 
                                             <div id="ManualPemberianPupuk">
                                                 <br>
-                                                <p class="text-white text-md">Atur Secara Manual pada bagian </p> <p class="font-bold text-white">Informasi > Pemberian Pupuk</p> 
+                                                <p class="text-black text-md">Atur Secara Manual pada bagian </p> <p class="font-bold text-black">Informasi > Pemberian Pupuk</p> 
                                             </div>       
                                         </div>
                                     </div>
                                 <!-- Form Memilih Jenis Pemberian Pupuk -->
 
                                 <!-- Form Memilih Jenis Pengisian Tangki -->
-                                    <div class="w-full md:h-full text-center md:mx-8 bg-yellow-600 border rounded h-44">
-                                        <label for="jenisPengisianTangkiAir" class="block mb-2 md:text-2xl text-white p-1">Jenis Pengisian Tangki Air</label>
+                                    <div class="w-full text-center rounded pb-5">
+                                        <label for="jenisPengisianAir" class="block mb-2 md:text-2xl text-black p-1">Jenis Pengisian Tangki Air</label>
                                         <div class="w-11/12 m-auto">
                                             {{ form.jenisPengisianAir }}
 
                                             <div id="ManualPengisianAir">
                                                 <br>
-                                                <p class="text-white text-md">Atur Secara Manual pada bagian </p><p class="font-bold text-white">Informasi > Air Dalam Tangki</p>  
+                                                <p class="text-black text-md">Atur Secara Manual pada bagian </p><p class="font-bold text-black">Informasi > Air Dalam Tangki</p>  
                                             </div>       
                                         </div>
                                     </div>
                                 <!-- Form Memilih Jenis Pengisian Tangki -->
                             </div>
+
+
                             <!-- Submit Opsi -->
-                                <div class="text-right">
-                                    <button type="submit" id="submitOpsi" class="text-center w-32 bg-blue-500 p-2 my-5 border rounded hover:bg-blue-700 hover:rounded-full">Apply</button>
+                                <div class="text-right shadow-md">
+                                    <button type="submit" id="submitOpsi" class="text-center w-32 p-2 my-5 border-2 rounded-xl bg-blue-700 text-white hover:bg-red-700">Apply</button>
                                 </div>
                             <!-- Submit Opsi -->
                         </form>
                     <!-- Memilih Opsi -->
                 </div>
             <!-- Opsi -->
+            <br>
         </div>
     </div>
 <!-- Sensor 1 --> 
@@ -212,37 +228,27 @@
 
     
 <!-- Script-->
-<script>
-    const tanggalPenanaman = new Date("{{usiaTanaman}}");  // Ambil tanggal penanaman dari Django
 
-    const usiaHariElement = document.getElementById("usiaTanaman");
-        // Tangani jika tanggalPenanaman tidak valid
-        if (isNaN(tanggalPenanaman)) {
-            console.error("Tanggal tidak valid:", "{{usiaTanaman}}");
-        } else {
-            const usiaHariElement = document.getElementById("usiaTanaman");
-            function updateUsiaHari() {
-                const hariIni = new Date(); // Tanggal hari ini
-                const diffTime = hariIni - tanggalPenanaman; // Selisih dalam milidetik
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // Konversi ke hari
-                usiaHariElement.textContent = `${diffDays} Hari`; // Masukkan ke dalam elemen HTML
-            }
-    
-            // Perbarui langsung
-            updateUsiaHari();
-        }
-        // Atur interval untuk memeriksa setiap detik
-        setInterval(() => {
-            const sekarang = new Date(); // Tanggal sekarang
-            if (sekarang.getHours() === 0 && sekarang.getMinutes() === 0 && sekarang.getSeconds() === 0) {
-                // Jika tepat tengah malam, perbarui usia
-                updateUsiaHari();
-            }
-        }, 1000); // Periksa setiap detik
+
+<script>
+    // Perbarui Usia Tanaman
+    var tanggalTanam = new Date('{{usiaTanaman}}')
+    var hariIni      = new Date()
+    var usiaTanaman  = Math.trunc((hariIni-tanggalTanam)/(1000*60*60*24))
+
+
+    const dateTag    = document.getElementById('usiaTanaman')
+    dateTag.textContent = `${usiaTanaman} Hari`
+
+    setInterval(() => {
+        usiaTanaman('{{usiaTanaman}}')
+    }, 3600000);
 
 </script>
 
 <script type='module' src="{% static 'js/formTambahan.js' %}"> </script>
 <script type='module' src="{% static 'js/chartSensor.js' %}"></script>
+<script type='module' src="{% static 'js/chartGraph.js' %}"></script>
+<script type='module' src="{% static 'js/updateInformasi.js' %}"></script>
 <script src="{% static 'js/chart.umd.js' %}"></script>
 {% endblock content %}

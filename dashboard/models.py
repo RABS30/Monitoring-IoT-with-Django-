@@ -21,6 +21,10 @@ class nilaiSensor(models.Model):
     
     nilai   = models.IntegerField(("Nilai"))
     
+    waktu   = models.DateTimeField(("Waktu"), 
+                                   auto_now_add=True,
+                                   )
+    
     class Meta :
         verbose_name = 'Sensor > Nilai Sensor'
         verbose_name_plural = "Sensor > Nilai Sensor"
@@ -197,7 +201,7 @@ class pemberianPupukTerakhir(models.Model):
 # Informasi > Penanaman Tanaman
 class tanggalTanaman(models.Model):
     nama    = models.CharField(("Nama Tanaman"), max_length=50)
-    tanggal = models.DateTimeField(("Tanggal Penanaman"))
+    tanggal = models.DateField(("Tanggal Penanaman"))
     
     class meta :
         verbose_name = "Informasi > Penanaman Tanaman"
