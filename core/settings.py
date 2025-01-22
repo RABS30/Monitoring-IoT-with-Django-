@@ -12,7 +12,9 @@ SECRET_KEY = 'django-insecure-2kdd+-vvzhqjoi14&$d)oj%fs@)^1ms#o$&zm(rp73ntmdxi24
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '1252-36-80-93-219.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 
+                 '1252-36-80-93-219.ngrok-free.app', 
+                 'f197-36-80-93-219.ngrok-free.app']
 
 
 # Application definition
@@ -101,6 +103,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+DATETIME_FORMAT = 'Y-m-d H:i:s'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -120,7 +123,10 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://1252-36-80-93-219.ngrok-free.app'
+    'https://1252-36-80-93-219.ngrok-free.app',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://f197-36-80-93-219.ngrok-free.app',
 ]
 
 COMPRESS_ROOT = BASE_DIR / 'static'

@@ -111,6 +111,7 @@ void sendSensorData(TimerHandle_t xTimer){
   // JSON objects
   JsonDocument doc; 
 
+  doc["message"]          = "Data Sensor";
   doc["kelembapanTanah"]  = sensorKelembapan;
   doc["suhuTanah"]        = suhuTanah;
   doc["Ph"]               = Ph;

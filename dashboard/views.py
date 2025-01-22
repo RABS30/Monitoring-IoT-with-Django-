@@ -1,7 +1,21 @@
+from dataclasses import dataclass
 from django.shortcuts import redirect, render
-from datetime import date
-from .forms import formBerdasarkanWaktu, formBerdasarkanSensor, formOpsiPerangkat
-from .models import jenisPenyiraman, opsiPerangkat, berdasarkanSensor, berdasarkanWaktu, penyiramanTerakhir, pemberianPupukTerakhir, tanggalTanaman
+from django.http import JsonResponse
+from django.utils import timezone
+from django.db.models import Avg
+from django.db.models.functions import TruncMinute
+
+from .forms import (formBerdasarkanWaktu, 
+                    formBerdasarkanSensor, 
+                    formOpsiPerangkat)
+
+from .models import (jenisPenyiraman, nilaiSensor, 
+                     opsiPerangkat, 
+                     berdasarkanSensor, 
+                     berdasarkanWaktu, 
+                     penyiramanTerakhir, 
+                     pemberianPupukTerakhir, 
+                     tanggalTanaman)
 
 def dashboard(request):  
     # Method GET
@@ -88,5 +102,16 @@ def hapusDataWaktu(request, id):
     return redirect(('dashboard:dashboard'))
 
 
+def get_sensor_data(request):
+    dataSensor = nilaiSensor.objects.filter(sensor_id=110, waktu__gte=(timezone.now() - timezone.timedelta(hours=24)))
+    dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avg_value=Avg('nilai'))
 
+    
+
+
+    response = { 
+                'waktu': [entry['minute'].strftime('%H:%M') for entry in dataSensor], 
+                'nilai': [int(entry['avg_value']) for entry in dataSensor]
+                }
+    return JsonResponse(response, safe=False)
 

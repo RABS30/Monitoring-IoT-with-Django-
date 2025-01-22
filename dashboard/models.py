@@ -30,7 +30,7 @@ class nilaiSensor(models.Model):
         verbose_name_plural = "Sensor > Nilai Sensor"
         
     def __str__(self):
-        return f'ID : {self.pk} : {self.sensor.nama} : {self.nilai}'
+        return f'{self.waktu.strftime("%d-%m-%Y %H:%M")} WIB : {self.sensor.nama} \t\t: {self.nilai}'
     
     
     

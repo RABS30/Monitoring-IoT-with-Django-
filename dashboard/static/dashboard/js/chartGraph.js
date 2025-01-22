@@ -70,3 +70,4 @@ const nutrisiTanah = new createChart(
       borderWidth: 3
     }]
 )
+

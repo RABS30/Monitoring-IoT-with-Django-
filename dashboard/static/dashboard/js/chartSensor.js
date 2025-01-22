@@ -50,7 +50,7 @@ class createChart{
         })
     }
 
-    update = (value) => {
+    update(value, labels){
         if(this.typeChart === 'bar'){
             this.createdChart.data.datasets[0].data             = [value];
             this.createdChart.data.datasets[0].backgroundColor  = [value >= 60 ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)'], 
@@ -60,6 +60,10 @@ class createChart{
         }else if(this.typeChart === 'doughnut'){
             this.createdChart.data.datasets[0].data = [value, 14-value];
             this.createdChart.data.labels  = [`${this.labels[0]} = ${value}`];
+            this.createdChart.update();
+        }else if(this.typeChart === 'line'){
+            this.createdChart.data.datasets[0].data             = value;
+            this.createdChart.data.labels                       = labels;
             this.createdChart.update();
         }
     };
@@ -198,5 +202,4 @@ client.on('message', (topic, message) => {
 
 
 export {createChart}
-
 
