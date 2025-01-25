@@ -1,5 +1,8 @@
-import { createChart } from "./chartSensor.js";
-const months = new Date().getMonth()
+import { createChart } from "./chartSensor.js"; 
+import { socket } from "./websocketConnect.js";
+
+
+
 
 const Utils = {
     months: function ({ count }) {
@@ -13,8 +16,15 @@ const Utils = {
         months.push(monthNames[(today.getMonth() + i) % 12]);
       }
       return months;
+    },
+    parseData: function(e){
+      const message = JSON.parse(e.data);
+      const { data, status } = message;
+      return {data, status};
     }
 };
+
+
 
 const graphKelembapanTanah = new createChart(
     'graphKelembapanTanah', 
@@ -22,11 +32,12 @@ const graphKelembapanTanah = new createChart(
     Utils.months({ count: 12 }),
     [{
         label: 'Kelembapan Tanah',
-        data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+        data: [50,50,50,50,50,50,50,50,50,50,50,50],
         fill: true,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1,
-        borderWidth: 3
+        borderWidth: 1,
+        pointStyle : '-'
       }]
 )
 
@@ -36,7 +47,7 @@ const graphSuhuTanah = new createChart(
   Utils.months({ count: 12 }),
   [{
       label: 'Suhu Tanah',
-      data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+      data: [50,50,50,50,50,50,50,50,50,50,50,50],
       fill: true,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
@@ -50,7 +61,7 @@ const intensitasCahaya = new createChart(
   Utils.months({ count: 12 }),
   [{
       label: 'Suhu Tanah',
-      data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+      data: [50,50,50,50,50,50,50,50,50,50,50,50],
       fill: true,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
@@ -63,7 +74,7 @@ const nutrisiTanah = new createChart(
   Utils.months({ count: 12 }),
   [{
       label: 'Suhu Tanah',
-      data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55],
+      data: [50,50,50,50,50,50,50,50,50,50,50,50],
       fill: true,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
@@ -71,3 +82,17 @@ const nutrisiTanah = new createChart(
     }]
 )
 
+socket.onmessage = (e) => {
+  if(e.data){
+    const { data, status } = Utils.parseData(e);
+    // Saat chart baru terhubung
+    if (status === 'connected') {
+      const { nilai, waktu } = data;
+      graphKelembapanTanah.update(nilai, waktu);
+    }    
+    if (status === 'updateData') {
+      const { nilai, waktu } = data;
+      graphKelembapanTanah.update(nilai, waktu);
+    }
+  }
+}

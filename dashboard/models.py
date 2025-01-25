@@ -99,15 +99,6 @@ class berdasarkanSensor(models.Model):
     def __str__(self):
         return f'ID : {self.pk}, sensor : {self.sensor}'
     
-    
-    # def __init__(self):
-    #     sets = set(sensorTanaman.objects.values_list('nama', flat=True))
-    #     choices = []
-    #     for data in sets :
-    #         choices.append((data, data))
-            
-    #     self._meta.get_field('sensor').choices = tuple(choices)
-    #     super().__init__()
         
 
 

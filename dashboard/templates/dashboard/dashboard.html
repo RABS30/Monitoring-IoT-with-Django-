@@ -246,6 +246,29 @@
 
 </script>
 
+<!-- <script>
+// Buat Object WebSocket 
+const socket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/');
+
+console.log('Connecting to WebSocket server...');
+socket.onopen = function(e){
+    console.log("Koneksi ke server berhasil")
+}
+socket.onerror = function(err){
+    console.log("Koneksi ke server gagal", err)
+}
+
+socket.onmessage = (event) =>{
+    console.log(event.data)
+}
+socket.onclose = function (event) {
+    // Log a message when disconnected
+    //  from the WebSocket server
+    console.log('Disconnected from WebSocket server');
+};
+</script> -->
+
+<script type='module' src="{% static 'js/websocketConnect.js' %}"></script>
 <script type='module' src="{% static 'js/formTambahan.js' %}"> </script>
 <script type='module' src="{% static 'js/chartSensor.js' %}"></script>
 <script type='module' src="{% static 'js/chartGraph.js' %}"></script>

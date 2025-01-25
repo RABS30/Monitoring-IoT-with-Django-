@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from datetime import date, datetime
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.utils import timezone
@@ -103,14 +103,19 @@ def hapusDataWaktu(request, id):
 
 
 def get_sensor_data(request):
-    dataSensor = nilaiSensor.objects.filter(sensor_id=110, waktu__gte=(timezone.now() - timezone.timedelta(hours=24)))
-    dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avg_value=Avg('nilai'))
+    nowaday = timezone.now() - timezone.timedelta(hours=timezone.now().hour, 
+                                              minutes=timezone.now().minute, 
+                                              seconds=timezone.now().second) + timezone.timedelta(days=1) - timezone.timedelta(hours=7)
+    dataSensor = nilaiSensor.objects.filter(sensor_id=110, 
+                                            waktu__gte=nowaday).order_by('-waktu')
 
     
+    
+    dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avg_value=Avg('nilai'))
 
 
     response = { 
-                'waktu': [entry['minute'].strftime('%H:%M') for entry in dataSensor], 
+                'waktu': [entry['minute'].strftime('%d-%m-%Y %H:%M') for entry in dataSensor], 
                 'nilai': [int(entry['avg_value']) for entry in dataSensor]
                 }
     return JsonResponse(response, safe=False)
