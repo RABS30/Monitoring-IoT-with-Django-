@@ -1,4 +1,4 @@
-import { createChart } from "./chartSensor.js"; 
+import { createChart } from "./chartRealTime.js"; 
 import { socket } from "./websocketConnect.js";
 
 
@@ -25,20 +25,19 @@ const Utils = {
 };
 
 
-
 const graphKelembapanTanah = new createChart(
-    'graphKelembapanTanah', 
-    'line',
-    Utils.months({ count: 12 }),
-    [{
-        label: 'Kelembapan Tanah',
-        data: [50,50,50,50,50,50,50,50,50,50,50,50],
-        fill: true,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-        borderWidth: 1,
-        pointStyle : '-'
-      }]
+  'graphKelembapanTanah', 
+  'line',
+  Utils.months({ count: 12 }),
+  [{
+    label: 'Kelembapan Tanah',
+    data: [50,50,50,50,50,50,50,50,50,50,50,50],
+    fill: true,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1,
+    borderWidth: 1,
+    pointStyle : false,
+  }], 
 )
 
 const graphSuhuTanah = new createChart(
@@ -46,53 +45,51 @@ const graphSuhuTanah = new createChart(
   'line',
   Utils.months({ count: 12 }),
   [{
-      label: 'Suhu Tanah',
-      data: [50,50,50,50,50,50,50,50,50,50,50,50],
-      fill: true,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      borderWidth: 3
-    }]
+    label: 'Suhu Tanah',
+    data: [50,50,50,50,50,50,50,50,50,50,50,50],
+    fill: true,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1,
+    borderWidth: 1,
+    pointStyle : false
+  }]
 )
 
-const intensitasCahaya = new createChart(
+const graphIntensitasCahaya = new createChart(
   'graphIntensitasCahaya', 
   'line',
   Utils.months({ count: 12 }),
   [{
-      label: 'Suhu Tanah',
-      data: [50,50,50,50,50,50,50,50,50,50,50,50],
-      fill: true,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      borderWidth: 3,
-    }]
+    label: 'Intensitas Cahaya',
+    data: [50,50,50,50,50,50,50,50,50,50,50,50],
+    fill: true,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1,
+    borderWidth: 1,
+    pointStyle : false,
+  }],
+  {
+    y : {
+      min : 0,
+      max : 14
+    }
+  }
 )
-const nutrisiTanah = new createChart(
+const graphNutrisiTanah = new createChart(
   'graphNutrisiTanah', 
   'line',
   Utils.months({ count: 12 }),
   [{
-      label: 'Suhu Tanah',
-      data: [50,50,50,50,50,50,50,50,50,50,50,50],
-      fill: true,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      borderWidth: 3
-    }]
+    label: 'Nutrisi Tanah',
+    data: [50,50,50,50,50,50,50,50,50,50,50,50],
+    fill: true,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1,
+    borderWidth: 1,
+    pointStyle : false
+  }]
 )
 
-socket.onmessage = (e) => {
-  if(e.data){
-    const { data, status } = Utils.parseData(e);
-    // Saat chart baru terhubung
-    if (status === 'connected') {
-      const { nilai, waktu } = data;
-      graphKelembapanTanah.update(nilai, waktu);
-    }    
-    if (status === 'updateData') {
-      const { nilai, waktu } = data;
-      graphKelembapanTanah.update(nilai, waktu);
-    }
-  }
-}
+
+
+export {graphKelembapanTanah, graphIntensitasCahaya, graphNutrisiTanah, graphSuhuTanah, Utils}

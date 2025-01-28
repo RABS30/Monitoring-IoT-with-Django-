@@ -1,15 +1,17 @@
 from datetime import date, datetime
+import json
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Avg
-from django.db.models.functions import TruncMinute
+from django.db.models.functions import TruncMinute, TruncWeek, TruncMonth, TruncYear
 
 from .forms import (formBerdasarkanWaktu, 
                     formBerdasarkanSensor, 
                     formOpsiPerangkat)
 
-from .models import (jenisPenyiraman, nilaiSensor, 
+from .models import (jenisPenyiraman, nilaiSensor,
+                     sensor, 
                      opsiPerangkat, 
                      berdasarkanSensor, 
                      berdasarkanWaktu, 
@@ -17,6 +19,60 @@ from .models import (jenisPenyiraman, nilaiSensor,
                      pemberianPupukTerakhir, 
                      tanggalTanaman)
 
+# utilities
+todayTime   = timezone.now() - timezone.timedelta(hours=timezone.now().hour, 
+                                                  minutes=timezone.now().minute, 
+                                                  seconds=timezone.now().second)
+dayTime     =  timezone.now() - timezone.timedelta(hours=24)
+weekTime    =  timezone.now() - timezone.timedelta(days=7)
+monthTime   =  timezone.now() - timezone.timedelta(days=30)
+yearTime    =  timezone.now() - timezone.timedelta(days=365)
+    
+def getDataHistory(id, time):
+    if time == 'today' :
+        dataSensor = nilaiSensor.objects.filter(sensor_id=id, waktu__gte=(todayTime)).values()
+        dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avgValue=Avg('nilai')).order_by('minute')
+
+        return { 
+            'waktu': [entry['minute'].strftime('%H:%M') for entry in dataSensor], 
+            'nilai': [int(entry['avgValue']) for entry in dataSensor]
+        }
+    if time == 'day' :
+        dataSensor = nilaiSensor.objects.filter(sensor_id=id, waktu__gte=(dayTime)).values()
+        dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avgValue=Avg('nilai')).order_by('minute')
+
+        return {
+                'waktu': [entry['minute'].strftime('%H:%M') for entry in dataSensor], 
+                'nilai': [int(entry['avgValue']) for entry in dataSensor]
+            }
+    if time == 'week' : 
+        dataSensor = nilaiSensor.objects.filter(sensor_id=id, waktu__gte=(weekTime)).values()
+        dataSensor = dataSensor.annotate(week=TruncWeek('waktu')).values('week').annotate(avgValue = Avg('nilai')).order_by('week')
+
+        return {
+                'waktu': [entry['week'].strftime('%A') for entry in dataSensor], 
+                'nilai': [int(entry['avgValue']) for entry in dataSensor]
+            }     
+    if time == 'month' : 
+        dataSensor = nilaiSensor.objects.filter(sensor_id=id, waktu__gte=(monthTime)).values()
+        dataSensor = dataSensor.annotate(month=TruncMonth('waktu')).values('month').annotate(avgValue = Avg('nilai')).order_by('month')
+
+        return {
+                'waktu': [entry['month'] for entry in dataSensor], 
+                'nilai': [int(entry['avgValue']) for entry in dataSensor]
+            }
+    if time == 'year' : 
+        dataSensor = nilaiSensor.objects.filter(sensor_id=id, waktu__gte=(yearTime)).values()
+        dataSensor = dataSensor.annotate(year=TruncYear('waktu')).values('year').annotate(avgValue = Avg('nilai')).order_by('year')
+
+        return {
+                'waktu': [entry['year'] for entry in dataSensor], 
+                'nilai': [int(entry['avgValue']) for entry in dataSensor]
+            }
+
+    
+
+# views   
 def dashboard(request):  
     # Method GET
     ''' ====== SIAPKAN FORM UNTUK TEMPLATE ====== '''
@@ -90,7 +146,6 @@ def dashboard(request):
     }
     return render(request, 'dashboard/dashboard.html', context)
 
-
 def hapusDataWaktu(request, id):
     print('Hallo')
     try :
@@ -101,22 +156,12 @@ def hapusDataWaktu(request, id):
         print(f'error : {message}')
     return redirect(('dashboard:dashboard'))
 
-
-def get_sensor_data(request):
-    nowaday = timezone.now() - timezone.timedelta(hours=timezone.now().hour, 
-                                              minutes=timezone.now().minute, 
-                                              seconds=timezone.now().second) + timezone.timedelta(days=1) - timezone.timedelta(hours=7)
-    dataSensor = nilaiSensor.objects.filter(sensor_id=110, 
-                                            waktu__gte=nowaday).order_by('-waktu')
-
-    
-    
-    dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avg_value=Avg('nilai'))
-
-
-    response = { 
-                'waktu': [entry['minute'].strftime('%d-%m-%Y %H:%M') for entry in dataSensor], 
-                'nilai': [int(entry['avg_value']) for entry in dataSensor]
-                }
+def getSensorData(request, id, time):
+    response = getDataHistory(id, time)
     return JsonResponse(response, safe=False)
+
+def chart(request):
+    return render(request, 'dashboard/chart.html')
+
+
 

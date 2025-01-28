@@ -100,17 +100,98 @@
 
             <!-- Graph -->
                 <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Graph</div>
-                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
-                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphKelembapanTanah"></canvas></div>      
-                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphSuhuTanah"></canvas></div>       
-                </div>       
-                <br>     
-                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
-                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphIntensitasCahaya"></canvas></div>      
-                    <div class="border-4 border-b-0 rounded-xl w-49/100 h-72" ><canvas id="graphNutrisiTanah"></canvas></div>       
-                </div>
+                <!-- Baris 1 -->
+                    <div class="w-auto flex justify-between md:mx-5 mb-10">
+                        <!-- Grafik Kelembapan Tanah -->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
+                                    <select
+                                    id="selectGraphKelembapanTanah"
+                                    class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+
+                                <!-- Grafik -->
+                                <div class="h-64 w-full">
+                                    <canvas id="graphKelembapanTanah"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Kelembapan Tanah``-->
+                        <!-- Grafik Suhu Tanah -->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
+                                    <select id="selectGraphSuhuTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring- focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+                                <!-- Grafik -->
+                                <div class="h-64">
+                                    <canvas id="graphSuhuTanah"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Suhu Tanah -->
+                    </div>    
+                <!-- Baris 1 -->
+
+                <!-- Baris 2 -->
+                    <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
+                        <!-- Grafik Intensitas Cahaya-->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold mx-5">Grafik Data</h2>
+                                    <select id="selectGraphIntensitasCahaya" class="bg-white border-none rounded-lg text-sm p-2 focus:ring-2 mx-px focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+
+                                <!-- Grafik -->
+                                <div class="h-64">
+                                    <canvas id="graphIntensitasCahaya"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Intensitas Cahaya-->
+                    
+                        <!-- Grafik Nutrisi Tanah-->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
+                                    <select id="selectGraphNutrisiTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring- focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+                                <!-- Grafik -->
+                                <div class="h-64">
+                                    <canvas id="graphNutrisiTanah"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Nutrisi Tanah-->     
+                    </div>
+                <!-- Baris 2 -->
             <!-- Graph -->
-            <br>
+
 
             <!-- Opsi -->
                 <div class="mx-5 mt-5 flex flex-col">
@@ -246,32 +327,11 @@
 
 </script>
 
-<!-- <script>
-// Buat Object WebSocket 
-const socket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/');
-
-console.log('Connecting to WebSocket server...');
-socket.onopen = function(e){
-    console.log("Koneksi ke server berhasil")
-}
-socket.onerror = function(err){
-    console.log("Koneksi ke server gagal", err)
-}
-
-socket.onmessage = (event) =>{
-    console.log(event.data)
-}
-socket.onclose = function (event) {
-    // Log a message when disconnected
-    //  from the WebSocket server
-    console.log('Disconnected from WebSocket server');
-};
-</script> -->
-
 <script type='module' src="{% static 'js/websocketConnect.js' %}"></script>
 <script type='module' src="{% static 'js/formTambahan.js' %}"> </script>
-<script type='module' src="{% static 'js/chartSensor.js' %}"></script>
+<script type='module' src="{% static 'js/chartRealTime.js' %}"></script>
 <script type='module' src="{% static 'js/chartGraph.js' %}"></script>
-<script type='module' src="{% static 'js/updateInformasi.js' %}"></script>
+<script type='module' src="{% static 'js/updateInformasi.js' %}"></script> 
+<script type='module' src="{% static 'js/changeTimeGraph.js' %}"></script> 
 <script src="{% static 'js/chart.umd.js' %}"></script>
 {% endblock content %}

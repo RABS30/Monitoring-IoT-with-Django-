@@ -1158,6 +1158,11 @@ input:checked + .toggle-bg {
   margin-right: auto;
 }
 
+.mx-px {
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -1172,8 +1177,16 @@ input:checked + .toggle-bg {
   margin-bottom: 0.25rem;
 }
 
+.mb-10 {
+  margin-bottom: 2.5rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .me-2 {
@@ -1252,8 +1265,8 @@ input:checked + .toggle-bg {
   height: 1.5rem;
 }
 
-.h-72 {
-  height: 18rem;
+.h-64 {
+  height: 16rem;
 }
 
 .h-8 {
@@ -1526,6 +1539,10 @@ input:checked + .toggle-bg {
 
 .border-s-0 {
   border-inline-start-width: 0px;
+}
+
+.border-none {
+  border-style: none;
 }
 
 .border-blue-600 {

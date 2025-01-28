@@ -1,4 +1,9 @@
-let socket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/');
+// let socket;
+// if(window.location.protocol == 'http:'){
+//     socket = new WebSocket('ws://'+window.location.host+'/ws/socket-server/');
+// }else{
+    let socket = new WebSocket('wss://'+window.location.host+'/ws/socket-server/');
+// }
 console.log('Connecting to WebSocket server...');
 
 // Saat berhasil terhubung
@@ -15,7 +20,7 @@ socket.onopen = (e) => {
 // Saat gagal terhubung
 socket.onerror = function(err){
     console.log("Koneksi ke server gagal", err.message);
-    ws.close()
+    socket.close()
 };
 // Saat koneksi terputus
 socket.onclose = function (event) {

@@ -106,7 +106,7 @@ void sendSensorData(TimerHandle_t xTimer){
   int suhuTanah         = random(40, 100);    // Random humidity between 40-60%
   int Ph                = random(1, 20);      // Menghasilkan angka acak dari 1 hingga 100
   int nutrisiTanah      = random(40, 100);    // Random humidity between 40-60%
-  int volumeTangki      = random(7, 15);    // Random humidity between 40-60%
+  int intensitasCahaya  = random(7, 15);    // Random humidity between 40-60%
 
   // JSON objects
   JsonDocument doc; 
@@ -116,7 +116,7 @@ void sendSensorData(TimerHandle_t xTimer){
   doc["suhuTanah"]        = suhuTanah;
   doc["Ph"]               = Ph;
   doc["nutrisiTanah"]     = nutrisiTanah;
-  doc["volumeTangki"]     = volumeTangki;
+  doc["intensitasCahaya"] = intensitasCahaya;
   
 
   // Ubah JSON ke String

@@ -14,7 +14,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 
                  '1252-36-80-93-219.ngrok-free.app', 
-                 'f197-36-80-93-219.ngrok-free.app']
+                 'f197-36-80-93-219.ngrok-free.app',
+                 '2a8b-36-72-154-131.ngrok-free.app']
 
 
 # Application definition
@@ -134,7 +135,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://1252-36-80-93-219.ngrok-free.app',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
-    'http://f197-36-80-93-219.ngrok-free.app',
+    'https://2a8b-36-72-154-131.ngrok-free.app'
+    
 ]
 
 COMPRESS_ROOT = BASE_DIR / 'static'
