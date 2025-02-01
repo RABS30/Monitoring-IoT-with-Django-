@@ -7,4 +7,3 @@ urlpatterns = [
     path('profile/', include('profileUser.urls' , namespace='profile')),
     path('', include('dashboard.urls', namespace='dashboard')),
 ]
-
