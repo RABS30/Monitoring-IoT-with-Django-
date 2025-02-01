@@ -1,0 +1,192 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md">
+        <form method="POST" class="bg-white shadow-md rounded px-8 py-6">
+            {% csrf_token %}
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Buat Akun Baru</h2>
+
+            <!-- Field Email -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="{{form.email.name}}"> Email: </label>
+                <input
+                class="appearance-none border {% if form.email.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                id="{{form.email.id_for_label}}"
+                type="email"
+                name="{{form.email.name}}"
+                placeholder="Masukkan Email"
+                required
+                >
+                <!-- Pesan Kesalahan untuk Field Email -->
+                {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Field Email -->
+
+            <!-- Field Nama Pengguna -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="{{form.username.name}}">
+                Nama Pengguna:
+                </label>
+                <input
+                class="appearance-none border {% if form.username.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                id="{{form.username.id_for_label}}"
+                type="text"
+                name="{{form.username.name}}"
+                placeholder="Username"
+                required
+                >
+                <!-- Pesan Kesalahan untuk Field Nama Pengguna -->
+                {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Field Nama Pengguna -->
+
+            <!-- Field Kata Sandi -->
+            <div class="mb-4 relative">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="{{form.password1.name}}">
+                Kata Sandi:
+                </label>
+                <div class="relative flex items-center">
+                <input
+                    class="appearance-none border {% if form.password1.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded w-full py-2 pl-3 pr-12 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    id="{{form.password1.id_for_label}}"
+                    type="password"
+                    name="{{form.password1.name}}"
+                    placeholder="********"
+                    required
+                >
+                <!-- Tombol Lihat Kata Sandi -->
+                <button type="button" class="absolute right-0 h-full px-3 text-gray-600 flex items-center justify-center focus:outline-none" onclick="togglePasswordVisibility('{{form.password1.id_for_label}}')">
+                    <!-- Ikon mata -->
+                    <svg id="eye-icon-{{form.password1.id_for_label}}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <!-- Ikon mata terbuka -->
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5
+                        12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065
+                        7-9.542 7s-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
+                </div>
+                <!-- Pesan Kesalahan untuk Field Kata Sandi -->
+                {% if form.password1.errors %}
+                {% for error in form.password1.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Field Kata Sandi -->
+
+            <!-- Field Konfirmasi Kata Sandi -->
+            <div class="mb-4 relative">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="{{form.password2.name}}">
+                Konfirmasi Kata Sandi:
+                </label>
+                <div class="relative flex items-center">
+                <input
+                    class="appearance-none border {% if form.password2.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded w-full py-2 pl-3 pr-12 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    id="{{form.password2.id_for_label}}"
+                    type="password"
+                    name="{{form.password2.name}}"
+                    placeholder="********"
+                    required
+                >
+                <!-- Tombol Lihat Kata Sandi -->
+                <button type="button" class="absolute right-0 h-full px-3 text-gray-600 flex items-center justify-center focus:outline-none" onclick="togglePasswordVisibility('{{form.password2.id_for_label}}')">
+                    <!-- Ikon mata -->
+                    <svg id="eye-icon-{{form.password2.id_for_label}}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <!-- Ikon mata terbuka -->
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5
+                        12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065
+                        7-9.542 7s-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
+                </div>
+                <!-- Pesan Kesalahan untuk Field Konfirmasi Kata Sandi -->
+                {% if form.password2.errors %}
+                {% for error in form.password2.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <!-- Field Konfirmasi Kata Sandi -->
+
+            <!-- Poin Syarat Kata Sandi -->
+            <div class="mb-4 text-sm text-gray-600">
+                <p class="font-medium">Kata sandi harus memenuhi syarat berikut:</p>
+                <ul class="list-disc list-inside">
+                <li>Sandi Anda tidak dapat terlalu mirip dengan informasi pribadi Anda.</li>
+                <li>Kata sandi Anda harus memuat setidaknya 8 karakter.</li>
+                <li>Sandi Anda tidak dapat berupa sandi yang umum digunakan.</li>
+                <li>Sandi Anda tidak bisa sepenuhnya numerik.</li>
+                </ul>
+            </div>
+            <!-- Poin Syarat Kata Sandi -->
+
+            <!-- Tombol Daftar -->
+            <div>
+                <button
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="submit"
+                >
+                Daftar
+                </button>
+            </div>
+            <!-- Tombol Daftar -->
+
+            <!-- Sudah Memiliki Akun -->
+            <p class="text-center text-gray-600 text-sm mt-4">
+                Sudah memiliki akun? <a class="text-blue-500 hover:text-blue-700" href="{% url 'account_login'%}">Silahkan masuk</a>
+            </p>
+            <!-- Sudah Memiliki Akun -->
+        </form>
+    </div>
+<!-- Script JavaScript untuk Toggle Password Visibility -->
+    <script>
+        function togglePasswordVisibility(fieldId) {
+        const passwordField = document.getElementById(fieldId);
+        const eyeIcon = document.getElementById('eye-icon-' + fieldId);
+    
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            // Ubah ikon mata terbuka menjadi tertutup
+            eyeIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.964
+                9.964 0 012.293-3.95M5.63 5.63l13.74
+                13.74" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
+            `;
+        } else {
+            passwordField.type = 'password';
+            // Ubah ikon mata tertutup menjadi terbuka
+            eyeIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5
+                12 5s8.268 2.943 9.542 7c-1.274
+                4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+            `;
+        }
+        }
+    </script>
+<!-- Script JavaScript untuk Toggle Password Visibility -->  
+</body>
+  
+{% endblock content %}

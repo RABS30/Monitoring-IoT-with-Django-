@@ -1,0 +1,232 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/mqtt@4.2.8/dist/mqtt.min.js"></script>
+
+    {% include 'navbar.html' %}
+    <br>
+
+<!-- Sensor 1 --> 
+    <div class="shadow-lg bg-white mx-0 w-auto border sm:rounded-lg">
+        <div class="border-4 border-blue-600">
+            <!-- Judul -->
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Tanaman 1</div>
+            <!-- Judul -->
+
+            <!-- Chart -->
+                <div class="w-auto flex justify-between md:mx-5 overflow-x-auto shadow-md ">
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none mr-5 md:mx-0 w-64" ><canvas id="sensorKelembapan"></canvas></div>      
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none mx-5 md:mx-0 w-64" ><canvas id="sensorSuhuTanah"></canvas></div>      
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none mx-5 md:mx-0 w-64" ><canvas id="sensorPh"></canvas></div>          
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none ml-5 md:mx-0 w-64" ><canvas id="sensorNutrisiTanah"></canvas></div>          
+                    <div class="border-4 border-b-0 rounded-xl rounded-b-none ml-5 md:mx-0 w-64" ><canvas id="sensorCahaya"></canvas></div>          
+                </div>
+            <!-- Chart -->
+            <br>
+            <!-- Informasi -->
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Informasi</div>
+                <div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <!-- Heading Table -->
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
+                                <tr class='border-b rounded'>
+                                    <th scope="col" class="px-6 py-3">
+                                        Penyiraman terakhir
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Pemberian pupuk Terakhir
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Air dalam tangki (L)
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Usia Tanaman
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Tanggal Penanaman
+                                    </th>
+                                </tr>
+                            </thead>
+                        <!-- Heading Table -->
+                        <tbody>
+                            <!-- Baris Pertama -->
+                                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
+                                    <td class="px-6 py-4" id="penyiramanTerakhir">
+                                        {{ penyiramanTerakhir.waktu|date:"l, j F Y, H:i" }} WIB
+                                        </td>
+                                    <td class="px-6 py-4" id="pemberianPupukTerakhir">
+                                        {{ pemberianPupukTerakhir.waktu|date:"l, j F Y, H:i" }} WIB
+
+                                    </td>
+                                    <td class="px-6 py-4" id="volumeTangki">
+                                        12
+                                    </td>
+                                    <td class="px-6 py-4" id="usiaTanaman">
+                                        {{usiaTanaman}} Hari
+                                    </td>   
+                                    <td class="px-6 py-4">
+                                        {{ tanggalPenanaman.tanggal|date:"l, j F Y"}}
+                                    </td>     
+                                </tr>                            
+                            <!-- Baris Pertama -->
+                            
+                            <!-- Baris kedua -->
+                                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 text-center">
+                                    <td class="px-6 py-4 h-24">
+                                        {% if pengaturan.jenisPenyiraman.nama == 'Manual' %}
+                                            <div id='siram'>
+                                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Siram Tanaman</button>
+                                            </div>
+                                        {% endif %}
+                                    </td> 
+
+                                    <td class="px-6 py-4 h-24">
+                                        {% if pengaturan.jenisPemberianPupuk.nama == "Manual" %}
+                                            <div id="beriPupuk">
+                                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Beri Pupuk</button>
+                                            </div>
+                                        {% endif %}
+                                    </td>                                 
+                                    
+                                    <td class="px-6 py-4 h-24">
+                                        {% if pengaturan.jenisPengisianAir.nama == "Manual" %}
+                                            <div id="isiAir">
+                                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Isi Tangki Air</button>
+                                            </div>
+                                        {% endif %}
+                                    </td> 
+                                </tr>
+                            <!-- Baris kedua -->
+                        </tbody>
+                    </table>
+                </div>
+            <!-- Informasi -->
+            <br>
+
+            <!-- Graph -->
+                <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Graph</div>
+                <!-- Baris 1 -->
+                    <div class="w-auto flex justify-between md:mx-5 mb-10">
+                        <!-- Grafik Kelembapan Tanah -->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
+                                    <select
+                                    id="selectGraphKelembapanTanah"
+                                    class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+
+                                <!-- Grafik -->
+                                <div class="h-64 w-full">
+                                    <canvas id="graphKelembapanTanah"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Kelembapan Tanah``-->
+                        <!-- Grafik Suhu Tanah -->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
+                                    <select id="selectGraphSuhuTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring- focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+                                <!-- Grafik -->
+                                <div class="h-64">
+                                    <canvas id="graphSuhuTanah"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Suhu Tanah -->
+                    </div>    
+                <!-- Baris 1 -->
+
+                <!-- Baris 2 -->
+                    <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
+                        <!-- Grafik Intensitas Cahaya-->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold mx-5">Grafik Data</h2>
+                                    <select id="selectGraphIntensitasCahaya" class="bg-white border-none rounded-lg text-sm p-2 focus:ring-2 mx-px focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+
+                                <!-- Grafik -->
+                                <div class="h-64">
+                                    <canvas id="graphIntensitasCahaya"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Intensitas Cahaya-->
+                    
+                        <!-- Grafik Nutrisi Tanah-->
+                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
+                                <!-- Dropdown untuk memilih jenis data -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
+                                    <select id="selectGraphNutrisiTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring- focus:ring-blue-500 focus:outline-none">
+                                        <option value="today">Hari ini</option>
+                                        <option value="day">24 Jam</option>
+                                        <option value="week">7 Hari</option>
+                                        <option value="month">30 Hari</option>
+                                        <option value="year">1 Tahun</option>
+                                    </select>
+                                </div>
+                                <!-- Grafik -->
+                                <div class="h-64">
+                                    <canvas id="graphNutrisiTanah"></canvas>
+                                </div>   
+                            </div>
+                        <!-- Grafik Nutrisi Tanah-->     
+                    </div>
+                <!-- Baris 2 -->
+            <!-- Graph -->
+
+
+
+        </div>
+    </div>
+<!-- Sensor 1 --> 
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    
+<!-- Script-->
+
+
+<script>
+    // Perbarui Usia Tanaman
+    var tanggalTanam = new Date('{{usiaTanaman}}')
+    var hariIni      = new Date()
+    var usiaTanaman  = Math.trunc((hariIni-tanggalTanam)/(1000*60*60*24))
+
+
+    const dateTag    = document.getElementById('usiaTanaman')
+    dateTag.textContent = `${usiaTanaman} Hari`
+
+    setInterval(() => {
+        usiaTanaman('{{usiaTanaman}}')
+    }, 3600000);
+</script>                                                                   <!-- Memperbarui usia tanaman pada bagian informasi --> 
+<script type='module' src="{% static 'js/websocketConnect.js' %}"></script> <!-- Terhubung ke Websocket -->
+<script type='module' src="{% static 'js/chartRealTime.js' %}"></script>    <!-- Memuat Chart Real Time Data -->
+<script type='module' src="{% static 'js/chartGraph.js' %}"></script>       <!-- Memuat Chart Grafik -->
+<script type='module' src="{% static 'js/updateInformasi.js' %}"></script>  <!-- Memuat Informasi terbaru pada baris informasi -->
+<script type='module' src="{% static 'js/changeTimeGraph.js' %}"></script>  <!-- Mengubah isi chart dari Chart Grafik -->
+<script src="{% static 'js/chart.umd.js' %}"></script>                      <!-- Memuat Chart Js -->
+{% endblock content %}

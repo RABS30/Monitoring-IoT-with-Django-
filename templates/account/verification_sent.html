@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Verifikasi Alamat Email Anda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-6 bg-white rounded shadow-md">
+    <div class="text-center mb-6">
+      <h2 class="text-3xl font-semibold text-gray-800">Verifikasi Alamat Email Anda</h2>
+      <p class="mt-2 text-gray-600">Kami telah mengirimkan email dengan tautan verifikasi ke alamat email yang Anda daftarkan.</p>
+    </div>
+    <div class="text-center">
+      <p class="text-gray-600 mb-4">Untuk menyelesaikan proses pendaftaran, silakan klik tautan verifikasi yang ada di email Anda.</p>
+      <p class="text-gray-600 mb-4">Jika Anda tidak menerima email tersebut, periksa folder spam atau kotak masuk yang lain. Anda juga dapat meminta pengiriman ulang email verifikasi.</p>
+      <form method="post" action="{% url 'account_email' %}">
+        {% csrf_token %}
+        <button type="submit" name="action_send" class="text-blue-500 hover:text-blue-700 font-semibold">Kembali ke Halaman Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
