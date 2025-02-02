@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     path('pengaturan/', views.pengaturan, name='pengaturan'),
     path('waktu/<int:id>/', views.hapusDataWaktu, name='hapusWaktu'),
-    path('getSensorData/<int:id>/<str:time>/', views.getSensorData, name='sensorData'),
+    path('getSensorData/<str:nama>/<str:time>/', views.getSensorData, name='sensorData'),
 ]
 
 

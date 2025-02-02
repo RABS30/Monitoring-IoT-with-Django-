@@ -31,11 +31,10 @@ class createClickButton{
         this.delay = delay;
         this.topic = topic;
         this.timer;
-        this.button;
+        this.button = document.getElementById(this.id);
     }
 
     startClickButton(){
-        this.button          = document.getElementById(this.id)   // Tag Button
         var childButton      = this.button.cloneNode(true)        // Clone Child Element dari Button
         var disabledButton   = false;                             // Button tidak dapat diaktifkan
     

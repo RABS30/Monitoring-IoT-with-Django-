@@ -1,81 +1,228 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengaturan Profil</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex">
+{% extends "_base.html" %}
+{% load static %}
+{% load i18n %}
 
+{% block content %}
+{% include "navbar.html" %}
+
+<body class="bg-gray-100">
+  <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md min-h-screen p-6">
-        <h1 class="text-xl font-bold text-gray-800 mb-6">Pengaturan Akun</h1>
-        <nav>
-            <ul class="space-y-3">
-                <li>
-                    <a href="#" class="block p-3 bg-blue-500 text-white rounded-lg">Profil</a>
-                </li>
-                <li>
-                    <a href="#" class="block p-3 text-gray-700 hover:bg-gray-200 rounded-lg">Keamanan</a>
-                </li>
-                <li>
-                    <a href="#" class="block p-3 text-gray-700 hover:bg-gray-200 rounded-lg">Notifikasi</a>
-                </li>
-                <li>
-                    <a href="#" class="block p-3 text-gray-700 hover:bg-gray-200 rounded-lg">Privasi</a>
-                </li>
-            </ul>
-        </nav>
+    <aside class="w-64 bg-white shadow-md p-6">
+      <h1 class="text-xl font-bold text-gray-800 mb-6">Pengaturan Akun</h1>
+      <nav>
+        <ul class="space-y-3">
+          <li>
+            <button data-tab="profil" class="block p-3 w-full text-left rounded-lg focus:outline-none">Profil</button>
+          </li>
+          <li>
+            <button data-tab="keamanan" class="block p-3 w-full text-left rounded-lg focus:outline-none">Keamanan</button>
+          </li>
+          <li>
+            <button data-tab="notifikasi" class="block p-3 w-full text-left rounded-lg focus:outline-none">Notifikasi</button>
+          </li>
+          <li>
+            <button data-tab="privasi" class="block p-3 w-full text-left rounded-lg focus:outline-none">Privasi</button>
+          </li>     
+          <li>
+            <button data-modal-target="logout-modal" data-modal-toggle="logout-modal" class="block p-3 w-full text-left rounded-lg focus:outline-none text-white bg-red-600 hover:bg-red-800" type="button" > 
+              Logout
+            </button>
+            
+            <div id="logout-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                        <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="logout-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Batal</span>
+                        </button>
+                        <div class="p-4 md:p-5 text-center">
+                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin keluar ?</h3>
+
+                            <form method="POST" action="{% url 'account_logout' %}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                              {% csrf_token %}
+                              <button data-modal-hide="logout-modal" type="submit" type="submit" >Logout</button>
+                            </form>
+
+                            <button data-modal-hide="logout-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-8">
-        <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Pengaturan Profil</h2>
-
-            <!-- Informasi Pengguna -->
-            <div class="flex items-center space-x-4 mb-6">
-                <img src="https://via.placeholder.com/100" alt="User Avatar" class="w-20 h-20 rounded-full border-4 border-blue-500">
-                <div>
-                    <h3 class="text-xl font-bold text-gray-800">John Doe</h3>
-                    <p class="text-gray-600">johndoe@example.com</p>
-                </div>
+      <!-- Tab Content -->
+      <div id="tab-content">
+        <!-- Tab Profil: Informasi Umum Pengguna -->
+        <div id="profil" class="tab-pane">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-6">Profil Pengguna</h2>
+          
+          <!-- Avatar & Identitas -->
+          <div class="flex items-center space-x-4 mb-8">
+            <img src="{% static 'img/favicon32.png' %}" alt="User Avatar" class="w-20 h-20 rounded-full border-4 border-blue-500">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800">{{ user.username }}</h3>
+              <p class="text-gray-600">{{ user.email }}</p>
             </div>
-
-            <hr class="my-4 border-gray-300">
-
-            <!-- Form Pengaturan Keamanan -->
-            <div class="space-y-6">
-                <!-- Ubah Kata Sandi -->
-                <div>
-                    <label class="text-gray-700 font-semibold block mb-2">Ubah Kata Sandi</label>
-                    <input type="password" placeholder="Kata sandi lama" class="w-full p-3 border rounded-lg">
-                    <input type="password" placeholder="Kata sandi baru" class="w-full p-3 border rounded-lg mt-2">
-                    <input type="password" placeholder="Konfirmasi kata sandi baru" class="w-full p-3 border rounded-lg mt-2">
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-3 rounded-lg mt-2 w-full">Ubah Kata Sandi</button>
-                </div>
-
-                <hr class="border-gray-300">
-
-                <!-- Autentikasi Dua Faktor -->
-                <div>
-                    <label class="text-gray-700 font-semibold block mb-2">Autentikasi Dua Faktor</label>
-                    <p class="text-gray-600 text-sm">Tingkatkan keamanan akun Anda dengan mengaktifkan autentikasi dua faktor.</p>
-                    <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg mt-2 w-full">Aktifkan 2FA</button>
-                </div>
-
-                <hr class="border-gray-300">
-
-                <!-- Logout dari Semua Perangkat -->
-                <div>
-                    <label class="text-gray-700 font-semibold block mb-2">Keluar dari Semua Perangkat</label>
-                    <p class="text-gray-600 text-sm">Jika Anda merasa akun Anda digunakan di perangkat lain, Anda bisa keluar dari semua perangkat.</p>
-                    <button class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-3 rounded-lg mt-2 w-full">Keluar dari Semua Perangkat</button>
-                </div>
-            </div>
+          </div>
+          
+          <!-- Tabel Informasi Pengguna Tanpa Border -->
+          <div class="grid grid-cols-12 gap-2 bg-white p-6 rounded-lg shadow-md">
+            <!-- Nama Lengkap -->
+            <div class="font-semibold text-gray-700 col-span-2">Nama Lengkap</div>
+            <div class="font-semibold text-gray-700 col-span-1">:</div>
+            <div class="text-gray-800 col-span-9 -ml-14">{{user.first_name}} {{user.last_name}}</div>
+          
+            <!-- Email -->
+            <div class="font-semibold text-gray-700 col-span-2">Email</div>
+            <div class="font-semibold text-gray-700 col-span-1">:</div>
+            <div class="text-gray-800 col-span-9 -ml-14">{{user.email}}</div>
+          
+            <!-- Nomor Telepon -->
+            <div class="font-semibold text-gray-700 col-span-2">Nomor Telepon</div>
+            <div class="font-semibold text-gray-700 col-span-1">:</div>
+            <div class="text-gray-800 col-span-9 -ml-14">+62 812-3456-7890</div>
+          
+            <!-- Alamat -->
+            <div class="font-semibold text-gray-700 col-span-2">Alamat</div>
+            <div class="font-semibold text-gray-700 col-span-1">:</div>
+            <div class="text-gray-800 col-span-9 -ml-14">Jl. Contoh No.123, Jakarta</div>
+          
+            <!-- Tanggal Lahir -->
+            <div class="font-semibold text-gray-700 col-span-2">Tanggal Lahir</div>
+            <div class="font-semibold text-gray-700 col-span-1">:</div>
+            <div class="text-gray-800 col-span-9 -ml-14">1990-01-01</div>
+          </div>
+          
+          
+          <div class="mt-6 text-center">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg">
+              Simpan Perubahan
+            </button>
+          </div>
         </div>
+        
+        <!-- Tab Keamanan: Pengaturan Keamanan -->
+        <div id="keamanan" class="tab-pane hidden">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-6">Pengaturan Keamanan</h2>
+          <div class="space-y-6">
+            <!-- Ubah Kata Sandi -->
+            <div>
+              
+              <a href="{% url 'account_change_password' %}">
+                <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-3 rounded-lg w-full">
+                  {% trans 'Change Password'%}  
+                </button>
+              </a>
+            </div>
+            <!-- Autentikasi Dua Faktor -->
+            <div>
+              <a href="{% url 'account_reset_password' %}">
+                <button class="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg w-full">
+                  {% trans 'Reset Password'%}
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tab Notifikasi: Pengaturan Notifikasi -->
+        <div id="notifikasi" class="tab-pane hidden">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-6">Pengaturan Notifikasi</h2>
+          <div class="space-y-6">
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">Email Notifikasi</label>
+              <input type="email" placeholder="Masukkan email untuk notifikasi" class="w-full p-3 border rounded-lg">
+            </div>
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">Frekuensi Notifikasi</label>
+              <select class="w-full p-3 border rounded-lg">
+                <option value="instant">Instan</option>
+                <option value="daily">Harian</option>
+                <option value="weekly">Mingguan</option>
+              </select>
+            </div>
+            <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-3 rounded-lg w-full">
+              Simpan Notifikasi
+            </button>
+          </div>
+        </div>
+        
+        <!-- Tab Privasi: Pengaturan Privasi -->
+        <div id="privasi" class="tab-pane hidden">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-6">Pengaturan Privasi</h2>
+          <div class="space-y-6">
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">Visibilitas Profil</label>
+              <select class="w-full p-3 border rounded-lg">
+                <option value="public">Publik</option>
+                <option value="friends">Teman</option>
+                <option value="private">Pribadi</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">Data yang Dibagikan</label>
+              <p class="text-gray-600 text-sm">Atur data apa saja yang dapat dilihat oleh orang lain.</p>
+              <div class="mt-2">
+                <label class="inline-flex items-center">
+                  <input type="checkbox" class="form-checkbox" checked>
+                  <span class="ml-2">Email</span>
+                </label>
+                <label class="inline-flex items-center ml-6">
+                  <input type="checkbox" class="form-checkbox">
+                  <span class="ml-2">Nomor Telepon</span>
+                </label>
+              </div>
+            </div>
+            <button class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-3 rounded-lg w-full">
+              Simpan Pengaturan Privasi
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
+  </div>
 
+  <!-- JavaScript untuk Tab Switching -->
+  <script>
+    // Dapatkan semua tombol tab dan konten tab
+    const tabButtons = document.querySelectorAll('[data-tab]');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Hapus kelas aktif dari semua tombol
+        tabButtons.forEach(btn => {
+          btn.classList.remove('bg-blue-500', 'text-white');
+          btn.classList.add('text-gray-700');
+        });
+        // Tandai tombol yang diklik sebagai aktif
+        button.classList.remove('text-gray-700');
+        button.classList.add('bg-blue-500', 'text-white');
+
+        // Sembunyikan semua tab pane
+        tabPanes.forEach(pane => pane.classList.add('hidden'));
+        // Tampilkan tab pane yang sesuai
+        const target = button.getAttribute('data-tab');
+        document.getElementById(target).classList.remove('hidden');
+      });
+    });
+
+    // Set tab pertama sebagai default
+    if (tabButtons.length > 0) {
+      tabButtons[0].click();
+    }
+  </script>
 </body>
-</html>
+{% endblock content %}

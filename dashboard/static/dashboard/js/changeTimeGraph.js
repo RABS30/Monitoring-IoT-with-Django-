@@ -15,7 +15,7 @@ let waktuSuhuTanah        = intensitasCahaya.options[suhuTanah.selectedIndex].va
 kelembapanTanah.addEventListener('change', (event)=> {
     waktuKelembapanTanah  = kelembapanTanah.options[kelembapanTanah.selectedIndex].value
     if(waktuKelembapanTanah === 'day'){
-        fetch(`${window.location.origin}/getSensorData/110/day/`)
+        fetch(`${window.location.origin}/getSensorData/kelembapanTanah/day/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -25,7 +25,7 @@ kelembapanTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuKelembapanTanah === 'week'){
-        fetch(`${window.location.origin}/getSensorData/110/week/`)
+        fetch(`${window.location.origin}/getSensorData/kelembapanTanah/week/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -36,7 +36,7 @@ kelembapanTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuKelembapanTanah === 'month'){
-        fetch(`${window.location.origin}/getSensorData/110/month/`)
+        fetch(`${window.location.origin}/getSensorData/kelembapanTanah/month/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -47,7 +47,7 @@ kelembapanTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuKelembapanTanah === 'year'){
-        fetch(`${window.location.origin}/getSensorData/110/year/`)
+        fetch(`${window.location.origin}/getSensorData/kelembapanTanah/year/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -63,7 +63,7 @@ kelembapanTanah.addEventListener('change', (event)=> {
 intensitasCahaya.addEventListener('change', (event)=> {
     waktuIntensitasCahaya = intensitasCahaya.options[intensitasCahaya.selectedIndex].value
     if(waktuIntensitasCahaya === 'day'){
-        fetch(`${window.location.origin}/getSensorData/114/day/`)
+        fetch(`${window.location.origin}/getSensorData/intensitasCahaya/day/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -74,7 +74,7 @@ intensitasCahaya.addEventListener('change', (event)=> {
         });
     }
     if(waktuIntensitasCahaya === 'week'){
-        fetch(`${window.location.origin}/getSensorData/114/week/`)
+        fetch(`${window.location.origin}/getSensorData/intensitasCahaya/week/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -85,7 +85,7 @@ intensitasCahaya.addEventListener('change', (event)=> {
         });
     }
     if(waktuIntensitasCahaya === 'month'){
-        fetch(`${window.location.origin}/getSensorData/114/month/`)
+        fetch(`${window.location.origin}/getSensorData/intensitasCahaya/month/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -96,7 +96,7 @@ intensitasCahaya.addEventListener('change', (event)=> {
         });
     }
     if(waktuIntensitasCahaya === 'year'){
-        fetch(`${window.location.origin}/getSensorData/114/year/`)
+        fetch(`${window.location.origin}/getSensorData/intensitasCahaya/year/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -110,7 +110,7 @@ intensitasCahaya.addEventListener('change', (event)=> {
 nutrisiTanah.addEventListener('change', (event)=> {
     waktuNutrisiTanah     = nutrisiTanah.options[nutrisiTanah.selectedIndex].value;
     if(waktuNutrisiTanah === 'day'){
-        fetch(`${window.location.origin}/getSensorData/113/day/`)
+        fetch(`${window.location.origin}/getSensorData/nutrisiTanah/day/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -121,7 +121,7 @@ nutrisiTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuNutrisiTanah === 'week'){
-        fetch(`${window.location.origin}/getSensorData/113/week/`)
+        fetch(`${window.location.origin}/getSensorData/nutrisiTanah/week/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -132,7 +132,7 @@ nutrisiTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuNutrisiTanah === 'month'){
-        fetch(`${window.location.origin}/getSensorData/113/month/`)
+        fetch(`${window.location.origin}/getSensorData/nutrisiTanah/month/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -143,7 +143,7 @@ nutrisiTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuNutrisiTanah === 'year'){
-        fetch(`${window.location.origin}/getSensorData/113/year/`)
+        fetch(`${window.location.origin}/getSensorData/nutrisiTanah/year/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -157,7 +157,7 @@ nutrisiTanah.addEventListener('change', (event)=> {
 suhuTanah.addEventListener('change', (event)=> {
     waktuSuhuTanah        = suhuTanah.options[suhuTanah.selectedIndex].value;
     if(waktuSuhuTanah === 'day'){
-        fetch(`${window.location.origin}/getSensorData/111/day/`)
+        fetch(`${window.location.origin}/getSensorData/suhuTanah/day/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -168,7 +168,7 @@ suhuTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuSuhuTanah === 'week'){
-        fetch(`${window.location.origin}/getSensorData/111/week/`)
+        fetch(`${window.location.origin}/getSensorData/suhuTanah/week/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -179,7 +179,7 @@ suhuTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuSuhuTanah === 'month'){
-        fetch(`${window.location.origin}/getSensorData/111/month/`)
+        fetch(`${window.location.origin}/getSensorData/suhuTanah/month/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
@@ -190,7 +190,7 @@ suhuTanah.addEventListener('change', (event)=> {
         });
     }
     if(waktuSuhuTanah === 'year'){
-        fetch(`${window.location.origin}/getSensorData/111/year/`)
+        fetch(`${window.location.origin}/getSensorData/suhuTanah/year/`)
         .then(response => response.json())
         .then(response => {
             const { nilai, waktu } = response
