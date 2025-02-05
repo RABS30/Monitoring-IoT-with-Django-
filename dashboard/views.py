@@ -23,9 +23,7 @@ from .models import (jenisPenyiraman, nilaiSensor,
                      tanggalTanaman)
 
 # utilities
-todayTime   = timezone.now() - timezone.timedelta(hours=timezone.now().hour, 
-                                                  minutes=timezone.now().minute, 
-                                                  seconds=timezone.now().second)
+todayTime   =  timezone.now()
 dayTime     =  timezone.now() - timezone.timedelta(hours=24)
 weekTime    =  timezone.now() - timezone.timedelta(days=7)
 monthTime   =  timezone.now() - timezone.timedelta(days=30)
@@ -33,7 +31,9 @@ yearTime    =  timezone.now() - timezone.timedelta(days=365)
     
 def getDataHistory(nama, time):
     if time == 'today' :
-        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(todayTime)).values()
+        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(todayTime))
+        print(todayTime)
+        
         dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avgValue=Avg('nilai')).order_by('minute')
 
         return { 
@@ -41,7 +41,7 @@ def getDataHistory(nama, time):
             'nilai': [int(entry['avgValue']) for entry in dataSensor]
         }
     if time == 'day' :
-        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(dayTime)).values()
+        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(dayTime))
         dataSensor = dataSensor.annotate(minute=TruncMinute('waktu')).values('minute').annotate(avgValue=Avg('nilai')).order_by('minute')
 
         return {
@@ -49,7 +49,7 @@ def getDataHistory(nama, time):
                 'nilai': [int(entry['avgValue']) for entry in dataSensor]
             }
     if time == 'week' : 
-        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(weekTime)).values()
+        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(weekTime))
         dataSensor = dataSensor.annotate(week=Trunc('waktu', 'day')).values('week').annotate(avgValue = Avg('nilai')).order_by('week')
 
         return {
@@ -57,7 +57,7 @@ def getDataHistory(nama, time):
                 'nilai': [int(entry['avgValue']) for entry in dataSensor]
             }     
     if time == 'month' : 
-        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(monthTime)).values()
+        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(monthTime))
         dataSensor = dataSensor.annotate(month=TruncMonth('waktu')).values('month').annotate(avgValue = Avg('nilai')).order_by('month')
 
         return {
@@ -65,7 +65,7 @@ def getDataHistory(nama, time):
                 'nilai': [int(entry['avgValue']) for entry in dataSensor]
             }
     if time == 'year' : 
-        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(yearTime)).values()
+        dataSensor = nilaiSensor.objects.filter(sensor__nama=nama, waktu__gte=(yearTime))
         dataSensor = dataSensor.annotate(year=TruncYear('waktu')).values('year').annotate(avgValue = Avg('nilai')).order_by('year')
 
         return {
@@ -162,7 +162,7 @@ def pengaturan(request):
             else :
                 print(formBerdasarkanSensorUpdate.errors)
                 
-        messages.add_message(request, messages.SUCCESS, 'Data berhasil diubah')
+        messages.add_message(request, messages.SUCCESS, 'Data berhasil diubah', 'setting')
         
         # redirect ke dashboard
         return redirect('dashboard:pengaturan')
@@ -196,8 +196,6 @@ def getSensorData(request, nama, time):
     response = getDataHistory(nama, time)
     return JsonResponse(response, safe=False)
 
-def chart(request):
-    return render(request, 'dashboard/chart.html')
 
 
 

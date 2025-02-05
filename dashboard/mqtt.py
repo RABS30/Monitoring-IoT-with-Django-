@@ -9,10 +9,13 @@ def startMqtt():
     os.system('cls' if os.name == 'nt' else 'clear')
     
     # callback saat berhasil terhubung ke server
-    def on_connect(client, userdata, flags, rc):
+    def on_connect(client, userdata, flags, rc): 
         print("Connected with result code "+str(rc))
         client.subscribe("sensor/tanaman")
         client.subscribe("sensor/tanaman2")
+        
+                
+        
         
 
 
