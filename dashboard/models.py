@@ -17,7 +17,7 @@ class sensor(models.Model):
 class nilaiSensor(models.Model):
     sensor  = models.ForeignKey("dashboard.sensor", 
                                 on_delete=models.CASCADE, 
-                                related_name='sensor')
+                                related_name='nilaiSensor')
     
     nilai   = models.IntegerField(("Nilai"))
     

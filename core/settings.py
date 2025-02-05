@@ -15,7 +15,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 
                  '1252-36-80-93-219.ngrok-free.app', 
                  'f197-36-80-93-219.ngrok-free.app',
-                 'b687-180-251-224-204.ngrok-free.app',]
+                 '8a47-36-72-151-137.ngrok-free.app',]
 
 
 # Application definition
@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'rest_framework',
     'compressor',
     
     'allauth',
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'dashboard',
     'profileUser',
+    'apiData',
 ]
 
 MIDDLEWARE = [
@@ -148,7 +149,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://1252-36-80-93-219.ngrok-free.app',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
-    'https://b687-180-251-224-204.ngrok-free.app'
+    'https://8a47-36-72-151-137.ngrok-free.app'
     
 ]
 
@@ -168,6 +169,10 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 
 # ===== Authentication =====
@@ -189,3 +194,22 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "r.a.b.s35300@gmail.com"  # Email Google 
 EMAIL_HOST_PASSWORD = "ubgiaziawgwfwzca"    # App Password dari Email
 DEFAULT_FROM_EMAIL = "r.a.b.s35300@gmail.com"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
