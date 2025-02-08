@@ -18,7 +18,7 @@ class sensorSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         print(f'ini request : {request}')
         
-        timeRange   = request.query_params.get('range', 'daily')
+        timeRange   = request.query_params.get('range', 'daily') #type:ignore
         now         = timezone.now()
         
         if timeRange == 'weekly' :

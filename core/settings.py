@@ -1,4 +1,8 @@
+from datetime import timedelta
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv() 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,7 +19,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 
                  '1252-36-80-93-219.ngrok-free.app', 
                  'f197-36-80-93-219.ngrok-free.app',
-                 '8a47-36-72-151-137.ngrok-free.app',]
+                 '73a1-36-72-139-246.ngrok-free.app',]
 
 
 # Application definition
@@ -149,7 +153,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://1252-36-80-93-219.ngrok-free.app',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
-    'https://8a47-36-72-151-137.ngrok-free.app'
+    'https://73a1-36-72-139-246.ngrok-free.app'
     
 ]
 
@@ -171,9 +175,16 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME' : timedelta(minutes=1 ),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
+}
 
 # ===== Authentication =====
 LOGIN_REDIRECT_URL = "/"    
@@ -196,6 +207,8 @@ EMAIL_HOST_PASSWORD = "ubgiaziawgwfwzca"    # App Password dari Email
 DEFAULT_FROM_EMAIL = "r.a.b.s35300@gmail.com"
 
 
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_API_URL   = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
 
 
 
