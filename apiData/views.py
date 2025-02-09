@@ -1,7 +1,9 @@
+import email
 from .serializers import sensorSerializer
 from .models import UserTokenTelegram
 from .botUtils import sendMessageToTelegram, validationToken
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
@@ -33,21 +35,24 @@ TELEGRAM_API_URL = settings.TELEGRAM_API_URL
 def login_view(request):
     if request.method == 'POST':
         data     = request.POST
-        username = data.get('username')
+        email    = data.get('email')
         password = data.get('password')
         chatId   = data.get('chatId')
         
         # Autentifikasi pengguna
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
         
         if user:
             refresh = RefreshToken.for_user(user)
             try :
-                # 
-                if UserTokenTelegram.objects.get(chatId=chatId).login == True :
-                    return JsonResponse({'error' : 'Anda sudah login, tolong logout terlebih dahulu '}, status=404)
-            except Exception as message:
+                userInfo = UserTokenTelegram.objects.get(user=user)
+
+                if userInfo.chatId == chatId :
+                    return JsonResponse({'error' : 'Anda sudah login '}, status=404)
+                if userInfo.login :
+                    return JsonResponse({'error' : 'Email sedang digunakan untuk login, tolong logout terlebih dahulu '}, status=404)
                 
+            except ObjectDoesNotExist :
                 # Simpan chat ID, access dan refresh token di database
                 UserTokenTelegram.objects.update_or_create(user=user, defaults={
                     'refreshToken' : refresh, 
@@ -61,6 +66,7 @@ def login_view(request):
                     'access': str(refresh.access_token),
                     'user'  : user.username
                 })
+            
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=401)   
     return JsonResponse({'error': 'Invalid request'}, status=400)
@@ -83,15 +89,17 @@ class telegramWebhook(View):
         # Mengakses bot
         if(command.startswith('/login')):
             try :
-                _, username, password = command.split()
+                _, email, password = command.split()
                 # Mendapatkan access token
-                userLogin = requests.post(f'https://{request.headers["Host"]}/bot/login/', data={'username' : username, 'password' : password, 'chatId' : chatId})
+                userLogin = requests.post(f'https://{request.headers["Host"]}/bot/login/', data={'email' : email, 'password' : password, 'chatId' : chatId})
                 
                 # Gagal Mendapatkan access token
                 if(userLogin.status_code == 400 or userLogin.status_code == 401):
-                    replyText = 'Gagal Login, pastikan username dan password benar'
+                    info = userLogin.json()['error']
+                    replyText = info
                 elif(userLogin.status_code == 404):
-                    replyText = 'Anda sudah login, tolong logout terlebih dahulu'
+                    info = userLogin.json()['error']
+                    replyText = info
                 # Berhasil mendapatkan access token
                 else :
                     user = json.loads(userLogin.content)['user'] 
@@ -114,6 +122,22 @@ class telegramWebhook(View):
             else :
                 replyText = 'Apakah anda sudah login ?'
         
+        elif(command.lower() == '/link'):
+            validation = validationToken(request, chatId)
+            if(validation['status']):
+                replyText = f"https://{request.headers['Host']}/"
+            else :
+                replyText = 'Apakah anda sudah login ?'
+        
+        elif(command.lower() == '/info'):
+            validation = validationToken(request, chatId)
+            if(validation['status']):
+                replyText = f"https://{request.headers['Host']}/"
+                user  = UserTokenTelegram.objects.get(chatId=chatId).user.username
+                email = UserTokenTelegram.objects.get(chatId=chatId).user.email
+                replyText = f"Anda login sebagai {user} dengan email {email}"
+            else :
+                replyText = 'Apakah anda sudah login ?'
         else :
             replyText = 'Maaf, saya tidak mengerti perintah anda'
             

@@ -19,7 +19,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 
                  '1252-36-80-93-219.ngrok-free.app', 
                  'f197-36-80-93-219.ngrok-free.app',
-                 '73a1-36-72-139-246.ngrok-free.app',]
+                 'dde5-36-72-139-246.ngrok-free.app',]
 
 
 # Application definition
@@ -153,7 +153,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://1252-36-80-93-219.ngrok-free.app',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
-    'https://73a1-36-72-139-246.ngrok-free.app'
+    'https://dde5-36-72-139-246.ngrok-free.app'
     
 ]
 
@@ -169,7 +169,7 @@ STATICFILES_FINDERS = [
 
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'core.authentication.EmailBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
@@ -209,7 +209,6 @@ DEFAULT_FROM_EMAIL = "r.a.b.s35300@gmail.com"
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_API_URL   = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-
 
 
 

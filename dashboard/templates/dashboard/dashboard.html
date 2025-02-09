@@ -8,8 +8,8 @@
     <br>
 
 <!-- Sensor 1 --> 
-    <div class="shadow-lg bg-white mx-0 w-auto border sm:rounded-lg">
-        <div class="border-4 border-blue-600">
+    <div class="shadow-lg bg-white mx-0 w-auto sm:rounded-lg">
+        <div class="">
             <!-- Judul -->
                 <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Tanaman 1</div>
             <!-- Judul -->
@@ -26,7 +26,7 @@
             <br>
             <!-- Informasi -->
                 <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Informasi</div>
-                <div class="relative mx-5 overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="relative md:mx-5 overflow-x-auto shadow-md sm:rounded-lg">
                     <table class=" w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <!-- Heading Table -->
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
@@ -105,97 +105,79 @@
             <br>
 
             <!-- Graph -->
+                <!-- Judul Graph -->
                 <div class="text-xl md:mx-5 md:text-2xl font-bold my-2 shadow-md">Graph</div>
-                <!-- Baris 1 -->
-                    <div class="w-auto flex justify-between md:mx-5 mb-10">
-                        <!-- Grafik Kelembapan Tanah -->
-                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
-                                <!-- Dropdown untuk memilih jenis data -->
-                                <div class="flex justify-between items-center mb-4">
-                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
-                                    <select
-                                    id="selectGraphKelembapanTanah"
-                                    class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                                        <option value="today">Hari ini</option>
-                                        <option value="day">24 Jam</option>
-                                        <option value="week">7 Hari</option>
-                                        <option value="month">30 Hari</option>
-                                        <option value="year">1 Tahun</option>
-                                    </select>
-                                </div>
 
-                                <!-- Grafik -->
-                                <div class="h-64 w-full">
-                                    <canvas id="graphKelembapanTanah"></canvas>
-                                </div>   
-                            </div>
-                        <!-- Grafik Kelembapan Tanah``-->
-                        <!-- Grafik Suhu Tanah -->
-                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
-                                <!-- Dropdown untuk memilih jenis data -->
-                                <div class="flex justify-between items-center mb-4">
-                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
-                                    <select id="selectGraphSuhuTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring- focus:ring-blue-500 focus:outline-none">
-                                        <option value="today">Hari ini</option>
-                                        <option value="day">24 Jam</option>
-                                        <option value="week">7 Hari</option>
-                                        <option value="month">30 Hari</option>
-                                        <option value="year">1 Tahun</option>
-                                    </select>
-                                </div>
-                                <!-- Grafik -->
-                                <div class="h-64">
-                                    <canvas id="graphSuhuTanah"></canvas>
-                                </div>   
-                            </div>
-                        <!-- Grafik Suhu Tanah -->
-                    </div>    
-                <!-- Baris 1 -->
-
-                <!-- Baris 2 -->
-                    <div class="w-auto flex justify-between md:mx-5 overflow-x-auto ">
-                        <!-- Grafik Intensitas Cahaya-->
-                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
-                                <!-- Dropdown untuk memilih jenis data -->
-                                <div class="flex justify-between items-center mb-4">
-                                    <h2 class="text-lg font-semibold mx-5">Grafik Data</h2>
-                                    <select id="selectGraphIntensitasCahaya" class="bg-white border-none rounded-lg text-sm p-2 focus:ring-2 mx-px focus:ring-blue-500 focus:outline-none">
-                                        <option value="today">Hari ini</option>
-                                        <option value="day">24 Jam</option>
-                                        <option value="week">7 Hari</option>
-                                        <option value="month">30 Hari</option>
-                                        <option value="year">1 Tahun</option>
-                                    </select>
-                                </div>
-
-                                <!-- Grafik -->
-                                <div class="h-64">
-                                    <canvas id="graphIntensitasCahaya"></canvas>
-                                </div>   
-                            </div>
-                        <!-- Grafik Intensitas Cahaya-->
-                    
-                        <!-- Grafik Nutrisi Tanah-->
-                            <div class="border-4 border-b-0 rounded-xl w-49/100" >
-                                <!-- Dropdown untuk memilih jenis data -->
-                                <div class="flex justify-between items-center mb-4">
-                                    <h2 class="text-lg font-semibold">Grafik Data</h2>
-                                    <select id="selectGraphNutrisiTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring- focus:ring-blue-500 focus:outline-none">
-                                        <option value="today">Hari ini</option>
-                                        <option value="day">24 Jam</option>
-                                        <option value="week">7 Hari</option>
-                                        <option value="month">30 Hari</option>
-                                        <option value="year">1 Tahun</option>
-                                    </select>
-                                </div>
-                                <!-- Grafik -->
-                                <div class="h-64">
-                                    <canvas id="graphNutrisiTanah"></canvas>
-                                </div>   
-                            </div>
-                        <!-- Grafik Nutrisi Tanah-->     
+                <!-- Container Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:mx-5 mb-10">
+                    <!-- Grafik Kelembapan Tanah -->
+                    <div class="border-4 border-b-0 rounded-xl p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold">Grafik Kelembapan Tanah</h2>
+                            <select id="selectGraphKelembapanTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="today">Hari ini</option>
+                                <option value="day">24 Jam</option>
+                                <option value="week">7 Hari</option>
+                                <option value="month">30 Hari</option>
+                                <option value="year">1 Tahun</option>
+                            </select>
+                        </div>
+                        <div class="h-64 w-full">
+                            <canvas id="graphKelembapanTanah"></canvas>
+                        </div>
                     </div>
-                <!-- Baris 2 -->
+
+                    <!-- Grafik Suhu Tanah -->
+                    <div class="border-4 border-b-0 rounded-xl p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold">Grafik Suhu Tanah</h2>
+                            <select id="selectGraphSuhuTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="today">Hari ini</option>
+                                <option value="day">24 Jam</option>
+                                <option value="week">7 Hari</option>
+                                <option value="month">30 Hari</option>
+                                <option value="year">1 Tahun</option>
+                            </select>
+                        </div>
+                        <div class="h-64 w-full">
+                            <canvas id="graphSuhuTanah"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Grafik Intensitas Cahaya -->
+                    <div class="border-4 border-b-0 rounded-xl p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold">Grafik Intensitas Cahaya</h2>
+                            <select id="selectGraphIntensitasCahaya" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="today">Hari ini</option>
+                                <option value="day">24 Jam</option>
+                                <option value="week">7 Hari</option>
+                                <option value="month">30 Hari</option>
+                                <option value="year">1 Tahun</option>
+                            </select>
+                        </div>
+                        <div class="h-64 w-full">
+                            <canvas id="graphIntensitasCahaya"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Grafik Nutrisi Tanah -->
+                    <div class="border-4 border-b-0 rounded-xl p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold">Grafik Nutrisi Tanah</h2>
+                            <select id="selectGraphNutrisiTanah" class="bg-white border border-gray-300 rounded-lg text-sm p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="today">Hari ini</option>
+                                <option value="day">24 Jam</option>
+                                <option value="week">7 Hari</option>
+                                <option value="month">30 Hari</option>
+                                <option value="year">1 Tahun</option>
+                            </select>
+                        </div>
+                        <div class="h-64 w-full">
+                            <canvas id="graphNutrisiTanah"></canvas>
+                        </div>
+                    </div>
+                </div>
             <!-- Graph -->
 
 
@@ -203,7 +185,6 @@
         </div>
     </div>
 <!-- Sensor 1 --> 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
     
 <!-- Script-->

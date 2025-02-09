@@ -11,7 +11,7 @@
                     {% csrf_token %}
                     <div class="justify-between border bg-gray-50 mt-2 shadow-md md:h-80 w-auto rounded flex flex-col md:flex-row">
                         <!-- Form Memilih Jenis Penyiraman -->
-                            <div class="w-full text-center rounded pb-5">
+                            <div class="w-full text-center shadow rounded py-5">
                                 <label for="jenisPenyiraman" class="block mb-2 md:text-2xl text-black p-1">Jenis Penyiraman</label>
                                 <div class="w-11/12 m-auto">
                                     {{form.jenisPenyiraman}}
@@ -81,7 +81,7 @@
                 
                         
                         <!-- Form Memilih Jenis Pemberian Pupuk -->
-                            <div class="w-full text-center rounded pb-5 mx-5">
+                            <div class="w-full text-center shadow py-5">
                                 <label for="jenisPengisianAir" class="block mb-2 md:text-2xl text-black p-1">Jenis Pemberian Pupuk</label>
                                 <div class="w-11/12 m-auto">
                                     {{ form.jenisPemberianPupuk }}
@@ -95,7 +95,7 @@
                         <!-- Form Memilih Jenis Pemberian Pupuk -->
 
                         <!-- Form Memilih Jenis Pengisian Tangki -->
-                            <div class="w-full text-center rounded pb-5">
+                            <div class="w-full text-center shadow rounded py-5">
                                 <label for="jenisPengisianAir" class="block mb-2 md:text-2xl text-black p-1">Jenis Pengisian Tangki Air</label>
                                 <div class="w-11/12 m-auto">
                                     {{ form.jenisPengisianAir }}
