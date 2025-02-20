@@ -1,11 +1,9 @@
-from datetime import date, datetime
-import json
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Avg
-from django.db.models.functions import TruncMinute, TruncWeek, TruncMonth, TruncYear, Trunc
+from django.db.models.functions import TruncMinute, TruncMonth, TruncYear, Trunc
 
 from django.contrib.auth.decorators import login_required
 
@@ -14,7 +12,6 @@ from .forms import (formBerdasarkanWaktu,
                     formOpsiPerangkat)
 
 from .models import (jenisPenyiraman, nilaiSensor,
-                     sensor, 
                      opsiPerangkat, 
                      berdasarkanSensor, 
                      berdasarkanWaktu, 
@@ -146,7 +143,8 @@ def pengaturan(request):
             formBerdasarkanWaktuUpdate = formBerdasarkanWaktu(request.POST)
             
             # Validasi, jika data valid dan jumlah kurang dari 4 maka simpan data tersebut
-            if formBerdasarkanWaktuUpdate.is_valid() and request.POST.get('waktu') != '' and jumlahWaktu < 4:
+            if formBerdasarkanWaktuUpdate.is_valid() and request.POST.get('waktu') != '' and request.POST.get('waktu') != None and jumlahWaktu < 4:
+                print('ini waktu: ',request.POST.get('waktu'))
                 formBerdasarkanWaktuUpdate.save()
             else :
                 print(formBerdasarkanWaktuUpdate.errors)

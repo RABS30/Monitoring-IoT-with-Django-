@@ -1,0 +1,11 @@
+*/env/
+*/__pycache__
+*/controler
+*/static/CACHE
+.dockerignore
+.gitignore
+.git
+*/db.sqlite3
+*/docker-compose.yml
+*/node_modules
+*/README.md

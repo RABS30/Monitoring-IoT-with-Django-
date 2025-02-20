@@ -4,8 +4,9 @@ var manual              = document.getElementById('Manual');
 var sensorPenyiraman    = document.getElementById('Berdasarkan Sensor');
 var daftarWaktu         = document.getElementById('daftarWaktu');
 var daftarWaktu         = document.getElementById('daftarWaktu');
-var informasiWaktu      = document.getElementById('informasiWaktu');
 
+var inputWaktu          = document.getElementById('Berdasarkan Waktu');
+var informasiWaktu      = document.getElementById('informasiWaktu')
 // Tag untuk hapus waktu
 var hapusWaktu          = document.getElementsByName('hapusWaktu');
 
@@ -14,6 +15,7 @@ var hapusWaktu          = document.getElementsByName('hapusWaktu');
     // Aktif saat pertama kali menampilkan Template
 if (jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Manual'){
     manual.classList.remove('hidden');
+
 }else if(jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Berdasarkan Sensor'){
     sensorPenyiraman.classList.remove('hidden');
 }
@@ -22,25 +24,46 @@ jenisPenyiraman.addEventListener('change', () =>{
     manual.classList.add('hidden');
     sensorPenyiraman.classList.add('hidden');
 
+
     if(jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Manual'){
         manual.classList.remove('hidden');
+        
+        if (inputWaktu){
+            inputWaktu.classList.add('hidden');
+        }
+
+        if (informasiWaktu){
+            informasiWaktu.classList.add('hidden');
+        }
 
         daftarWaktu.classList.remove('grid');
         daftarWaktu.classList.add('hidden');
 
-        informasiWaktu.classList.add('hidden')
     }else if(jenisPenyiraman.options[jenisPenyiraman.selectedIndex].text == 'Berdasarkan Sensor'){
         sensorPenyiraman.classList.remove('hidden');
+        
+        if (inputWaktu){
+            inputWaktu.classList.add('hidden');
+        }
+
+        if (informasiWaktu){
+            informasiWaktu.classList.add('hidden');
+        }
         
         daftarWaktu.classList.remove('grid');
         daftarWaktu.classList.add('hidden'); 
 
-        informasiWaktu.classList.add('hidden');
     }else{
+        if (inputWaktu){
+            inputWaktu.classList.remove('hidden');
+        }
+        
+        if (informasiWaktu){
+            informasiWaktu.classList.add('hidden');
+        }
+
         daftarWaktu.classList.add('grid');
         daftarWaktu.classList.remove('hidden'); 
-
-        informasiWaktu.classList.remove('hidden')
 
     }
 })

@@ -7,9 +7,7 @@ from django.utils import timezone
 from django.db.models.functions import TruncMinute
 from django.db.models import Avg
 
-from channels.db import database_sync_to_async
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import AsyncWebsocketConsumer, WebsocketConsumer, SyncConsumer, AsyncConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 from asgiref.sync import sync_to_async
 
@@ -148,7 +146,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # 1. Mengambil data sensor hari ini
     async def dataSensorToday(self):
         while True : 
-            print('mengirim data')
             try :
                 message = {
                     'type' : 'sendDataSensorTodayMessage',

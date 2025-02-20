@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import berdasarkanSensor, jenisPenyiraman, berdasarkanWaktu, opsiPerangkat, jenisPemberianPupuk
+from .models import berdasarkanSensor, jenisPenyiraman, berdasarkanWaktu, opsiPerangkat
 
 # Opsi Perangkat
 class formOpsiPerangkat(forms.ModelForm): 

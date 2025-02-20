@@ -1,7 +1,7 @@
 from dashboard.models import sensor, nilaiSensor
 from rest_framework import serializers
 from django.utils import timezone
-from django.db.models.functions import Trunc, TruncMinute,TruncHour, TruncDay, TruncMonth
+from django.db.models.functions import Trunc, TruncMinute,TruncHour, TruncDay
 from django.db.models import Avg
 
 

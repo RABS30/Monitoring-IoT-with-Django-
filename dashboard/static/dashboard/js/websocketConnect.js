@@ -1,8 +1,7 @@
- let socket;
-  if(window.location.protocol == 'http:'){
-      socket = new WebSocket('ws://'+window.location.host+'/ws/socket-server/');
+if(window.location.protocol == 'http:'){
+    var socket = new WebSocket('ws://'+window.location.host+'/ws/socket-server/');
  }else{
-    socket = new WebSocket('wss://'+window.location.host+'/ws/socket-server/');
+    var socket = new WebSocket('wss://'+window.location.host+'/ws/socket-server/');
 }
 console.log('Connecting to WebSocket server...');
 
