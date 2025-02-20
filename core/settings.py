@@ -90,40 +90,16 @@ STORAGES = {
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': os.getenv('DATABASE_ENGINE'),
-#         'NAME': os.getenv('DATABASE_NAME', 'monitoringiot'),
-#         'USER': os.getenv('DATABASE_USERNAME', 'root'),
-#         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'duapuluh7'),
-#         'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
-#         'PORT': os.getenv('DATABASE_PORT', '3306'),
-#     }
-# }
-
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'monitoringiot',
-        'USER': 'root',
-        'PASSWORD': 'duapuluh7',
-        'HOST': 'localhost',
-        'PORT': 3306,
+        'ENGINE': os.getenv('DATABASE_ENGINE'),
+        'NAME': os.getenv('DATABASE_NAME', 'monitoringiot'),
+        'USER': os.getenv('DATABASE_USERNAME', 'root'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'admin123'),
+        'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DATABASE_PORT', '3306'),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'monitoringiot',
-#         'USER': 'rokubi',
-#         'PASSWORD': 'duapuluh7',
-#         'HOST': 'localhost',
-#         'PORT': 5432,
-#     }
-# }
 
 
 CHANNEL_LAYERS = {
@@ -228,10 +204,9 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "r.a.b.s35300@gmail.com"  # Email Google 
-EMAIL_HOST_PASSWORD = "ubgiaziawgwfwzca"    # App Password dari Email
-DEFAULT_FROM_EMAIL = "r.a.b.s35300@gmail.com"
-
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') 
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') 
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') 
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_API_URL   = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
