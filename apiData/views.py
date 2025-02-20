@@ -1,4 +1,3 @@
-import email
 from .serializers import sensorSerializer
 from .models import UserTokenTelegram
 from .botUtils import sendMessageToTelegram, validationToken

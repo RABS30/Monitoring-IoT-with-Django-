@@ -16,6 +16,7 @@ urlpatterns = [
     path('login/', login_view, name='loginTelegram'),
     path('verification/', ProtectedView.as_view(), name='verification'),
     
+    
 ]
 
 

@@ -1,5 +1,3 @@
-from random import choice
-from tkinter.tix import Tree
 from django.db import models
 
 # Sensor 
@@ -21,9 +19,7 @@ class nilaiSensor(models.Model):
     
     nilai   = models.IntegerField(("Nilai"))
     
-    waktu   = models.DateTimeField(("Waktu"), 
-                                   auto_now_add=True,
-                                   )
+    waktu   = models.DateTimeField(("Waktu"), auto_now_add=True)
     
     class Meta :
         verbose_name = 'Sensor > Nilai Sensor'
@@ -194,7 +190,7 @@ class tanggalTanaman(models.Model):
     nama    = models.CharField(("Nama Tanaman"), max_length=50)
     tanggal = models.DateField(("Tanggal Penanaman"))
     
-    class meta :
+    class Meta :
         verbose_name = "Informasi > Penanaman Tanaman"
         verbose_name_plural = "Informasi > Penanaman Tanaman"
     

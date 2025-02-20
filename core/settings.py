@@ -2,7 +2,9 @@ from datetime import timedelta
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+
 load_dotenv() 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,15 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2kdd+-vvzhqjoi14&$d)oj%fs@)^1ms#o$&zm(rp73ntmdxi24'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv('DEBUG', default=0))
 
-ALLOWED_HOSTS = ['127.0.0.1', 
-                 '1252-36-80-93-219.ngrok-free.app', 
-                 'f197-36-80-93-219.ngrok-free.app',
-                 'dde5-36-72-139-246.ngrok-free.app',]
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "http://127.0.0.1").split(",")
 
 
 # Application definition
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,7 +65,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,19 +81,50 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
-
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DATABASE_ENGINE'),
+#         'NAME': os.getenv('DATABASE_NAME', 'monitoringiot'),
+#         'USER': os.getenv('DATABASE_USERNAME', 'root'),
+#         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'duapuluh7'),
+#         'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+#         'PORT': os.getenv('DATABASE_PORT', '3306'),
+#     }
+# }
+
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'monitoringiot',
+        'USER': 'root',
+        'PASSWORD': 'duapuluh7',
+        'HOST': 'localhost',
+        'PORT': 3306,
     }
 }
 
-ASGI_APPLICATION = "core.asgi.application"
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'monitoringiot',
+#         'USER': 'rokubi',
+#         'PASSWORD': 'duapuluh7',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
+
 
 CHANNEL_LAYERS = {
 	"default" :{
@@ -128,20 +160,21 @@ TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 DATETIME_FORMAT = 'Y-m-d H:i:s'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_URL  = ''
 
+
+MEDIA_URL  = ''
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Tempat mengumpulkan static files
 STATICFILES_DIRS = [
-    BASE_DIR / '',
-    BASE_DIR / 'static/',
-    BASE_DIR / 'dashboard/static/dashboard/'
+    BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type
@@ -149,13 +182,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://1252-36-80-93-219.ngrok-free.app',
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'https://dde5-36-72-139-246.ngrok-free.app'
-    
-]
 
 COMPRESS_ROOT = BASE_DIR / 'static'
 

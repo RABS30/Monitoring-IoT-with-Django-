@@ -229,6 +229,7 @@ socket.onmessage = (e) => {
         if (status === 'updateData') {
             for (let i=0; i < data.length; i++){
                 const { nama, sensor } = data[i]
+                console.log('ini adalah nama dan sensor', nama, sensor)
                 // Update Graph
                 if (nama === 'kelembapanTanah'){
                     if(waktuKelembapanTanah === 'today'){
