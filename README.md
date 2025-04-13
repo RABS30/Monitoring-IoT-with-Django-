@@ -2,7 +2,7 @@
 ## 📌 Fitur 
 - ✅ Authentication 
 - ✅ Real-time monitoring and device control
-- ✅ Bot telegram
+- ✅ Kendalikan perangkat IoT dengan bot telegram
 - ✅ Menggunakan chart.js dan tailwind untuk menangani tampilan website
 - ✅ Menggunakan django untuk server side
 - ✅ Menggunakan MQTT dan Websocket untuk komunikasi antara client side dan perangkat IoT
