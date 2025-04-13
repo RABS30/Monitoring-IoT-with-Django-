@@ -30,6 +30,7 @@
 - Chart.js
 
 ## ☎️ Protokol Komunikasi
+- HTTP
 - MQTT
 - Websockets
 - Webhook
