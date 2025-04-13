@@ -4,6 +4,9 @@
 - ✅ Real-time monitoring and device control
 - ✅ Bot telegram
 - ✅ Menggunakan chart.js dan tailwind untuk menangani tampilan website
+- ✅ Menggunakan django untuk server side
+- ✅ Menggunakan MQTT dan Websocket untuk komunikasi antara client side dan perangkat IoT
+- ✅ Meggunakan webhook untuk komunikasi antara server dengan bot telegram
 
 ## 📑 Detail
 ### Authentication
